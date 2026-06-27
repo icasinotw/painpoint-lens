@@ -117,8 +117,7 @@ function q_dispatch($item) {
     global $GH_DISPATCH_PAT;
     $book   = q_item_book($item);
     $author = is_array($item) ? ($item['author'] ?? '') : '';
-    // 寫拆書(/lens)已搬到公開 repo painpoint-lens(公開 = GitHub Actions 免費無上限)。
-    // recommend-books 仍在私有 pain-point-book(見 q_dispatch_recommend)。
+    // 寫拆書(/lens)+ 推薦書 都跑在公開 repo painpoint-lens(公開 = GitHub Actions 免費無上限)。
     $ch = curl_init('https://api.github.com/repos/icasinotw/painpoint-lens/dispatches');
     curl_setopt_array($ch, [
         CURLOPT_POST => true,
@@ -428,7 +427,7 @@ function _tg_cn_num($s) {
 function q_dispatch_recommend($count, $topic = '') {
     if (!empty($GLOBALS['TG_TEST_NODISPATCH'])) return true;   // 本機測試:不真的打 GitHub
     global $GH_DISPATCH_PAT;
-    $ch = curl_init('https://api.github.com/repos/icasinotw/pain-point-book/dispatches');
+    $ch = curl_init('https://api.github.com/repos/icasinotw/painpoint-lens/dispatches');
     curl_setopt_array($ch, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => json_encode(

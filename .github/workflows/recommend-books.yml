@@ -1,0 +1,152 @@
+name: 推薦商業書 → 回傳 Telegram
+
+# ────────────────────────────────────────────────────────────────────
+# 觸發方式:
+#   ① Telegram 打「請推薦我10本經典商業書」(可改數量/指定主題)
+#      → 自家 webhook(site/api/tg-webhook.php)送 repository_dispatch(recommend-books)
+#   ② 手機/瀏覽器:Actions → 本工作流 → Run workflow(可填數量、主題)
+#
+# 雲端會(不靠你的 Mac):
+#   讀 repo 帳本 data/recommended-books.md → WebSearch 確認有繁體中文版
+#   → 挑 N 本「沒推薦過、不重複」的書 → append 進帳本 commit/push
+#   → 用簡式格式「書名」，作者 :「作者名字」把清單回傳 Telegram。
+#
+# 用到的 Secret(都跟寫書評那條共用,不必另設):
+#   CLAUDE_CODE_OAUTH_TOKEN   跑你的 Claude 訂閱
+#   TG_BOT_TOKEN / TG_CHAT_ID  把清單回傳 Telegram
+# ────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: '要推薦幾本(預設 10)'
+        required: false
+        default: '10'
+        type: string
+      topic:
+        description: '主題(可留空;例:行銷、理財、領導)'
+        required: false
+        default: ''
+        type: string
+  repository_dispatch:
+    types: [recommend-books]
+
+concurrency:                  # 一次只跑一輪推薦,避免兩次同時 push 帳本撞車
+  group: recommend-books
+  cancel-in-progress: false
+
+jobs:
+  recommend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write         # 讓 Claude 能 git push 更新後的帳本
+      id-token: write         # claude-code-action 內部要
+
+    steps:
+      - name: 取出 repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 決定數量 + 主題(手動觸發 或 Telegram 觸發)
+        env:
+          IN_COUNT_INPUT: ${{ inputs.count }}
+          IN_COUNT_DISPATCH: ${{ github.event.client_payload.count }}
+          IN_TOPIC_INPUT: ${{ inputs.topic }}
+          IN_TOPIC_DISPATCH: ${{ github.event.client_payload.topic }}
+        run: |
+          COUNT="${IN_COUNT_INPUT:-$IN_COUNT_DISPATCH}"
+          TOPIC="${IN_TOPIC_INPUT:-$IN_TOPIC_DISPATCH}"
+          # 數量正規化:只留數字、預設 10、夾在 1～30
+          COUNT="$(printf '%s' "$COUNT" | tr -cd '0-9')"
+          [ -z "$COUNT" ] && COUNT=10
+          [ "$COUNT" -lt 1 ] 2>/dev/null && COUNT=10
+          [ "$COUNT" -gt 30 ] 2>/dev/null && COUNT=30
+          {
+            echo "REC_COUNT=$COUNT"
+            if [ -n "$TOPIC" ]; then
+              echo "TOPIC_NOTE=這次請聚焦「$TOPIC」主題的商業書(仍要有繁體中文版、仍不可與帳本重複)。"
+            else
+              echo "TOPIC_NOTE=這次不限主題,就挑「經典商業書」。"
+            fi
+          } >> "$GITHUB_ENV"
+          mkdir -p .ci
+
+      - name: 設定 git 身分(Claude commit 用)
+        run: |
+          git config user.name  "painpoint 雲端"
+          git config user.email "altruismlife@gmail.com"
+
+      - name: 挑書 + 更新帳本 + commit/push(Claude,跑你的訂閱)
+        uses: anthropics/claude-code-action@v1
+        env:
+          CLAUDE_CODE_EFFORT_LEVEL: high
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            你在 GitHub Actions 雲端,要照「痛點」專案 CLAUDE.md〈規則:推薦書籍〉幫山姆挑商業書,並把結果回傳給他。
+
+            ## 第一步:讀帳本(避免重複的唯一依據)
+            讀 `data/recommended-books.md`。這是「已推薦/已寫過書評」的完整帳本。你挑的每一本都【不可】出現在這份帳本的任何一個地方(已推薦各批、各批備選、已寫過書評、絕版別推清單、同梯沒選入清單,全部都算推過/查過,一律避開)。
+
+            ## 第二步:挑 ${{ env.REC_COUNT }} 本新書
+            - 數量:正好 ${{ env.REC_COUNT }} 本。
+            - ${{ env.TOPIC_NOTE }}
+            - 【鐵則一:只推有繁體中文版的書】必須是台灣出版社出過繁體中文譯本、且現在還買得到的書。只有簡體版(中國出版)、沒繁中版、或繁中版已絕版只剩二手的,一律不推。
+            - 【鐵則二:逐本用 WebSearch 查證】每一本都用 WebSearch 到博客來 / 誠品 / 金石堂 / 讀冊查證「有繁中版且在售」再放進清單。不要憑記憶猜、不要編造書名或出版社。查不到可靠繁中版的就換一本。
+            - 【鐵則三:不重複】不只避開帳本,挑的這 ${{ env.REC_COUNT }} 本彼此之間作者也盡量不重複,且避免和帳本已推作者的「近親作品」(同作者另一本)。
+            - 注意帳本裡標的簡體書名陷阱(如《鞋狗》→繁中《跑出全世界的人》、《上癮》→繁中《鉤癮效應》):用繁中正式書名。
+
+            ## 第三步:append 進帳本
+            把這 ${{ env.REC_COUNT }} 本以新的一批 append 到 `data/recommended-books.md` 最後面(仿照既有「## 第N批推薦的 X 本」格式,標日期、註明用 WebSearch 查證有繁中版在售、記原書名/作者/出版社/分類)。批號接續現有最大批號。
+
+            ## 第四步:把「給山姆看的清單」寫進 .ci/recommend.txt
+            這個檔【只放要傳給山姆的純文字清單】,一本一行,格式嚴格照:
+            「書名」，作者 :「作者名字」
+            規則:書名用「」夾、作者名也用「」夾、中間是全形逗號;作者給中文譯名(必要時中英對照,如「John Doerr 約翰・杜爾」)。不要表格、不要原書名/出版社欄、不要任何開場白或結尾客套,第一行就是第一本書。
+
+            ## 第五步:commit + push
+            只 `git add data/recommended-books.md`(【不要】git add .ci/、不要 git add -A)→ `git commit`(繁中訊息講清楚加了哪一批幾本 + 結尾 Co-Authored-By: Claude trailer)→ `git pull --rebase origin main` → `git push origin main`。
+
+            完成。你的交付物 = 已 append 並 push 的帳本 + .ci/recommend.txt(那份清單會由後面的步驟傳回 Telegram)。
+          show_full_output: true
+          claude_args: |
+            --max-turns 40
+            --model claude-opus-4-8
+            --allowedTools "Bash,Edit,Write,Read,Glob,Grep,WebSearch,WebFetch"
+
+      - name: 把清單回傳 Telegram
+        if: always()
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          [ -z "$TG_BOT_TOKEN" ] && exit 0
+          if [ "$JOB_STATUS" = "success" ] && [ -s .ci/recommend.txt ]; then
+            BODY="$(cat .ci/recommend.txt)"
+            TEXT="$(printf '📚 幫你挑了 %s 本沒推過、有繁體中文版的商業書:\n\n%s\n\n(已記進帳本,下次不會再推到這些。)' "$REC_COUNT" "$BODY")"
+          else
+            TEXT="⚠️ 這次挑書沒成功(可能查證或推送出錯),帳本沒有更新。可到 GitHub Actions 看紀錄,或等一下再試一次。"
+          fi
+          curl -sS "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${TG_CHAT_ID}" \
+            --data-urlencode "text=${TEXT}" >/dev/null || true
+
+      - name: 推薦清單也放進 run Summary
+        if: always()
+        run: |
+          {
+            echo "## 📚 推薦 ${REC_COUNT} 本"
+            echo ""
+            if [ -s .ci/recommend.txt ]; then
+              echo '```'
+              cat .ci/recommend.txt
+              echo '```'
+            else
+              echo "_這次沒產生清單(看上面步驟的紅字)。_"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

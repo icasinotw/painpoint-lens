@@ -56,3 +56,13 @@
 - `python3 tools/count-contrast.py site/lens/_content/{slug}.html` —— 反差句/結尾/撞句閘門,沒過不部署。
 - `python3 tools/count-cta.py site/lens/_content/{slug}.html` —— /tool、/book 各 ≤1、結尾不導工具,過量不部署。
 - `php -l`(全 site)+ 本機 `php -S localhost:8080 site/router.php` render 測 `/lens/{slug}`。
+
+## 規則:推薦商業書(recommend-books 工作流用)
+
+由 `.github/workflows/recommend-books.yml` 觸發(Telegram 打「請推薦我10本經典商業書」/手動 Run)。鐵則:
+
+1. **只推有繁體中文版、且現在還買得到的書** —— 必須是台灣出版社出過繁中譯本、在售;只有簡體版/沒繁中版/繁中版絕版的一律不推。
+2. **逐本用 WebSearch 查證**(博客來/誠品/金石堂/讀冊)有繁中版在售再放進清單,別憑記憶猜、別編造書名或出版社。
+3. **避開已推薦過的書** —— 挑之前先讀帳本 [`data/recommended-books.md`](data/recommended-books.md)(唯一真實來源),不可重複(各批、各批備選、已寫書評、絕版別推、同梯沒選入,全算推過);挑完把新批 append 進帳本、commit/push。
+4. 注意簡體書名陷阱:用繁中正式書名(《鞋狗》→《跑出全世界的人》、《上癮》→《鉤癮效應》)。
+5. **輸出給山姆的清單一律用簡式一行格式**,一本一行:`「書名」，作者 :「作者名字」`(書名與作者名各用「」夾、中間全形逗號;作者給中文譯名,必要時中英對照如「John Doerr 約翰・杜爾」)。不要表格、不要原書名/出版社欄、不要開場白或客套。

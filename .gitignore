@@ -5,6 +5,10 @@
 # 名單/資料備援(執行期產生)
 /site/api/_data/*.csv
 
+# 部署腳本(含主機座標 IP/使用者/路徑——公開 repo 不放,本機自用)
+/deploy.sh
+*.sock
+
 # 系統雜檔
 .DS_Store
 *.swp

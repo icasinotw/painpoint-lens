@@ -42,11 +42,21 @@ if ($pat === '') {
     exit(1);
 }
 
+// 自癒:若既有 clone 的來源 repo 換了(例:從 pain-point-book 搬到公開的 painpoint-lens)→ 砍掉重 clone。
+// 由「擁有此 clone 的 cron 使用者」執行才有刪除權限;砍掉後下面就走「首次 clone」分支拉新 repo。
+if (is_dir($clone . '/.git')) {
+    $curOrigin = trim((string)@shell_exec('cd ' . escapeshellarg($clone) . ' && git remote get-url origin 2>/dev/null'));
+    if ($curOrigin !== '' && strpos($curOrigin, 'painpoint-lens') === false) {
+        @exec('rm -rf ' . escapeshellarg($clone) . ' 2>&1');
+        $note = 'repoint→painpoint-lens;';
+    }
+}
+
 if (!is_dir($clone . '/.git')) {
     // 首次:淺層 clone(只要最新)
     @mkdir($clone, 0755, true);
     @exec('git clone --quiet --depth 1 ' . escapeshellarg($repoUrl) . ' ' . escapeshellarg($clone) . ' 2>&1', $o1, $rc);
-    $note = 'clone';
+    $note .= 'clone';
 } else {
     // 之後:fetch + hard reset 到 origin/main(部署用 clone,永遠對齊遠端、不會有合併衝突)
     @exec('cd ' . escapeshellarg($clone)

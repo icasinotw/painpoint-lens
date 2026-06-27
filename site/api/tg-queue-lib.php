@@ -117,7 +117,9 @@ function q_dispatch($item) {
     global $GH_DISPATCH_PAT;
     $book   = q_item_book($item);
     $author = is_array($item) ? ($item['author'] ?? '') : '';
-    $ch = curl_init('https://api.github.com/repos/icasinotw/pain-point-book/dispatches');
+    // 寫拆書(/lens)已搬到公開 repo painpoint-lens(公開 = GitHub Actions 免費無上限)。
+    // recommend-books 仍在私有 pain-point-book(見 q_dispatch_recommend)。
+    $ch = curl_init('https://api.github.com/repos/icasinotw/painpoint-lens/dispatches');
     curl_setopt_array($ch, [
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => json_encode(

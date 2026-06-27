@@ -29,7 +29,9 @@ $appDir  = dirname(__DIR__, 2);                       // ~/applications/<app>
 $clone   = $appDir . '/private_html/repo';            // 私有區放 clone
 $webroot = dirname(__DIR__);                          // public_html(= site/ 部署目標)
 $pat     = isset($GH_DISPATCH_PAT) ? $GH_DISPATCH_PAT : '';
-$repoUrl = 'https://x-access-token:' . $pat . '@github.com/icasinotw/pain-point-book.git';
+// /lens 已搬到公開 repo painpoint-lens(網站原始碼也在那)→ 主機自動部署改從這裡拉。
+// 公開 repo 用不用 PAT 都能 clone;PAT 留著無害。
+$repoUrl = 'https://x-access-token:' . $pat . '@github.com/icasinotw/painpoint-lens.git';
 
 $note = '';
 $rc   = -1;

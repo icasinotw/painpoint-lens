@@ -1,0 +1,7 @@
+# 只開放端點被呼叫;設定/工具/資料一律不可直接用網址打開
+<FilesMatch "(config(\.sample)?\.php|lib\.php|store\.php|esp\.php)$">
+  Require all denied
+</FilesMatch>
+
+# 擋整個 _data 目錄(名單、限流檔)
+RedirectMatch 404 ^/api/_data/

@@ -1,0 +1,14 @@
+# 機密設定(絕不進版控)——對照 site/api/config.sample.php 自行建立,實際值放主機 / Actions secrets
+/site/api/config-tg.php
+/site/api/config.php
+
+# 名單/資料備援(執行期產生)
+/site/api/_data/*.csv
+
+# 系統雜檔
+.DS_Store
+*.swp
+*~
+
+# build 產物(若有)
+/build/

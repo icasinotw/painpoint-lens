@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>喵喵書評 · 定稿檢查台</title>
+<style>
+  :root{
+    --ink:#14110c; --ink2:#1d1913; --ink3:#272117;
+    --paper:#f4ecdb; --paper2:#fbf6ea;
+    --gold:#caa14a; --gold2:#e7c873; --goldsoft:#8a7338;
+    --red:#d9694f; --redbg:#2a1813;
+    --amber:#d6a64a; --amberbg:#2a2110;
+    --green:#79a86b; --greenbg:#16210f;
+    --txt:#e9e0cd; --muted:#9b8f78; --line:#3a3225;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:radial-gradient(120% 100% at 50% 0%,#1c1812 0%,var(--ink) 60%);color:var(--txt);
+    font-family:"Noto Sans TC","PingFang TC","Heiti TC",system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+  header{text-align:center;margin-bottom:22px}
+  h1{font-size:25px;margin:0 0 4px;letter-spacing:2px;color:var(--paper2);font-weight:700}
+  h1 .dot{color:var(--gold)}
+  .sub{color:var(--muted);font-size:13px;letter-spacing:.5px}
+  .sub b{color:var(--gold2);font-weight:600}
+  textarea{width:100%;min-height:230px;background:var(--paper);color:#2a2317;border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;font-size:15px;line-height:1.85;resize:vertical;
+    font-family:"Noto Serif TC","Songti TC",serif;box-shadow:inset 0 1px 0 #fff8,0 8px 30px #0006}
+  textarea::placeholder{color:#9a8f78}
+  .bar{display:flex;gap:10px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
+  button{cursor:pointer;border:1px solid var(--line);background:var(--ink3);color:var(--txt);
+    padding:9px 16px;border-radius:9px;font-size:14px;letter-spacing:.5px;transition:.15s}
+  button:hover{border-color:var(--gold);color:var(--gold2)}
+  button.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#241c0a;border-color:var(--gold2);font-weight:700}
+  button.primary:hover{filter:brightness(1.06);color:#241c0a}
+  .hint{color:var(--muted);font-size:12.5px}
+  .score{display:flex;align-items:center;gap:18px;margin:22px 0;padding:18px 22px;border:1px solid var(--line);
+    border-radius:14px;background:linear-gradient(180deg,var(--ink2),var(--ink))}
+  .score .num{font-size:46px;font-weight:800;line-height:1;font-family:"Noto Serif TC",serif}
+  .score .of{font-size:16px;color:var(--muted)}
+  .score .band{font-size:15px;font-weight:700;letter-spacing:1px}
+  .score .note{font-size:12px;color:var(--muted);margin-top:3px}
+  .sec{margin:20px 0}
+  .sec h2{font-size:14px;letter-spacing:1.5px;margin:0 0 10px;padding-bottom:7px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:9px;color:var(--paper2)}
+  .pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;letter-spacing:.5px}
+  .pill.red{background:var(--redbg);color:var(--red);border:1px solid #5a2e22}
+  .pill.amber{background:var(--amberbg);color:var(--amber);border:1px solid #5a4720}
+  .pill.green{background:var(--greenbg);color:var(--green);border:1px solid #2f4a22}
+  .item{border:1px solid var(--line);border-left-width:3px;border-radius:9px;padding:11px 14px;margin:8px 0;background:#00000022}
+  .item.red{border-left-color:var(--red)}
+  .item.amber{border-left-color:var(--amber)}
+  .item.green{border-left-color:var(--green);opacity:.92}
+  .item .t{font-size:14px;font-weight:600}
+  .item .t .n{color:var(--gold2);font-weight:800}
+  .item .d{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .item .ex{font-size:12.5px;color:#cdbfa3;margin-top:6px;font-family:"Noto Serif TC",serif}
+  .item .ex code{background:#0006;padding:1px 6px;border-radius:5px;color:var(--gold2);font-family:inherit}
+  .item .ex .ln{color:var(--goldsoft);font-size:11px;margin-right:6px}
+  .fixbox{position:relative}
+  .fixout{width:100%;min-height:120px;max-height:340px;overflow:auto;white-space:pre-wrap;word-break:break-word;
+    background:var(--paper2);color:#2a2317;border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    font-family:"Noto Serif TC","Songti TC",serif;font-size:14.5px;line-height:1.85}
+  .copybtn{position:absolute;top:10px;right:10px}
+  footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;line-height:1.8}
+  footer b{color:var(--gold2)}
+  .empty{color:var(--muted);font-size:13px;padding:6px 2px}
+  .copied{color:var(--green)!important;border-color:var(--green)!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>喵喵書評 <span class="dot">·</span> 定稿檢查台</h1>
+    <div class="sub">只驗<b>形式</b>:標點 · AI 味 · 撞句 · 禁用詞 · 格式。<b>事實/品質/星等交給 Claude Code 審。</b></div>
+  </header>
+
+  <textarea id="in" placeholder="把 claude.ai 寫好的書評整篇貼進來(含最後的【評分】【分類】三行)。貼上即時跑。"></textarea>
+  <div class="bar">
+    <button class="primary" id="run">體檢</button>
+    <span class="hint" id="meta"></span>
+  </div>
+
+  <div id="out"></div>
+
+  <footer>
+    <b>這台只驗得了形式。</b>它<b>驗不了</b>:這本書講對了沒、有沒有掰引文/假頁碼、價值有沒有翻成白話、該幾顆星——那些是判斷題,把乾淨稿丟給 Claude Code 做最終審。<br>
+    紅=確定要改(規則抓死)。黃=候選,規則只能「疑似」,要你眼睛確認(純主體對照/忠實轉述不算反差句)。綠=這關過了。<br>
+    形式分 ≠ 書評星等。星等是「你願不願意叫讀者把錢和時間交給這本書」的判斷。<br>
+    <b>內部工具,別公開上線</b>(含禁用詞/撞句黑名單等內規)。離線可用,不連網。
+  </footer>
+</div>
+
+<script>
+/* ---------- 1. 半形→全形(與 tools/fix-punctuation.py 同邏輯) ---------- */
+const CONVERT={',':'，',':':'：',';':'；','(':'（',')':'）','!':'！','?':'？'};
+const isAlnum=c=>!!c&&/^[0-9A-Za-z]$/.test(c);
+const isProtect=c=>!c?false:(isAlnum(c)||'/@._-'.includes(c));
+function fixPunct(text){
+  let count=0;
+  const lines=text.split('\n').map(line=>{
+    const ch=[...line];
+    return ch.map((c,i)=>{
+      const p=i>0?ch[i-1]:'', n=i+1<ch.length?ch[i+1]:'';
+      if(CONVERT[c]!==undefined){
+        let keep;
+        if(c===',') keep=isAlnum(p)&&isAlnum(n);
+        else if(c==='(') keep=isProtect(n);
+        else if(c===')') keep=isProtect(p);
+        else keep=isProtect(p)||isProtect(n);
+        if(keep) return c;
+        count++; return CONVERT[c];
+      }
+      return c;
+    }).join('');
+  });
+  return {fixed:lines.join('\n'),count};
+}
+function residualHalf(text){
+  const tg=new Set([',',':',';','(',')']),res=[];
+  text.split('\n').forEach((line,li)=>{
+    const ch=[...line];
+    ch.forEach((c,i)=>{
+      if(tg.has(c)){
+        const p=i>0?ch[i-1]:'',n=i+1<ch.length?ch[i+1]:'';
+        if(isProtect(p)||isProtect(n)) return;
+        res.push({line:li+1,ch:c,ctx:line.slice(Math.max(0,i-9),i+9)});
+      }
+    });
+  });
+  return res;
+}
+
+/* ---------- 2. 資料:禁用詞 / 撞句 / 反差句 / 庫存梗 ---------- */
+// 硬禁(出現幾乎一定不對)
+const BAN_HARD=["賦能","洞察人性","創造價值","打造個人品牌","財富自由","賽道","風口","彎道超車","抓住風口","頂層設計","商業模式閉環","為夢想買單","乾貨滿滿","拉滿","可觀的","顯著的",
+  "深入淺出","發人深省","鞭辟入裡","值得一讀","引人入勝","嘆為觀止","瑕不掩瑜","見仁見智","適合每一位讀者","推薦給所有人","兼具深度與溫度",
+  "綜上所述","總而言之","由此可見","值得注意的是","值得一提的是","眾所周知","在當今這個","在資訊爆炸的時代",
+  "值回書錢","不灌雞湯","最務實的一本","比九成商業書值錢"];
+// 視語境(可能當大詞用,提醒人工判斷)
+const BAN_SOFT=["格局","深耕","底層邏輯","價值主張","堅持夢想就會成功","成為領導者"];
+// 領域防火牆(完全不該出現)
+const BAN_WALL=["法寶","玩家","關卡","胡牌","麻將","iCasino","胡啦","雀神","籌碼"];
+// 元敘事開場白
+const META=[/我已(讀完|吸收)/,/吸收了\s*skill/i,/我(現在|這就)?開始寫/,/^以下是/,/^好的[，,]/,/這就為你撰寫/,/我先跑一遍/,/跑(一遍)?(自檢)?清單/,/I['’]?ll write/i,/running the checklist/i,/讓我來(為你)?(寫|撰寫)/];
+// skill/工具語洩漏
+const TOOLWORD=[/\bskill\b/i,/規格/,/自檢清單/,/這份清單/,/觸發詞/,/示範片段/,/撞句黑名單/];
+// 撞句黑名單(骨架,鬆比對)
+const CLICHE=[
+  [/先講它真的.{0,6}的地方/,"先講它真的__的地方"],
+  [/闔上書[，,].{0,14}明天/,"闔上書,你明天早上…"],
+  [/書腰.{0,6}(不印|不會印|絕不會印)/,"作者埋的、書腰不印的半句"],
+  [/替它?把讀者.{0,4}分/,"替它把讀者分一下"],
+  [/放大成更貴的/,"放大成更貴的錯(原書母題)"],
+  [/不是.{1,12}是更貴的/,"不是X,是更貴的Y(原書母題)"],
+  [/被印到爛的/,"(最值錢的)不是被印到爛的X"],
+  [/過得了這一關/,"某書過得了這一關(N段框架)"],
+  [/學到好多|懂了好多/,"學到好多/懂了好多"],
+  [/我書架上.{0,12}抽出來/,"我書架上那一排…抽出來"],
+  [/它最.{1,4}的一手[，,]?是/,"它最X的一手,是…"],
+  [/你可以換成你身邊任何一個.{0,5}的人/,"你可以換成你身邊任何一個__的人"],
+  [/誰(該|現在就)?(讀|買)[？?].{0,28}誰(先)?別買/,"誰該讀?…誰別買? 一問一答框"],
+  [/要把它變成你的[，,](今晚|挑一個)/,"要把它變成你的,今晚…"],
+  [/我得(替它|說|告訴你|誠實|先|挑明|講白|畫一條線|幫你|提醒你)/,"「我得…」鉸鏈(換皮指紋,半數段落別這樣進邊界)"],
+  [/兩種人[，,]?[^。！？\n]{0,10}(先別|別急|別買|勸你?先別|我會勸)/,"判決框·兩種人先別買(換皮一問一答框)"],
+  [/這是打比方[。，][^」』）)\n]{0,25}你身邊(大概|一定|多半)?也?(有|見過|遇過|遇)/,"打比方免責語·你身邊大概也有(換皮指紋)"],
+  [/(疊[起得]|讀過)[^。！？\n]{0,12}半個?書架|半個?書架高?|逃不出兩種/,"beat指紋·半個書架/逃不出兩種"]
+];
+// 反差句家族(否定一個、抬高另一個)——候選(與 count-contrast.py 同步)
+const CONTRAST=[
+  /不是[^。！？\n]{1,30}?[，,][^。！？\n]{0,8}?是/g,          // 不是X，是Y
+  /是[^。！？\n]{1,30}?[，,][^。！？\n]{0,4}?不是/g,          // 是X，不是Y
+  /不在[^。！？\n]{1,28}?[，,][^。！？\n]{0,6}?在/g,          // 不在X，(就/是)在Y
+  /與其[^。！？\n]{1,30}?不如/g,                            // 與其X不如Y
+  /(?:跟|和|與)[^。！？\n]{1,18}?是(?:兩回事|兩本帳|兩碼事)/g,  // A跟B是兩回事
+  /表面上?[^。！？\n]{1,22}?(?:骨子|實際上?|其實|底下|私下)/g,  // 表面…骨子/實際
+  /(?:教你|給你|讓你|幫你|帶你|給了你)[^。！？\n]{1,30}?(?:卻|但)?(?:沒能|沒|不能|不)(?:教|給|證|告訴|管|帶|擋|問|讓)/g, // X卻沒/不Y
+  /[，,][^。！？\n]{0,6}?卻(?:沒能|沒|不能|不會|不)[^。！？\n]{1,18}/g,  // 卻沒能/不(對照)
+  /能[^。！？\n]{1,18}?[，,]?(?:不能|卻不|但不|沒辦法|做不到)/g,         // 能X不能/卻不Y
+  /其實(?:只是|不過是)/g,                                  // 其實只是(縮放reframe)
+  /(?:變的|改變的|不同的|剩下的)(?:只|就)?(?:是|有)|唯一(?:變|不同|改變)/g  // 變的只是(抬升框)
+];
+// AI 庫存梗(M條)
+const STOCK=[
+  [/止痛藥[^。\n]{0,4}維他命|維他命[^。\n]{0,4}止痛藥/,"止痛藥 vs 維他命(創投罐頭梗,改用自己的話)"],
+  [/賈伯斯[^。\n]{0,8}(iPhone|手機|用戶說)/,"賈伯斯/iPhone 萬用反例(最被預測)"],
+  [/(守住下限[^。\n]{0,6}拉高上限|治標[^。\n]{0,4}治本)/,"工整反義對仗(守下限/拉上限、治標/治本)"]
+];
+// 鋪路詞(≤2)
+const PAVE=/說穿了|說白了|換句話說|講白了|我幫你算總帳|把話講白|先說該說的/g;
+
+/* ---------- 3. 工具 ---------- */
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const han=t=>(t.match(/[一-鿿]/g)||[]).length;
+function lineOf(text,idx){return text.slice(0,idx).split('\n').length;}
+function snippet(text,idx,len){const s=Math.max(0,idx-10);return (s>0?'…':'')+text.slice(s,idx+len+8)+'…';}
+
+/* ---------- 4. 主檢查 ---------- */
+function analyze(raw){
+  const raw0=raw.replace(/\r/g,'');
+  const {fixed,count:fixCount}=fixPunct(raw0);
+  const text=fixed;            // 之後所有內容檢查都跑在全形正規化版上(逐字替換,行號/索引與原稿一致),避免半/全形影響偵測
+  const lines=text.split('\n');
+  const def=[],cand=[],pass=[];
+  const residual=residualHalf(fixed);
+
+  // 標點
+  if(fixCount>0) def.push({t:`半形標點 ${fixCount} 處`,d:"中文行內的 , : ; ( ) ! ? 是半形(全形句號+半形逗號=一眼看穿)。已自動修好,見下方一鍵全形。",ex:""});
+  else pass.push({t:"標點全形",d:"中文行內沒有半形 , : ; ( )。"});
+  if(residual.length) cand.push({t:`仍有 ${residual.length} 處半形(規則沒把握)`,d:"自動修完仍夾在中文裡的,請眼睛看一下。",ex:residual.slice(0,6).map(r=>`<span class="ln">L${r.line}</span><code>${esc(r.ch)}</code> ${esc(r.ctx)}`).join('<br>')});
+
+  // Markdown 殘留
+  const md=[];
+  lines.forEach((l,i)=>{
+    const s=l.trimStart(),hit=[];
+    if(s.startsWith('#'))hit.push('# 標題');
+    if(/^[-*]\s/.test(s))hit.push('- / * 條列');
+    if(/^\d+\.\s/.test(s))hit.push('1. 數字條列');
+    if(/^>/.test(s))hit.push('> 引言框');
+    if(/^---+$/.test(s))hit.push('--- 分隔線');
+    if(l.includes('**'))hit.push('** 粗體');
+    if(l.includes('`'))hit.push('` 程式碼');
+    if((l.match(/\|/g)||[]).length>=2)hit.push('| 表格');
+    hit.forEach(h=>md.push(`<span class="ln">L${i+1}</span>${esc(h)}`));
+  });
+  if(md.length) def.push({t:`Markdown 殘留 ${md.length} 處`,d:"skill 要求純文字、零 Markdown,貼進編輯器才不會跑符號。",ex:md.slice(0,8).join('<br>')});
+  else pass.push({t:"純文字無 Markdown",d:"沒有 # / ** / - / | / ``` 等符號。"});
+
+  // 元敘事開場白
+  const head=lines.slice(0,3).join('\n');
+  const metaHit=META.filter(r=>r.test(head)||r.test(lines[0]||''));
+  if(metaHit.length) def.push({t:"疑似元敘事開場白",d:"第一個字就該是書評。出現「我已讀完 skill/我開始寫/以下是…」=判死級,刪掉那行。",ex:esc((lines[0]||'').slice(0,40))});
+  // 工具語洩漏
+  const tw=[];TOOLWORD.forEach(r=>{const m=text.match(r);if(m)tw.push(m[0]);});
+  if(tw.length) def.push({t:"正文出現工具語",d:"正文不該提到 skill/規格/清單/示範片段這些字。",ex:tw.map(esc).join('、')});
+  if(!metaHit.length&&!tw.length) pass.push({t:"開場乾淨",d:"沒有開場白、沒有工具語,第一句就進書評。"});
+
+  // 禁用詞
+  const banH=[],banS=[],banW=[];
+  BAN_HARD.forEach(w=>{let i=text.indexOf(w);if(i>=0)banH.push(`<span class="ln">L${lineOf(text,i)}</span><code>${esc(w)}</code>`);});
+  BAN_WALL.forEach(w=>{let i=text.indexOf(w);if(i>=0)banW.push(`<span class="ln">L${lineOf(text,i)}</span><code>${esc(w)}</code>`);});
+  BAN_SOFT.forEach(w=>{let i=text.indexOf(w);if(i>=0)banS.push(`<span class="ln">L${lineOf(text,i)}</span><code>${esc(w)}</code>`);});
+  if(banW.length) def.push({t:`領域防火牆詞 ${banW.length} 個`,d:"喵喵書評只是書評平台,絕不混入遊戲/麻將/iCasino 等元素。",ex:banW.join('　')});
+  if(banH.length) def.push({t:`禁用大詞/八股 ${banH.length} 個`,d:"成功學大詞、評書成語腔、論文連接詞——一律改成自己的話。",ex:banH.join('　')});
+  if(banS.length) cand.push({t:`視語境禁用詞 ${banS.length} 個`,d:"當大詞用就該改;若是具體語境可留,自己判斷。",ex:banS.join('　')});
+  if(!banH.length&&!banW.length) pass.push({t:"無硬禁用詞",d:"沒有成功學大詞/評書八股/防火牆詞。"});
+
+  // 撞句黑名單
+  const cl=[];CLICHE.forEach(([r,name])=>{const m=text.match(r);if(m)cl.push(`<span class="ln">L${lineOf(text,text.indexOf(m[0]))}</span>${esc(name)} → <code>${esc(m[0].slice(0,24))}</code>`);});
+  if(cl.length) def.push({t:`撞句黑名單 ${cl.length} 句`,d:"這些骨架只屬於示範,正文一律不准出現(換書只換名詞=一眼可認的 SKILL 指紋)。",ex:cl.join('<br>')});
+  else pass.push({t:"沒撞黑名單",d:"開場/N段/結尾/判決都自己長字面。"});
+
+  // 反差句家族
+  const seen=new Set(),contrast=[];
+  CONTRAST.forEach(re=>{let m;re.lastIndex=0;while((m=re.exec(text))){const key=m.index;if([...seen].some(s=>Math.abs(s-key)<4))continue;seen.add(key);contrast.push({ln:lineOf(text,m.index),s:m[0]});}});
+  contrast.sort((a,b)=>a.ln-b.ln);
+  if(contrast.length>2) cand.push({t:`反差句候選 ${contrast.length} 句(上限 2、悖論書 1)`,d:"「不是X是Y/教你X卻Y/磨利的是…不…」是這套聲音的母語,最會超標。純主體對照、忠實轉述不算——逐句確認,砍到剩最重的 1–2 句(結尾那句優先砍)。",ex:contrast.map(c=>`<span class="ln">L${c.ln}</span><code>${esc(c.s.slice(0,26))}</code>`).join('<br>')});
+  else if(contrast.length) pass.push({t:`反差句 ${contrast.length} 句(在上限內)`,d:"候選:"+contrast.map(c=>esc(c.s.slice(0,18))).join(' / ')});
+  else pass.push({t:"無明顯反差句",d:"沒抓到「不是X是Y」家族。"});
+
+  // 打比方括號夾論點(G條)
+  const para=[];let pm,pr=/（這是打比方[。.]?([^）]*)）/g;
+  while((pm=pr.exec(text))){
+    const inner=pm[1]||'';
+    const enders=(inner.match(/[。！？]/g)||[]).length;                 // 多句=疑似塞論斷
+    const hasInvite=/你身邊|換成你|你認識|你一定(遇過|有)|也可能(就)?是你|某一陣子的你|你大概(也)?(見過|遇過)/.test(inner);
+    const hasSemicolon=/[;；]/.test(inner);                            // 分號並列=論證語氣
+    if(enders>=2 || (hasSemicolon&&!hasInvite) || (inner.length>24&&!hasInvite))
+      para.push({ln:lineOf(text,pm.index),s:inner.slice(0,40)});
+  }
+  if(para.length) cand.push({t:`打比方括號疑似夾論點 ${para.length} 處(G條)`,d:"括號內只放免責+邀請代入,論點要搬到括號外正文。請看是不是塞了完整論斷句。",ex:para.map(p=>`<span class="ln">L${p.ln}</span><code>（這是打比方。${esc(p.s)}…</code>`).join('<br>')});
+
+  // 庫存梗
+  const stock=[];STOCK.forEach(([r,name])=>{if(r.test(text))stock.push(esc(name));});
+  if(stock.length) cand.push({t:`AI 庫存梗 ${stock.length} 個`,d:"這些是 AI 寫商業書評最會自動吐的罐頭,換成自己長的講法。",ex:stock.join('<br>')});
+
+  // 鋪路詞
+  const pave=(text.match(PAVE)||[]);
+  if(pave.length>2) cand.push({t:`鋪路詞 ${pave.length} 次(≤2)`,d:"「說穿了/說白了/換句話說」這類『我幫你翻成一句』整篇最多 2 次。",ex:esc(pave.join('、'))});
+
+  // 單字成段
+  const paras=text.split(/\n/).map(s=>s.trim()).filter(Boolean);
+  const tiny=paras.filter(p=>!/^【(評分|分類)】|^※/.test(p)&&[...p].filter(c=>/[一-鿿]/.test(c)).length<=6&&[...p].filter(c=>/[一-鿿]/.test(c)).length>=1);
+  if(tiny.length>2) cand.push({t:`極短句成段 ${tiny.length} 段(DNA-1/2 上限約 2)`,d:"單字/極短句獨立成段是節拍器,連發就變 AI 套路。",ex:tiny.slice(0,5).map(t=>`<code>${esc(t)}</code>`).join('　')});
+
+  // 格式:評分/分類三行
+  const hasScore=/【評分】\s*[★☆]{5}\s*\d\s*顆星/.test(text);
+  const hasCat=/【分類】\s*主分類：/.test(text);
+  const hasNote=/※.*勿貼進內文/.test(text);
+  if(hasScore&&hasCat&&hasNote) pass.push({t:"評分+分類三行齊全",d:"【評分】★ / 【分類】主分類： / ※註 都在,格式正確。"});
+  else{const miss=[];if(!hasScore)miss.push('【評分】★★★★☆ N 顆星');if(!hasCat)miss.push('【分類】主分類：…');if(!hasNote)miss.push('※…勿貼進內文');
+    def.push({t:"結尾評分/分類區塊不完整",d:"正文後要空一行、附這三行給後台用(整數星、主分類從固定清單挑)。",ex:"缺:"+miss.map(esc).join(' ｜ ')});}
+
+  // 標題行
+  const title=(lines[0]||'').trim();
+  if(/^#|^\*|\*\*/.test(title)) def.push({t:"標題行帶 Markdown",d:"最前面是一行純文字標題,不要 # 或粗體。",ex:esc(title.slice(0,40))});
+
+  // 字數
+  const hc=han(text);
+  if(hc>2500) cand.push({t:`篇幅偏長(${hc} 漢字)`,d:"skill 警告別 2500 字注水。長不是錯,但回頭看每段是不是都在做事,別灌水。",ex:""});
+  else if(hc<700&&hc>0) cand.push({t:`篇幅偏短(${hc} 漢字)`,d:"太短可能沒把『翻譯一個道理+給帶得走的東西』做滿。",ex:""});
+
+  return {def,cand,pass,fixed,fixCount,hc};
+}
+
+/* ---------- 5. 評分 ---------- */
+function formScore(r){
+  let s=100;
+  s-=r.def.length*11;
+  s-=r.cand.length*4;
+  s=Math.max(0,Math.min(100,s));
+  let band,color;
+  if(r.def.length===0&&r.cand.length<=1){band="可貼(形式乾淨)";color="var(--green)";}
+  else if(r.def.length<=1&&r.cand.length<=3){band="小修即可";color="var(--amber)";}
+  else{band="要收尾";color="var(--red)";}
+  return {s,band,color};
+}
+
+/* ---------- 6. 繪製 ---------- */
+const $=id=>document.getElementById(id);
+function itemHTML(it,cls){return `<div class="item ${cls}"><div class="t">${it.t.replace(/(\d+)/,'<span class="n">$1</span>')}</div>${it.d?`<div class="d">${it.d}</div>`:''}${it.ex?`<div class="ex">${it.ex}</div>`:''}</div>`;}
+function render(raw){
+  if(!raw.trim()){$('out').innerHTML='';$('meta').textContent='';return;}
+  const r=analyze(raw);const fs=formScore(r);
+  $('meta').textContent=`${r.hc} 漢字 ｜ 確定改 ${r.def.length} ｜ 候選 ${r.cand.length} ｜ 過 ${r.pass.length}`;
+  let h='';
+  h+=`<div class="score"><div><div class="num" style="color:${fs.color}">${fs.s}<span class="of">/100</span></div></div>
+      <div><div class="band" style="color:${fs.color}">形式體檢:${fs.band}</div>
+      <div class="note">這是「稿子乾不乾淨/AI 味」的分,<b>不是</b>書評星等。事實與品質要 Claude Code 審。</div></div></div>`;
+
+  // 一鍵全形
+  h+=`<div class="sec"><h2>一鍵全形 <span class="pill green">複製即用</span></h2>`;
+  h+=r.fixCount>0?`<div class="hint" style="margin-bottom:8px">原稿有 ${r.fixCount} 處半形標點,下面是修好的版本(只動標點)。</div>`:`<div class="hint" style="margin-bottom:8px">標點本來就乾淨,以下與原稿相同。</div>`;
+  h+=`<div class="fixbox"><button class="copybtn" id="copy">複製全形版</button><div class="fixout" id="fixed">${esc(r.fixed)}</div></div></div>`;
+
+  if(r.def.length){h+=`<div class="sec"><h2>確定要改 <span class="pill red">${r.def.length}</span></h2>${r.def.map(it=>itemHTML(it,'red')).join('')}</div>`;}
+  if(r.cand.length){h+=`<div class="sec"><h2>候選 · 請人工確認 <span class="pill amber">${r.cand.length}</span></h2>${r.cand.map(it=>itemHTML(it,'amber')).join('')}</div>`;}
+  if(r.pass.length){h+=`<div class="sec"><h2>通過 <span class="pill green">${r.pass.length}</span></h2>${r.pass.map(it=>itemHTML(it,'green')).join('')}</div>`;}
+  $('out').innerHTML=h;
+
+  const cb=$('copy');
+  if(cb)cb.onclick=()=>{navigator.clipboard.writeText(r.fixed).then(()=>{cb.textContent='已複製 ✓';cb.classList.add('copied');setTimeout(()=>{cb.textContent='複製全形版';cb.classList.remove('copied');},1600);});};
+}
+let t;
+$('in').addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>render($('in').value),250);});
+$('run').onclick=()=>render($('in').value);
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# 機密設定(MailerLite key、資料庫帳密)
+api/config.php
+
+# 名單與限流資料(只保留 .htaccess 保護規則,不收實際資料)
+api/_data/*
+!api/_data/.htaccess
+
+*.log
+.DS_Store

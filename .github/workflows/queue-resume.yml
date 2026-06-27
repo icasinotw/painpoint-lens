@@ -1,0 +1,39 @@
+name: 隊列救援(手動備援:resume + watchdog)
+
+# 做兩件事:1) resume:隊列因引擎連敗(疑似 usage 用完)暫停 → 解除續跑。
+#          2) watchdog:隊列「running 卡死但沒在跑」(回報掉了)→ 接下一本。
+#
+# 2026-06-27 起改為「只手動觸發、不再每 3 小時自動跑」:
+#   日常 resume/watchdog 已由「主機端 cron」queue-cron.php 全包 —— 它在 Cloudways 上每 5 分鐘跑一次、
+#   不吃 GitHub Actions 額度,比這支更頻繁。實測心跳正常(cron_last_run 每 5 分更新、cron_sapi=cli)。
+#   這支 GitHub 排程原本只是備援,卻每 3 小時起一個 runner 空轉燒 Actions 額度 → 拿掉 schedule、只留手動。
+#   萬一哪天主機 cron 掛了要手動救:Actions 分頁 → 這支 → Run workflow(跑一次 resume+watchdog)。
+
+on:
+  workflow_dispatch: {}    # 只手動觸發(備援);日常 resume/watchdog 交給主機 cron queue-cron.php
+
+jobs:
+  resume:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 若隊列暫停中就續跑(resume)
+        env:
+          TG_QUEUE_SECRET: ${{ secrets.TG_QUEUE_SECRET }}
+        run: |
+          [ -z "$TG_QUEUE_SECRET" ] && { echo "沒設 TG_QUEUE_SECRET,略過"; exit 0; }
+          echo "--- resume ---"
+          # 用 GET(端點讀 $_GET):POST 會間歇被 Cloudways WAF 回 415,連救援這通都可能掉 → 卡更久。GET 無 body 不被 415。
+          curl -sS "https://painpoint.tw/api/tg-queue?action=resume" \
+            -H "X-Queue-Token: ${TG_QUEUE_SECRET}" --retry 3 --retry-all-errors --max-time 30
+          echo
+
+      - name: 救回卡死的隊列(watchdog)
+        env:
+          TG_QUEUE_SECRET: ${{ secrets.TG_QUEUE_SECRET }}
+        run: |
+          [ -z "$TG_QUEUE_SECRET" ] && exit 0
+          echo "--- watchdog ---"
+          # 同上:GET 不會被 415 擋,救援這通才不會跟著掉。
+          curl -sS "https://painpoint.tw/api/tg-queue?action=watchdog" \
+            -H "X-Queue-Token: ${TG_QUEUE_SECRET}" --retry 3 --retry-all-errors --max-time 30
+          echo

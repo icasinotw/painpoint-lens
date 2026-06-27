@@ -1,0 +1,73 @@
+# 痛點 P.A.I.N. — Apache 設定(Cloudways 預設 Apache+Nginx)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 強制 https:Cloudways 最穩的做法是用後台「Force HTTPS Redirection」開關。
+  # 若要改用 .htaccess:Cloudways 在負載平衡器就終止 SSL、傳給 Apache 的是 http,
+  # 所以必須判斷 X-Forwarded-Proto,不能用 %{HTTPS}(否則會無限轉址)。上線後再取消下面註解:
+  # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # sitemap.xml → sitemap.php(動態帶正式網址)
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+  # 拆書分類主題頁(動態單一引擎):/lens/c/behavior → lens/c/index.php?cat=behavior
+  # 必須放在下方「目錄 → index.php」「乾淨網址 → .php」規則之前。
+  RewriteRule ^lens/c/([a-z0-9-]+)/?$ lens/c/index.php?cat=$1 [L,QSA]
+
+  # 目錄首頁(如 /read)直接內部改寫成 index.php,
+  # 避免 Cloudways 的 mod_dir 在 SSL 於 LB 終止時用 http 發出 301
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.php -f
+  RewriteRule ^(.+?)/?$ $1/index.php [L]
+
+  # 乾淨網址:/tool → tool.php、/read/preface → read/preface.php
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.php -f
+  RewriteRule ^(.+?)/?$ $1.php [L]
+
+  # 已經帶 .php 的網址導回乾淨版(SEO 去重複)
+  RewriteCond %{THE_REQUEST} \s/+([^?\s]+)\.php[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L,NE]
+</IfModule>
+
+# 關掉 mod_dir 的「自動補尾斜線 301」。在 Cloudways(LB 於 http 終止 SSL、傳給 Apache 的是 http)
+# 它會對無斜線的目錄(如 /lens)先吐一個 http://host/lens/ 的 301 → 造成 https→http→https 三跳降級,
+# Google 會偏好那個 http 版、canonical(/lens 無斜線)又對不上。關掉後改由上方的目錄改寫規則
+# 把 /lens、/read 等內部導到 index.php,對外不再 301。
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+# DirectorySlash Off 後,沒有 index 的目錄理論上可能露出 autoindex 列表 → 一律關閉目錄列表(也是安全保險)。
+Options -Indexes
+
+# gzip 壓縮
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# 靜態資源快取
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+</IfModule>
+
+# 基本安全標頭
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# 擋掉設定檔與隱藏檔
+<FilesMatch "(^\.|config\.php$|_init\.php$)">
+  Require all denied
+</FilesMatch>
+# _init.php / config.php 仍需被 PHP include,只擋「直接用網址打開」:用 rewrite 擋更保險,這裡保留檔名擋直連。
+
+ErrorDocument 404 /404.php

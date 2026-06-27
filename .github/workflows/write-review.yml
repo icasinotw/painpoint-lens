@@ -1,0 +1,264 @@
+name: 撰寫書評 → 上線 painpoint /lens
+
+# ────────────────────────────────────────────────────────────────────
+# 手機怎麼觸發:GitHub App 或手機瀏覽器開這個 repo → Actions 分頁
+#   → 左側點「撰寫書評 → 上線 painpoint /lens」→ 右上 Run workflow
+#   → 打書名(例:原子習慣)→ Run。
+#
+# 雲端會跑完整條鏈(照 CLAUDE.md 總則,不靠你的 Mac):
+#   喵喵書評定稿 → painpoint 拆書 → 自審(fix-punctuation / count-contrast / php -l / 本機 render)
+#   → commit + push → 機械閘門全過了才 rsync 部署到 Cloudways → 回報 /lens/{slug} 網址。
+#
+# 需要兩個 GitHub Secret(設定見 .github/CLOUD-SETUP.md):
+#   CLAUDE_CODE_OAUTH_TOKEN  跑你現有的 Claude 訂閱(claude setup-token 產的)
+#   CLOUDWAYS_SSH_KEY        Cloudways 部署私鑰(= 你本機 ~/.ssh/cloudways-painpoint 的內容)
+# ────────────────────────────────────────────────────────────────────
+
+on:
+  workflow_dispatch:
+    inputs:
+      book_name:
+        description: '書名(不用加《》,例:原子習慣)'
+        required: true
+        type: string
+  repository_dispatch:        # 之後 Telegram → Cloudflare Worker 用這個觸發(帶 client_payload.book_name)
+    types: [write-review]
+
+concurrency:                  # 一次只跑一篇,避免兩個觸發同時 push main 撞車
+  group: write-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write         # 讓 Claude 能 git push 回 main
+      id-token: write         # claude-code-action 內部要
+    env:
+      # —— Cloudways 部署座標(非機密,與本機 deploy.sh 一致)——
+      SSH_HOST: master_wqcrjzcjvx@167.179.112.129
+      REMOTE_PATH: applications/afrmpvsrbj/public_html/
+
+    steps:
+      - name: 取出 repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 記錄動工前 commit(之後用來找新拆書)
+        run: echo "BEFORE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: 決定書名 + 作者(手動觸發 或 Telegram 觸發)
+        env:
+          IN_BOOK_INPUT: ${{ inputs.book_name }}
+          IN_BOOK_DISPATCH: ${{ github.event.client_payload.book_name }}
+          IN_AUTHOR: ${{ github.event.client_payload.author }}
+        run: |
+          BOOK="${IN_BOOK_INPUT:-$IN_BOOK_DISPATCH}"
+          if [ -z "$BOOK" ]; then echo "::error::沒有收到書名"; exit 1; fi
+          {
+            echo "BOOK_NAME=$BOOK"
+            if [ -n "$IN_AUTHOR" ]; then
+              echo "AUTHOR_NOTE=(作者:$IN_AUTHOR — 用作者確認是哪一本/哪個版本、別寫錯書)"
+            else
+              echo "AUTHOR_NOTE="
+            fi
+          } >> "$GITHUB_ENV"
+          mkdir -p .ci
+
+      - name: 設定 git 身分(Claude commit 用)
+        run: |
+          git config user.name  "painpoint 雲端"
+          git config user.email "altruismlife@gmail.com"
+
+      - name: 寫書評 + 轉拆書 + commit/push(Claude,跑你的訂閱)
+        id: claude          # 給隊列接力步驟判斷:失敗是「引擎自己掛(usage/API)」還是下游品質/收尾
+        uses: anthropics/claude-code-action@v1
+        env:
+          CLAUDE_CODE_EFFORT_LEVEL: xhigh   # 推理力度 Extra(xhigh,山姆選定:長文寫作甜蜜點);沒生效會退回預設 high、不會弄壞流程
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            請撰寫《${{ env.BOOK_NAME }}》${{ env.AUTHOR_NOTE }}書評。
+
+            你正在 GitHub Actions 雲端跑 CLAUDE.md 的「請撰寫《X》書評」總則鏈。除了下面三點 CI 調整,其餘一字不改、照 CLAUDE.md 與兩支 skill(skills/meowbooks-book-review、skills/painpoint-lens)走,兩篇品質鐵則一個都不准降:
+
+            1) 完整跑兩段、機械閘門全部真的跑:
+               ① 喵喵書評寫到定稿 —— P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉:實跑 `python3 tools/fix-punctuation.py` 全形化、實跑 `python3 tools/count-contrast.py` 把反差句砍到 ≤2、結尾非反差骨架、無撞句指紋。
+               ② 自動轉 painpoint 拆書 —— 先做適配檢查(A/B/C 模式),輸出 site/lens/{slug}.php + site/lens/_content/{slug}.html,並在 site/lens/_articles.php「最上面」補一筆;實跑 `python3 tools/fix-punctuation.py` + `python3 tools/count-contrast.py` + `php -l` + 本機 render 自測 /lens/{slug}。拆書必須是換角度重組的獨家文,不照搬書評原句。
+
+            2) 這個環境「沒有」deploy.sh,你也「不要」執行任何部署 / rsync / ssh —— 部署交給後面的 CI 步驟自動接手。你只要:兩篇寫好自審過 → `git add` 相關檔(site/lens 下的 {slug}.php、_content/{slug}.html、_articles.php,以及書評若真的有改到的檔;絕不 `git add -A`、絕不 add 無關檔)→ `git commit`(繁中訊息講清楚動了什麼 + 結尾 Co-Authored-By: Claude trailer)→ `git pull --rebase origin main` → `git push origin main`。
+
+            3) 收尾兩個檔給 CI 接力(這兩個「不要」git add):把這次拆書的 slug(英文書名 kebab-case、單獨一行,例 atomic-habits)寫進 `.ci/slug.txt`;把「喵喵書評定稿全文」寫進 `.ci/review.txt`(山姆要貼 meowbooks 用)。
+
+            喵喵書評正文不必貼回對話。你在雲端的交付物 = 已 commit/push 的 painpoint 拆書 + .ci/ 兩個檔。
+          show_full_output: true   # 除錯期間打開:看得到 Claude 實際在做什麼;穩定後可刪
+          claude_args: |
+            --max-turns 60
+            --model claude-opus-4-8
+            --allowedTools "Bash,Edit,Write,Read,Glob,Grep,MultiEdit"
+
+      - name: 找出本次 slug
+        run: |
+          SLUG="$(head -n1 .ci/slug.txt 2>/dev/null | tr -d '[:space:]')"
+          if [ -z "$SLUG" ]; then
+            SLUG="$(git diff --name-only "$BEFORE_SHA"..HEAD -- 'site/lens/_content/*.html' | head -n1 | xargs -r basename | sed 's/\.html$//')"
+          fi
+          if [ -z "$SLUG" ]; then echo "::error::找不到新拆書 slug(Claude 沒寫 .ci/slug.txt、也沒新增 _content html)"; exit 1; fi
+          echo "SLUG=$SLUG" >> "$GITHUB_ENV"
+          echo "本次 slug = $SLUG"
+
+      - name: 閘門 1 — php -l 全 site 語法檢查
+        run: |
+          fail=0
+          while IFS= read -r -d '' f; do
+            php -l "$f" >/dev/null 2>&1 || { echo "::error::php -l 失敗:$f"; fail=1; }
+          done < <(find site -name '*.php' -print0)
+          exit $fail
+
+      - name: 閘門 2 — 反差句/結尾/撞句(count-contrast,沒過就不部署)
+        run: |
+          out="$(python3 tools/count-contrast.py "site/lens/_content/$SLUG.html")"
+          echo "$out"
+          if echo "$out" | grep -q "未過"; then
+            echo "::error::count-contrast 未過 → 擋下部署(照 CLAUDE.md 反 AI 味鐵則,壞的不上線)"
+            exit 1
+          fi
+
+      - name: 閘門 2.5 — CTA 數量(/tool、/book 各 ≤1、結尾不導工具;過量不部署)
+        run: |
+          python3 tools/count-cta.py "site/lens/_content/$SLUG.html" || {
+            echo "::error::CTA 閘門未過 → 擋下部署(內文導購過量,違反 CTA 北極星:拆書是內容價值、不是導購;見 painpoint-lens skill〈內部連結與導流〉)"; exit 1; }
+
+      - name: 閘門 3 — 本機 render 測 /lens/{slug}
+        run: |
+          php -S 127.0.0.1:8080 site/router.php >/tmp/php.log 2>&1 &
+          PHP_PID=$!
+          ok=0
+          for i in $(seq 1 20); do
+            curl -fsS "http://127.0.0.1:8080/lens/$SLUG" -o /tmp/page.html 2>/dev/null && { ok=1; break; }
+            sleep 0.5
+          done
+          kill $PHP_PID 2>/dev/null || true
+          if [ "$ok" != 1 ] || [ ! -s /tmp/page.html ]; then
+            echo "::error::render /lens/$SLUG 失敗"; cat /tmp/php.log; exit 1
+          fi
+          echo "render OK:$(wc -c </tmp/page.html) bytes"
+
+      - name: 部署到 Cloudways(三道閘門都過才跑)
+        env:
+          SSH_KEY: ${{ secrets.CLOUDWAYS_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # rsync 加重試:SSH/rsync 偶發瞬斷不該害「三道閘門都過的好書」沒上線(2026-06-27《美軍四星上將》就栽在這)。
+          ok=0
+          for attempt in 1 2 3; do
+            if rsync -rtz --no-perms --omit-dir-times --exclude='.DS_Store' \
+                 -e "ssh -p 22 -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30" \
+                 site/ "$SSH_HOST:$REMOTE_PATH"; then
+              ok=1; break
+            fi
+            echo "::warning::部署第 $attempt 次失敗,8 秒後重試…"
+            sleep 8
+          done
+          rm -f ~/.ssh/deploy_key
+          # 不再因 SSH 部署失敗就讓整個 job 失敗:主機端 git-deploy.php(每 5 分 pull)是可靠的部署來源,
+          # 只要這次有 git push 成功,書最遲 5 分鐘會被主機自己同步上線。這條 SSH rsync 只是「能通就立刻上線」的快路,
+          # 通不了(415/SSH ban)就交給主機 pull,絕不該誤報失敗害書被當沒上線重寫。
+          [ "$ok" = 1 ] && echo "SSH 部署成功(立即上線)" || echo "::warning::SSH 部署沒成功(415/ban),交給主機 git-deploy 在 ~5 分內 pull 上線"
+
+      - name: 回報上線網址
+        run: |
+          {
+            echo "## ✅ 上線了"
+            echo ""
+            echo "**《$BOOK_NAME》** 拆書已部署:"
+            echo ""
+            echo "🔗 https://painpoint.tw/lens/$SLUG"
+            echo ""
+            echo "_喵喵書評定稿在這次 run 的 Artifacts(meowbooks-review)可下載,貼 meowbooks 用。_"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 上傳喵喵書評定稿(手機可下載貼 meowbooks)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: meowbooks-review
+          path: .ci/
+          if-no-files-found: ignore
+
+      - name: 回傳結果到 Telegram(若有設 bot secret)
+        if: always()
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          [ -z "$TG_BOT_TOKEN" ] && exit 0
+          if [ "$JOB_STATUS" = "success" ] && [ -n "$SLUG" ]; then
+            TEXT="✅《${BOOK_NAME}》拆書上線了:https://painpoint.tw/lens/${SLUG}"
+          else
+            TEXT="⚠️《${BOOK_NAME}》這次沒成功(品質閘門沒過或出錯),沒有上線。可到 GitHub Actions 看紀錄。"
+          fi
+          curl -sS "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
+            --data-urlencode "chat_id=${TG_CHAT_ID}" \
+            --data-urlencode "text=${TEXT}" >/dev/null || true
+
+      - name: 隊列接力:回報成功/失敗、決定下一本(優先走 SSH、繞過 HTTP 415)
+        if: always()
+        env:
+          SSH_KEY: ${{ secrets.CLOUDWAYS_SSH_KEY }}
+          TG_QUEUE_SECRET: ${{ secrets.TG_QUEUE_SECRET }}
+          JOB_STATUS: ${{ job.status }}
+          CLAUDE_OUTCOME: ${{ steps.claude.outcome }}   # success / failure —— 只有它 failure 才算「引擎掛」
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then
+            STATUS=success; KIND=
+          else
+            # 分辨失敗種類:Claude 引擎那步自己報錯(usage/API/中斷)→ engine(會累計、達門檻才暫停);
+            # 其餘(寫一半沒 slug、品質閘沒過、部署瞬斷)→ quality(跳過這本、繼續下一本,絕不暫停)。
+            STATUS=failure; KIND=quality
+            [ "$CLAUDE_OUTCOME" = "failure" ] && KIND=engine
+          fi
+
+          # ── 主要通道:SSH 進主機用 PHP CLI 回報 ──────────────────────────────
+          # 為什麼:Cloudways 對 GitHub IP 的 HTTP 415 會「持續封鎖好幾分鐘」(實證《設計思考》重試 30 次/5 分全 415),
+          # 從同一台被封的 runner 狂重試 HTTP 沒用;但同一個 run 的 SSH 部署是成功的 → SSH(22)沒被擋、只有 HTTP(443)被擋。
+          # 所以回報改走 SSH,完全避開 415。book 用 base64 傳,避開書名含冒號/空白的 shell 跳脫。q_report 冪等 → 重複呼叫 0 風險。
+          ok=0
+          if [ -n "$SSH_KEY" ]; then
+            install -m 700 -d ~/.ssh
+            printf '%s\n' "$SSH_KEY" > ~/.ssh/report_key
+            chmod 600 ~/.ssh/report_key
+            BOOK_B64=$(printf '%s' "$BOOK_NAME" | base64 | tr -d '\n')
+            for attempt in 1 2 3; do
+              if out=$(ssh -p 22 -i ~/.ssh/report_key -o IdentitiesOnly=yes -o BatchMode=yes \
+                         -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30 "$SSH_HOST" \
+                         "php ${REMOTE_PATH}api/queue-report-cli.php '$STATUS' '$KIND' '$BOOK_B64'" 2>&1); then
+                echo "SSH 回報成功(第 $attempt 次):$out"; ok=1; break
+              fi
+              echo "::warning::SSH 回報第 $attempt 次失敗($out),5 秒後重試…"; sleep 5
+            done
+            rm -f ~/.ssh/report_key
+          fi
+
+          # ── 後備通道:SSH 全失敗才走 HTTP GET(帶 book 冪等,短重試 ~2 分)──────
+          if [ "$ok" != 1 ] && [ -n "$TG_QUEUE_SECRET" ]; then
+            echo "SSH 沒成功,改走 HTTP 後備…"
+            Q="action=report&status=$STATUS"; [ -n "$KIND" ] && Q="$Q&kind=$KIND"
+            for attempt in $(seq 1 12); do
+              code=$(curl -sS -G -o /dev/null -w '%{http_code}' --max-time 20 \
+                --data-urlencode "book=${BOOK_NAME}" \
+                "https://painpoint.tw/api/tg-queue?$Q" \
+                -H "X-Queue-Token: ${TG_QUEUE_SECRET}" || echo 000)
+              echo "HTTP 後備嘗試 $attempt → $code"
+              [ "$code" = "200" ] && { ok=1; break; }
+              sleep 10
+            done
+          fi
+
+          [ "$ok" = 1 ] || echo "::warning::SSH+HTTP 都沒送達;看門狗會在 ~30 分內接手(冪等,不會掉書/重複)"

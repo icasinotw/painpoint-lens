@@ -21,7 +21,7 @@ $reading = [
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
   'prev'      => ['url' => '/ask/preorder-validation', 'label' => '有人付了訂金，就代表「驗證過了」嗎？'],
-  'next'      => null,
+  'next'      => ['url' => '/ask/friction-not-features', 'label' => '功能加了一大堆，用戶卻無感——我的產品到底解決了什麼？'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

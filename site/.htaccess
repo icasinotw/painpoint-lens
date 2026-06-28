@@ -62,11 +62,6 @@ Options -Indexes
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"
-
-  # /slides 私密下載的 3 份 PDF:頁面已 noindex,檔案再加一層保險,確保連結外洩也不被搜尋引擎索引。
-  <FilesMatch "^painpoint-(deck|pain-card|pain-card-mobile)\.pdf$">
-    Header set X-Robots-Tag "noindex, noarchive"
-  </FilesMatch>
 </IfModule>
 
 # 擋掉設定檔與隱藏檔

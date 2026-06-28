@@ -21,7 +21,7 @@ $reading = [
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
   'prev'      => ['url' => '/ask/kill-or-keep', 'label' => '副業做了半年，不上不下——是該收掉，還是再撐一下？'],
-  'next'      => null,
+  'next'      => ['url' => '/ask/not-for-everyone', 'label' => '我的東西「人人都用得到」，為什麼反而沒人真的買單？'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《路西法效應》',
-  'heading'   => '專家賭一千人裡只有一個下得了手，結果三分之二的人把電壓催到底；你那句「一定有人要」，也是這種包票',
+  'heading'   => '「一定有人要」，是你坐在辦公室打的包票',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-lucifer-effect.html',

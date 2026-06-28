@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《零阻力改變》',
-  'heading'   => '你把改變的本事，全瞄準了一個沒人等你的終點',
+  'heading'   => '你那套搬阻力的本事，全瞄準了做產品',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/how-to-change.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《不公平的代價》',
-  'heading'   => '史迪格里茲說，頂層那座金山，很多是握著規則尋來的租；你替那個點子估的身價，也是你自己當裁判、頒給自己，還沒一個陌生人替它簽過名的金牌',
+  'heading'   => '你那個點子的身價，是你自己頒給自己的金牌',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-price-of-inequality.html',

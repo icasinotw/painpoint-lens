@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《真確》',
-  'heading'   => '羅斯林考倒滿屋菁英，你正用同一顆腦袋替自己的點子打分數',
+  'heading'   => '你那個點子，正倒在最甜的那一邊',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/factfulness.html',

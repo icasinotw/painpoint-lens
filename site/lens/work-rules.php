@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《Google 超級用人學》',
-  'heading'   => '博克花十年，把 Google 主管那雙「我看人很準」的眼睛拆掉；你看自己那個點子的眼睛，跟他們那雙一模一樣',
+  'heading'   => '那個點子，是你頭十秒就錄取的',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/work-rules.html',

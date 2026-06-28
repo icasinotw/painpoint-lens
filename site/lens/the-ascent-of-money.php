@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《貨幣崛起》',
-  'heading'   => '約翰・羅把一片沼澤估成全法國最貴的公司，巴黎人擠著用真金來換；你那個點子的天價，也還沒有一個陌生人肯拿真錢兌現過',
+  'heading'   => '你那個點子的天價，沒人拿真錢兌現過',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-ascent-of-money.html',

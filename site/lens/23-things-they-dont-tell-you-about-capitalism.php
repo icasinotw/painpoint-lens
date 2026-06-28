@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《資本主義沒告訴你的23件事》',
-  'heading'   => '張夏準把二十三句「想當然」一句一句押進事實裡，你心裡那句「一定有人要」，還沒被押過一次',
+  'heading'   => '「一定有人要」，還沒被押進過一次事實',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/23-things-they-dont-tell-you-about-capitalism.html',

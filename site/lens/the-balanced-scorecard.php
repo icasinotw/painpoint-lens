@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《平衡計分卡》',
-  'heading'   => '平衡計分卡有四欄，你替那個點子打的記分卡，高分全堆在「你一個人控制得了」的兩欄',
+  'heading'   => '你的高分，全堆在自己控制得了的那兩欄',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-balanced-scorecard.html',

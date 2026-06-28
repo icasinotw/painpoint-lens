@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《巴菲特寫給股東的信》',
-  'heading'   => '巴菲特把看不懂的生意全擋在能力圈外；你那句「一定有人要」，正站在你能力圈外最遠的角落，你卻拿全副身家壓了上去',
+  'heading'   => '你押上全副身家的那一格，正在你能力圈外',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-essays-of-warren-buffett.html',

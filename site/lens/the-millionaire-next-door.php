@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《原來有錢人都這麼做》',
-  'heading'   => '你那個點子滿手的讚，是頂大帽子，底下沒有半頭牛',
+  'heading'   => '那頂大帽子底下，沒有一頭會掏錢的牛',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-millionaire-next-door.html',

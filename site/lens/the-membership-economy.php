@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《引爆會員經濟》',
-  'heading'   => '巴克斯特要你養出會替你拉客的超級用戶；現在繞著你那個點子鼓掌的，鼓的是你這個人',
+  'heading'   => '繞著你那個點子鼓掌的，鼓的是你這個人',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-membership-economy.html',

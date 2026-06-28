@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《麥肯錫寫作技術與邏輯思考》',
-  'heading'   => '高杉尚孝要你把判斷和事實分開；你整份點子裡，只有「一定有人要」那句，你當成了事實',
+  'heading'   => '「一定有人要」，是你唯一當成事實的判斷',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/logical-writing-and-thinking.html',

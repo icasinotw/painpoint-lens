@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《超速學習》',
-  'heading'   => '史考特・楊一年自學完 MIT 四年課程，靠的是死磕「真正要上場的那一招」；你那個點子忙了兩年，磨的全是市場根本不考的題',
+  'heading'   => '你磨了兩年的，全是市場根本不考的題',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/ultralearning.html',

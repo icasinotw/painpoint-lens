@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《人月神話》',
-  'heading'   => '九個女人生不出一個月的孩子——你那個點子最該做的那件事，也不在你加的人月裡',
+  'heading'   => '你拚命加的人月，加不出你最該做的那件事',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-mythical-man-month.html',

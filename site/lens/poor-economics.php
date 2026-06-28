@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《窮人的經濟學》',
-  'heading'   => '你那句「一定有人要」，跟專家斷定「窮人需要什麼」是同一種我覺得',
+  'heading'   => '「一定有人要」，是一句沒蹲過現場的「我覺得」',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/poor-economics.html',

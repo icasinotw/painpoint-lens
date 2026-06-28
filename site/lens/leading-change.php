@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《領導人的變革法則》',
-  'heading'   => '科特發現，悶死變革的頭號兇手是自滿——你為那個點子忙到沒日沒夜，那身忙，恰好是最勤奮的一種自滿',
+  'heading'   => '你那身忙，是最勤奮的一種自滿',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/leading-change.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《哈佛商學院的雙贏談判課》',
-  'heading'   => '馬哈特拉說，談判桌上誰走得開、力量就在誰手上；你那個點子要說服的客戶，正是走了一點都不痛的那一個',
+  'heading'   => '談判桌上輸不起的那個人，從頭到尾是你',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/negotiation-genius.html',

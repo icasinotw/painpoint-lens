@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《跟錢好好相處》',
-  'heading'   => '你那個點子，燒掉上千個鐘頭的命，換回了什麼？',
+  'heading'   => '你那個點子燒掉上千個鐘頭，換回過什麼',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/your-money-or-your-life.html',

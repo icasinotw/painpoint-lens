@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《我生命中的一段歷險》',
-  'heading'   => '艾格站在遊行隊伍旁，當場看出迪士尼的創意引擎早就熄火了；你那個點子，還沒去過任何一場遊行',
+  'heading'   => '屬於你那個點子的遊行隊伍，到現在還空著',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-ride-of-a-lifetime.html',

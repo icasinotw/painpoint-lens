@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《投資金律》',
-  'heading'   => '伯恩斯坦的第一根支柱只釘一句話：沒有不擔風險的高報酬；你那句「一定有人要」，就是那種好得不像真的穩賺，風險沒消失，只是被你藏到了不會去看的地方',
+  'heading'   => '「一定有人要」，是那種好得不像真的穩賺',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-four-pillars-of-investing.html',

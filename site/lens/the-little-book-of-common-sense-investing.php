@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《約翰柏格投資常識》',
-  'heading'   => '你替那個點子估的身價，全是別人為故事多付的那一半',
+  'heading'   => '你那個點子的身價，全是別人為故事多付的溢價',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-little-book-of-common-sense-investing.html',

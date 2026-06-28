@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《U型理論精要》',
-  'heading'   => '夏默要你走下 U 型、到現場去看去聽；你那趟 U，從頭到尾只在自己腦子裡走完',
+  'heading'   => '你那趟 U，從頭到尾只在自己腦子裡走完',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-essentials-of-theory-u.html',

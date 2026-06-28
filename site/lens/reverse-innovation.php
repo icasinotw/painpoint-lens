@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《逆向創新》',
-  'heading'   => '連門口那位真客戶，你都還沒去敲過門',
+  'heading'   => '門口那位真客戶，你還沒去敲過門',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/reverse-innovation.html',

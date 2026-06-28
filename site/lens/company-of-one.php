@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《一人公司》',
-  'heading'   => '賈維斯先有了一票付錢的客戶，才敢說「小而美」；你那個點子，是還沒半個客戶，就先學會了這句話',
+  'heading'   => '還沒半個客戶，你就先學會了「小而美就好」',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/company-of-one.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《子彈思考整理術》',
-  'heading'   => '卡洛要你每月把沒做完的事重抄一遍，抄起來嫌煩的就劃掉；你那個點子，放了好幾年，從沒被要求重抄過一次',
+  'heading'   => '你那個點子放了好幾年，從沒被要求重抄一次',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-bullet-journal-method.html',

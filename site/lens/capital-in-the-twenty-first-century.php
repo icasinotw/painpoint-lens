@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《二十一世紀資本論》',
-  'heading'   => '皮凱提證明，錢堆成了山就會自己長，長得比你流汗做出新東西還快；你那個點子帳上最大那座山，是「一定有人要」這句話，利滾利滾了兩年，本金到今天還是零',
+  'heading'   => '「一定有人要」滾了兩年，本金到今天還是零',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/capital-in-the-twenty-first-century.html',

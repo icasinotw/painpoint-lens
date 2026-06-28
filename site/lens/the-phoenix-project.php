@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《鳳凰專案》',
-  'heading'   => '最要命的那件工作，你從沒替它開過一張工單',
+  'heading'   => '你那個點子最要命的一件，從沒被開成工單',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-phoenix-project.html',

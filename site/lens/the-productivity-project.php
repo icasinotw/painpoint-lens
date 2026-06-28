@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《最有生產力的一年》',
-  'heading'   => '你最該做的事，六顆拖延地雷全中',
+  'heading'   => '你最該做的那件事，六顆地雷顆顆踩滿',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-productivity-project.html',

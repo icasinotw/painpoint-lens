@@ -69,7 +69,9 @@ require __DIR__ . '/../partials/header.php';
   </div>
   <p class="lens-count" id="lensCount" aria-live="polite">共 <?= $total ?> 篇拆書</p>
 
-  <div class="read-list" id="lensList">
+  <?php /* 折疊用的純 CSS 開關:放在清單前面,:checked 才能用 ~ 選到後面的清單與按鈕。無 JS 也能展開。 */ ?>
+  <input type="checkbox" id="lensMore" class="lens-more-cb">
+  <div class="read-list lens-grid is-collapsed" id="lensList">
     <?php foreach ($articles as $a): $cat = pain_primary_cat($a['category']); ?>
     <a class="read-item" href="/lens/<?= e($a['slug']) ?>" data-category="<?= e($cat) ?>">
       <div class="ri-top">
@@ -82,6 +84,10 @@ require __DIR__ . '/../partials/header.php';
     <?php endforeach; ?>
   </div>
 
+  <div class="lens-more-row" id="lensMoreRow">
+    <label for="lensMore" class="lens-more-btn">顯示全部 <?= $total ?> 篇<span class="lens-more-ico" aria-hidden="true">▾</span></label>
+  </div>
+
   <p class="lens-empty" hidden>這個分類還沒有文章。</p>
 
   <div class="btn-row" style="justify-content:center;margin-top:40px">
@@ -91,24 +97,38 @@ require __DIR__ . '/../partials/header.php';
 </main>
 <script>
 (function(){
-  var tabs  = document.querySelectorAll('.lens-tab');
-  var items = document.querySelectorAll('#lensList .read-item');
+  var list    = document.getElementById('lensList');
+  var tabs    = document.querySelectorAll('.lens-tab');
+  var items   = document.querySelectorAll('#lensList .read-item');
   var countEl = document.getElementById('lensCount');
+  var moreRow = document.getElementById('lensMoreRow');
+  var moreCb  = document.getElementById('lensMore');
   function apply(cat){
-    var shown = 0;
-    items.forEach(function(it){
-      var on = (cat === 'all' || it.getAttribute('data-category') === cat);
-      it.hidden = !on;
-      if (on) shown++;
-    });
+    if (cat === 'all'){
+      // 全部:交還給 CSS 折疊(前 24 張),清掉篩選、重置「顯示全部」鈕。
+      if (list) list.classList.add('is-collapsed');
+      items.forEach(function(it){ it.hidden = false; });
+      if (moreCb)  moreCb.checked = false;
+      if (moreRow) moreRow.hidden = false;
+      if (countEl) countEl.textContent = '共 ' + items.length + ' 篇拆書';
+    } else {
+      // 分類:關掉折疊改由 JS 篩選(分類數量少,整批攤開、不需折疊鈕)。
+      if (list) list.classList.remove('is-collapsed');
+      var shown = 0;
+      items.forEach(function(it){
+        var on = it.getAttribute('data-category') === cat;
+        it.hidden = !on;
+        if (on) shown++;
+      });
+      if (moreCb)  moreCb.checked = false;
+      if (moreRow) moreRow.hidden = true;
+      if (countEl) countEl.textContent = '「' + cat + '」' + shown + ' 篇 · 共 ' + items.length + ' 篇';
+    }
     tabs.forEach(function(t){
       var active = t.getAttribute('data-cat') === cat;
       t.classList.toggle('is-active', active);
       t.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
-    if (countEl) countEl.textContent = (cat === 'all')
-      ? ('共 ' + items.length + ' 篇拆書')
-      : ('「' + cat + '」' + shown + ' 篇 · 共 ' + items.length + ' 篇');
   }
   tabs.forEach(function(t){
     t.addEventListener('click', function(e){

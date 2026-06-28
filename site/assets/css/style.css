@@ -462,6 +462,28 @@ h3{font-size:1.2rem;margin:0 0 .4em}
 .read-item[hidden]{display:none}
 .read-locked{opacity:.72}
 
+/* /lens 與分類頁的長清單:改 2～3 欄格線,大幅壓低頁面高度(手機仍單欄、版面不變)。
+   只作用在加了 .lens-grid 的清單,文末「相關拆書」那種小清單不受影響。 */
+.read-list.lens-grid{max-width:1080px;grid-template-columns:repeat(3,1fr)}
+@media(max-width:980px){.read-list.lens-grid{grid-template-columns:repeat(2,1fr);max-width:720px}}
+@media(max-width:640px){.read-list.lens-grid{grid-template-columns:1fr;max-width:42rem}}
+
+/* 折疊「顯示全部」:預設只露前 24 張卡,其餘『仍留在 HTML 裡』(display:none,爬蟲照樣讀得到、
+   跟得進連結,連結權重與 ItemList 完全不流失)。純 CSS checkbox 展開,無 JS 也能按開。
+   分類篩選(JS)啟動時會把 .is-collapsed 拿掉、改由 [hidden] 控管,兩者不打架。 */
+.read-list.is-collapsed .read-item:nth-child(n+25){display:none}
+.lens-more-cb:checked ~ #lensList.is-collapsed .read-item:nth-child(n+25){display:block}
+.lens-more-cb{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.lens-more-row{display:flex;justify-content:center;margin-top:24px}
+.lens-more-row[hidden]{display:none}
+.lens-more-cb:checked ~ .lens-more-row{display:none}
+.lens-more-btn{font:inherit;font-size:.92rem;font-weight:600;color:var(--ink);background:var(--white);
+  border:1px solid var(--line);border-radius:999px;padding:10px 26px;cursor:pointer;transition:.12s;
+  display:inline-flex;align-items:center;gap:8px}
+.lens-more-btn:hover{border-color:var(--gold);color:var(--gold-ink)}
+.lens-more-btn .lens-more-ico{font-size:.8em;transition:transform .12s}
+.lens-more-cb:focus-visible ~ .lens-more-row .lens-more-btn{outline:2px solid var(--gold);outline-offset:2px}
+
 /* 拆書(/lens)頂部「依主題深入讀」主題卡:連到各 /lens/c/ 主題頁(資料驅動,滿篇數自動長卡) */
 .lens-hub{max-width:880px;margin:0 auto 34px;padding-inline:0}
 .lens-hub-eyebrow{text-align:center;margin-bottom:16px}

@@ -57,7 +57,7 @@ require __DIR__ . '/../../partials/header.php';
 <?= $conf['intro'] /* 山姆親寫的 HTML 導言 */ ?>
   </div>
 
-  <div class="read-list">
+  <div class="read-list lens-grid">
     <?php foreach ($inCat as $a): $cat = pain_primary_cat($a['category']); ?>
     <a class="read-item" href="/lens/<?= e($a['slug']) ?>">
       <div class="ri-top">

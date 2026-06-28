@@ -72,7 +72,41 @@ jobs:
           git config user.name  "painpoint 雲端"
           git config user.email "altruismlife@gmail.com"
 
+      - name: 預檢 — 這本已上線就跳過整篇重寫(看門狗把已上線的書排回來時不白寫一次)
+        run: |
+          # 為什麼要這步:某本「寫成功、上線成功,只是最後那通回報掉了(Cloudways 415 / SSH 偶斷)」,
+          #   看門狗 30 分後會把它丟回隊列重寫 → 白燒一次 Opus、還可能覆蓋掉線上那篇好的(實測踩過《資本主義…23件事》)。
+          # 怎麼判:① 用書名到 _articles.php 反查 slug(checkout 的是最新 origin/main,已含上次成功 commit 的那筆);
+          #         ② slug 對到了,再 curl 線上 /lens/{slug} 真的回 200,才算「確實已上線」→ 設 ALREADY_LIVE=1。
+          # 安全性:只有「對到 slug + 線上 200」兩者都成立才跳過。
+          #   - 沒寫過的書 → _articles.php 查不到 → 照常開寫。
+          #   - 寫過但當初『品質閘沒過、沒部署』的書(Claude 先 commit、閘門才擋下部署)→ 線上 404 → 照常重寫,不會被誤跳。
+          #   - 萬一 curl 撞到 415(偽陰性)→ 頂多照舊重寫一次,無害。
+          SLUG_EXIST="$(php tools/find-lens-slug.php "$BOOK_NAME" 2>/dev/null || true)"
+          if [ -z "$SLUG_EXIST" ]; then
+            echo "_articles.php 沒對到既有 slug → 照常開寫。"
+            exit 0
+          fi
+          code=000
+          for attempt in 1 2 3; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
+                     "https://painpoint.tw/lens/$SLUG_EXIST" || echo 000)
+            echo "對到 slug=$SLUG_EXIST,線上狀態碼(第 $attempt 次)=$code"
+            [ "$code" = "200" ] && break
+            sleep 5
+          done
+          if [ "$code" = "200" ]; then
+            {
+              echo "ALREADY_LIVE=1"
+              echo "SLUG=$SLUG_EXIST"
+            } >> "$GITHUB_ENV"
+            echo "::notice::《$BOOK_NAME》已在線上(/lens/$SLUG_EXIST),本次跳過重寫,只照常回報成功讓隊列接下一本。"
+          else
+            echo "線上不是 200(或撞 415)→ 照常開寫,不冒『把沒上線的書當成已上線』的險。"
+          fi
+
       - name: 寫書評 + 轉拆書 + commit/push(Claude,跑你的訂閱)
+        if: env.ALREADY_LIVE != '1'
         id: claude          # 給隊列接力步驟判斷:失敗是「引擎自己掛(usage/API)」還是下游品質/收尾
         uses: anthropics/claude-code-action@v1
         env:
@@ -101,6 +135,7 @@ jobs:
             --allowedTools "Bash,Edit,Write,Read,Glob,Grep,MultiEdit"
 
       - name: 找出本次 slug
+        if: env.ALREADY_LIVE != '1'
         run: |
           SLUG="$(head -n1 .ci/slug.txt 2>/dev/null | tr -d '[:space:]')"
           if [ -z "$SLUG" ]; then
@@ -111,6 +146,7 @@ jobs:
           echo "本次 slug = $SLUG"
 
       - name: 閘門 1 — php -l 全 site 語法檢查
+        if: env.ALREADY_LIVE != '1'
         run: |
           fail=0
           while IFS= read -r -d '' f; do
@@ -119,6 +155,7 @@ jobs:
           exit $fail
 
       - name: 閘門 2 — 反差句/結尾/撞句(count-contrast,沒過就不部署)
+        if: env.ALREADY_LIVE != '1'
         run: |
           out="$(python3 tools/count-contrast.py "site/lens/_content/$SLUG.html")"
           echo "$out"
@@ -128,11 +165,13 @@ jobs:
           fi
 
       - name: 閘門 2.5 — CTA 數量(/tool、/book 各 ≤1、結尾不導工具;過量不部署)
+        if: env.ALREADY_LIVE != '1'
         run: |
           python3 tools/count-cta.py "site/lens/_content/$SLUG.html" || {
             echo "::error::CTA 閘門未過 → 擋下部署(內文導購過量,違反 CTA 北極星:拆書是內容價值、不是導購;見 painpoint-lens skill〈內部連結與導流〉)"; exit 1; }
 
       - name: 閘門 3 — 本機 render 測 /lens/{slug}
+        if: env.ALREADY_LIVE != '1'
         run: |
           php -S 127.0.0.1:8080 site/router.php >/tmp/php.log 2>&1 &
           PHP_PID=$!
@@ -148,6 +187,7 @@ jobs:
           echo "render OK:$(wc -c </tmp/page.html) bytes"
 
       - name: 部署到 Cloudways(三道閘門都過才跑)
+        if: env.ALREADY_LIVE != '1'
         env:
           SSH_KEY: ${{ secrets.CLOUDWAYS_SSH_KEY }}
         run: |
@@ -173,15 +213,25 @@ jobs:
 
       - name: 回報上線網址
         run: |
-          {
-            echo "## ✅ 上線了"
-            echo ""
-            echo "**《$BOOK_NAME》** 拆書已部署:"
-            echo ""
-            echo "🔗 https://painpoint.tw/lens/$SLUG"
-            echo ""
-            echo "_喵喵書評定稿在這次 run 的 Artifacts(meowbooks-review)可下載,貼 meowbooks 用。_"
-          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ALREADY_LIVE" = "1" ]; then
+            {
+              echo "## ℹ️ 本來就已上線,跳過重寫"
+              echo ""
+              echo "**《$BOOK_NAME》** 之前已寫好並上線,看門狗把它排回來、本次自動跳過整篇重寫(不白燒額度、不覆蓋線上好文):"
+              echo ""
+              echo "🔗 https://painpoint.tw/lens/$SLUG"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "## ✅ 上線了"
+              echo ""
+              echo "**《$BOOK_NAME》** 拆書已部署:"
+              echo ""
+              echo "🔗 https://painpoint.tw/lens/$SLUG"
+              echo ""
+              echo "_喵喵書評定稿在這次 run 的 Artifacts(meowbooks-review)可下載,貼 meowbooks 用。_"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: 上傳喵喵書評定稿(手機可下載貼 meowbooks)
         if: always()
@@ -199,7 +249,9 @@ jobs:
           JOB_STATUS: ${{ job.status }}
         run: |
           [ -z "$TG_BOT_TOKEN" ] && exit 0
-          if [ "$JOB_STATUS" = "success" ] && [ -n "$SLUG" ]; then
+          if [ "$ALREADY_LIVE" = "1" ] && [ -n "$SLUG" ]; then
+            TEXT="ℹ️《${BOOK_NAME}》本來就已經在線上了:https://painpoint.tw/lens/${SLUG} —— 看門狗排回來、系統自動跳過重寫,直接接下一本。"
+          elif [ "$JOB_STATUS" = "success" ] && [ -n "$SLUG" ]; then
             TEXT="✅《${BOOK_NAME}》拆書上線了:https://painpoint.tw/lens/${SLUG}"
           else
             TEXT="⚠️《${BOOK_NAME}》這次沒成功(品質閘門沒過或出錯),沒有上線。可到 GitHub Actions 看紀錄。"

@@ -21,7 +21,7 @@ $reading = [
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
   'prev'      => ['url' => '/ask/empty-market', 'label' => '一個「沒人在做」的點子，該興奮，還是該逃？'],
-  'next'      => null,
+  'next'      => ['url' => '/ask/kill-or-keep', 'label' => '副業做了半年，不上不下——是該收掉，還是再撐一下？'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

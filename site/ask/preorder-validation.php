@@ -20,8 +20,8 @@ $reading = [
     'primary' => ['url' => '/tool', 'label' => '免費體檢我的點子'],
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
-  'prev'      => ['url' => '/ask/empty-market', 'label' => '一個「沒人在做」的點子，該興奮，還是該逃？'],
-  'next'      => ['url' => '/ask/kill-or-keep', 'label' => '副業做了半年，不上不下——是該收掉，還是再撐一下？'],
+  'prev'      => ['url' => '/ask/not-for-everyone', 'label' => '我的東西「人人都用得到」，為什麼反而沒人真的買單？'],
+  'next'      => ['url' => '/ask/friction-not-features', 'label' => '功能加了一大堆，用戶卻無感——我的產品到底解決了什麼？'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

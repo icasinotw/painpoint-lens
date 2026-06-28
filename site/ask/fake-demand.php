@@ -20,8 +20,8 @@ $reading = [
     'primary' => ['url' => '/fieldkit', 'label' => '打開《出門找痛》工具箱'],
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
-  'prev'      => null,
-  'next'      => ['url' => '/ask/empty-market', 'label' => '一個「沒人在做」的點子，該興奮，還是該逃？'],
+  'prev'      => ['url' => '/ask/empty-market', 'label' => '一個「沒人在做」的點子，該興奮，還是該逃？'],
+  'next'      => ['url' => '/ask/not-for-everyone', 'label' => '我的東西「人人都用得到」，為什麼反而沒人真的買單？'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

@@ -20,8 +20,8 @@ $reading = [
     'primary' => ['url' => '/tool', 'label' => '免費體檢我的點子'],
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
-  'prev'      => ['url' => '/ask/fake-demand', 'label' => '二十幾個人都說「我會買」，上線那天一張單都沒進'],
-  'next'      => ['url' => '/ask/preorder-validation', 'label' => '有人付了訂金，就代表「驗證過了」嗎？'],
+  'prev'      => null,
+  'next'      => ['url' => '/ask/fake-demand', 'label' => '二十幾個人都說「我會買」，上線那天一張單都沒進'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

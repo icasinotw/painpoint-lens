@@ -39,8 +39,10 @@ if (!defined('TG_LANES')) {
 const TG_STALE_SECS    = 1800;   // 30 分沒回報視為卡死 → 看門狗接手。實測每本 14~21 分,30 分留足餘裕又救得快;
                                  // 回報已改冪等後,看門狗就算誤判(某本真的還在跑),那本之後的回報會被冪等忽略、絕不掉書、不重複,
                                  // 所以門檻可以壓短。主機 cron 每 5 分巡一次 → 卡住後最遲 ~30 分自救(原 90→50→30)。
-const TG_FAIL_THRESHOLD = 2;     // 連續失敗達此數 → 暫停(疑似用量用完)
+const TG_FAIL_THRESHOLD = 2;     // 同一帳號連續 engine 失敗達此數 → 停用『那個帳號』(疑似該帳號用量用完)
 const TG_MAX_TRIES      = 8;     // 同一本失敗達此數 → 跳過(疑似爛輸入/寫不出來);設大以免長時間斷量誤砍好書
+const TG_LANE_BACKOFF   = 1800;  // 帳號被停用後,cron 至少隔這麼久(秒,30 分)才「派一本探路」重試 → 額度滿期間不洗版空轉。
+                                 // weekly 額度本來就要好幾小時才回,慢 ~30 分偵測幾乎無影響;主人 /resume 則立刻重試、不等 back-off。
 
 function _q_path() {
     if (!empty($GLOBALS['TG_QUEUE_PATH'])) return $GLOBALS['TG_QUEUE_PATH'];   // 測試覆寫(production 永不設)
@@ -81,6 +83,8 @@ function _q_load($fh) {
         'slots'       => $slots,
         'lane_fail'      => $laneFail,
         'disabled_lanes' => $disabled,
+        'disabled_at'    => isset($d['disabled_at']) && is_array($d['disabled_at']) ? $d['disabled_at'] : [],         // {lane=>停用時刻}:給 cron back-off 重試用
+        'down_notified'  => isset($d['down_notified']) && is_array($d['down_notified']) ? array_values($d['down_notified']) : [], // 已發過「暫停」通知的帳號(去重,避免洗版)
         'paused'      => !empty($d['paused']),
         'pause_manual'=> !empty($d['pause_manual']),   // true=主人手動 /pause(cron 不准自動解除,只有 /resume 能解)
         'paused_at'   => (int)($d['paused_at'] ?? 0),
@@ -165,6 +169,7 @@ function _q_reap_stale(&$d) {
             // 回報掉了不算引擎失敗:重置該帳號計數並重新啟用它,別誤把好帳號停掉
             $d['lane_fail'][$lane] = 0;
             $d['disabled_lanes'] = array_values(array_diff($d['disabled_lanes'], [$lane]));
+            unset($d['disabled_at'][$lane]);
         } else {
             $keep[] = $s;
         }
@@ -312,6 +317,12 @@ function q_report($status, $kind = '', $book = '', $lane = '') {
         // 該帳號恢復:清它的連敗計數、若曾被停用就重新啟用
         $d['lane_fail'][$laneOf] = 0;
         $d['disabled_lanes'] = array_values(array_diff($d['disabled_lanes'], [$laneOf]));
+        unset($d['disabled_at'][$laneOf]);
+        // 這個帳號先前發過「暫停」通知 → 現在額度恢復了,補一則「恢復」通知(整個 outage 只通知這一次)
+        if (in_array($laneOf, $d['down_notified'], true)) {
+            $d['down_notified'] = array_values(array_diff($d['down_notified'], [$laneOf]));
+            $notify = "▶️ 帳號 lane {$laneOf} 額度恢復了,已自動接上繼續寫。";
+        }
         // 若先前因「所有帳號都掛」觸發過全域斷路器暫停(非手動),現在有帳號恢復 → 解除全域暫停
         if ($d['paused'] && !$d['pause_manual']
             && count(array_intersect(TG_LANES, $d['disabled_lanes'])) < count(TG_LANES)) {
@@ -334,8 +345,14 @@ function q_report($status, $kind = '', $book = '', $lane = '') {
             $d['lane_fail'][$laneOf] = (int)($d['lane_fail'][$laneOf] ?? 0) + 1;
             if ($d['lane_fail'][$laneOf] >= TG_FAIL_THRESHOLD) {
                 if (!in_array($laneOf, $d['disabled_lanes'], true)) $d['disabled_lanes'][] = $laneOf;
-                $p = "⏸️ 帳號 lane {$laneOf} 連續 {$d['lane_fail'][$laneOf]} 次引擎失敗(疑似這個帳號 usage 用完 / token 壞)—— 已暫停『這個帳號』,其他帳號照常跑。用量回來會自動續,或打 /resume。";
-                $notify = $notify ? ($notify . "\n\n" . $p) : $p;
+                $d['disabled_at'][$laneOf] = time();   // 記停用時刻 → cron 隔 back-off 才派一本探路重試
+                // 只在「第一次暫停這個帳號」通知;之後每 ~back-off 的探路重試若再失敗,不再洗版
+                if (!in_array($laneOf, $d['down_notified'], true)) {
+                    $d['down_notified'][] = $laneOf;
+                    $mins = (int)(TG_LANE_BACKOFF / 60);
+                    $p = "⏸️ 帳號 lane {$laneOf} 連續 {$d['lane_fail'][$laneOf]} 次引擎失敗(疑似這個帳號 usage 用完 / token 壞)—— 已暫停『這個帳號』,其他帳號照常跑。額度回來會自動接上(約每 {$mins} 分探一次),或打 /resume 立刻試。";
+                    $notify = $notify ? ($notify . "\n\n" . $p) : $p;
+                }
                 // 啟用中的帳號「全部」都掛了 → 等同全域斷路器暫停(沿用舊單帳號行為:cron 會自動 resume)
                 if (count(array_intersect(TG_LANES, $d['disabled_lanes'])) >= count(TG_LANES)) {
                     $d['paused'] = true;
@@ -343,9 +360,14 @@ function q_report($status, $kind = '', $book = '', $lane = '') {
                 }
             }
         } else {
-            // 品質/收尾/部署失敗 → 引擎是好的 → 清掉這個帳號的連敗計數、確保它沒被停用
+            // 品質/收尾/部署失敗 → 引擎是好的(Claude 有跑、只是產出沒過閘)→ 清這個帳號的連敗計數、確保它沒被停用。
             $d['lane_fail'][$laneOf] = 0;
             $d['disabled_lanes'] = array_values(array_diff($d['disabled_lanes'], [$laneOf]));
+            unset($d['disabled_at'][$laneOf]);
+            if (in_array($laneOf, $d['down_notified'], true)) {   // 引擎活著 = 額度回來了 → 補恢復通知(只一次)
+                $d['down_notified'] = array_values(array_diff($d['down_notified'], [$laneOf]));
+                $notify = $notify ? ($notify . "\n\n▶️ 帳號 lane {$laneOf} 額度恢復了。") : "▶️ 帳號 lane {$laneOf} 額度恢復了,已自動接上。";
+            }
         }
     }
 
@@ -396,20 +418,38 @@ function q_resume($manual = false) {
     $resumed = false;
     $skipped_manual = false;
     $toDispatch = [];
+
     if ($d['paused'] && !$manual && $d['pause_manual']) {
         // 自動續跑遇到「主人手動全域暫停」→ 原封不動,等主人自己解
         $skipped_manual = true;
-    } elseif ($d['paused'] || !empty($d['disabled_lanes'])) {
-        // 有東西要解(全域暫停 或 有帳號被斷路器停用)→ 清掉斷路器狀態、重新啟用所有帳號、補槽。
-        // (沒暫停也沒停用時不進這支 → 不會把 lane_fail 歸零,斷路器才能正常累計到門檻。)
-        $d['paused']         = false;
-        $d['pause_manual']   = false;
-        $d['paused_at']      = 0;
-        $d['lane_fail']      = [];
-        $d['disabled_lanes'] = [];
-        $toDispatch = _q_fill_slots($d);   // 補滿空 lane(在跑中的 slot 不動;卡死的會被 reap 救回)
-        $resumed = true;
+    } else {
+        $now = time();
+        // 要重新啟用哪些被停用的帳號:手動 /resume → 全部立刻;cron 自動 → 只放行「back-off 已過」的
+        // (額度滿期間 cron 才不會每 5 分就派一本探路 → 不洗版、不空轉)。
+        $reenable = [];
+        foreach ($d['disabled_lanes'] as $l) {
+            if ($manual || ($now - (int)($d['disabled_at'][$l] ?? 0) >= TG_LANE_BACKOFF)) {
+                $reenable[] = $l;
+            }
+        }
+        foreach ($reenable as $l) {
+            $d['disabled_lanes'] = array_values(array_diff($d['disabled_lanes'], [$l]));
+            unset($d['disabled_at'][$l]);
+            $d['lane_fail'][$l] = 0;
+            if ($manual) {   // 主人手動續 → 連「已通知暫停」記號也清(下次若再滿,會重新通知一次)
+                $d['down_notified'] = array_values(array_diff($d['down_notified'], [$l]));
+            }
+        }
+        // 全域暫停解除:手動一律解;cron → 只要重新啟用後「還有可用帳號」就解
+        $stillAllDown = count(array_intersect(TG_LANES, $d['disabled_lanes'])) >= count(TG_LANES);
+        if ($d['paused'] && ($manual || !$stillAllDown)) {
+            $d['paused'] = false; $d['pause_manual'] = false; $d['paused_at'] = 0;
+            $resumed = true;
+        }
+        if (!empty($reenable)) $resumed = true;
+        if ($resumed) $toDispatch = _q_fill_slots($d);   // 補滿空 lane(在跑中的不動;卡死的會被 reap 救回)
     }
+
     _q_save($fh, $d);
     $pending = count($d['queue']);
     flock($fh, LOCK_UN);

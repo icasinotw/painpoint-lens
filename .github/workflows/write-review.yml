@@ -289,12 +289,17 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           JOB_STATUS: ${{ job.status }}
+          CLAUDE_OUTCOME: ${{ steps.claude.outcome }}
         run: |
           [ -z "$TG_BOT_TOKEN" ] && exit 0
           if [ "$ALREADY_LIVE" = "1" ] && [ -n "$SLUG" ]; then
             TEXT="ℹ️《${BOOK_NAME}》本來就已經在線上了:https://painpoint.tw/lens/${SLUG} —— 看門狗排回來、系統自動跳過重寫,直接接下一本。"
           elif [ "$JOB_STATUS" = "success" ] && [ -n "$SLUG" ]; then
             TEXT="✅《${BOOK_NAME}》拆書上線了:https://painpoint.tw/lens/${SLUG}"
+          elif [ "$CLAUDE_OUTCOME" = "failure" ]; then
+            # 引擎失敗(疑似該帳號額度滿 / token 壞)→ 這裡「不發」,交給隊列那則「帳號暫停/恢復」的去重通知處理,
+            # 避免額度滿期間每次探路重試都洗一則失敗訊息。
+            exit 0
           else
             TEXT="⚠️《${BOOK_NAME}》這次沒成功(品質閘門沒過或出錯),沒有上線。可到 GitHub Actions 看紀錄。"
           fi

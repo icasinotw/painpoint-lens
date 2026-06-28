@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《獲利優先》',
-  'heading'   => '你把「有沒有人要」，留到了最後才問',
+  'heading'   => '最該先問的那件事，你留到了最後才問',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/profit-first.html',

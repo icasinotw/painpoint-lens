@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《人類大歷史》',
-  'heading'   => '「一定有人要」也是個故事，信徒只有你一個',
+  'heading'   => '你編的那個故事，信徒到今天只有你一個',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/sapiens.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《潛意識正在控制你的行為》',
-  'heading'   => '你眼裡有塊看不見的洞，大腦天天替你補上「一定有人要」',
+  'heading'   => '你眼裡那塊盲點，大腦天天替你補成一片市場',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/subliminal.html',

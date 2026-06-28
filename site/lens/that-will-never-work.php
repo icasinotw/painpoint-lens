@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《一千零一個點子之後》',
-  'heading'   => '「一定有人要」，跟「那絕對行不通」一樣不值錢',
+  'heading'   => '你的「穩了」，跟那句「絕對行不通」一樣不值錢',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/that-will-never-work.html',

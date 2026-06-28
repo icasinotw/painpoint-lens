@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《窮人的經濟學》',
-  'heading'   => '「一定有人要」，是一句沒蹲過現場的「我覺得」',
+  'heading'   => '你那句「我覺得」，從沒蹲過一次現場',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/poor-economics.html',

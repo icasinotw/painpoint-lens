@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《思考的技術》',
-  'heading'   => '大前研一要你驗證每個假設，你卻獨獨放過了那句「一定有人要」',
+  'heading'   => '每個假設你都驗了，獨獨放過最該驗的那個',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/the-art-of-thinking.html',

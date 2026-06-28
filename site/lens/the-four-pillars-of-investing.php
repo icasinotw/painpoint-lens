@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《投資金律》',
-  'heading'   => '「一定有人要」，是那種好得不像真的穩賺',
+  'heading'   => '聞起來穩賺不賠的，風險都被你藏起來了',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-four-pillars-of-investing.html',

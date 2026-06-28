@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《AI經濟的策略思維》',
-  'heading'   => '機器負責預測，你負責判斷，最大那筆判斷你交給了一句「一定有人要」',
+  'heading'   => '機器負責預測，你負責判斷，最大那筆你沒做',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/prediction-machines.html',

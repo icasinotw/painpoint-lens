@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《洞悉價格背後的心理戰》',
-  'heading'   => '你那句「一定有人要」，跟一個隨機號碼喊出的價一樣可信',
+  'heading'   => '你心裡那個價，跟隨機轉出的號碼一樣可信',
   'published' => '2026-06-26',
   'updated'   => '2026-06-26',
   'content'   => __DIR__ . '/_content/priceless.html',

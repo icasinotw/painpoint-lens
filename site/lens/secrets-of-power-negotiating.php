@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《優勢談判》',
-  'heading'   => '那句「一定有人要」，是你腦袋開給你的第一次出價',
+  'heading'   => '你腦袋開的第一口價，你連還都沒還',
   'published' => '2026-06-26',
   'updated'   => '2026-06-26',
   'content'   => __DIR__ . '/_content/secrets-of-power-negotiating.html',

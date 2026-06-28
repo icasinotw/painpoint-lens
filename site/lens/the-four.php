@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《四騎士主宰的未來》',
-  'heading'   => '四巨頭從不問有沒有人要，因為那個「要」比它們老一萬歲',
+  'heading'   => '四巨頭鉤住的那個渴望，比它們老一萬歲',
   'published' => '2026-06-26',
   'updated'   => '2026-06-26',
   'content'   => __DIR__ . '/_content/the-four.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《當責，從停止抱怨開始》',
-  'heading'   => '「有沒有人要」那一格，你還在怪市場',
+  'heading'   => '最該扛的那一格，你還在怪市場',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-oz-principle.html',

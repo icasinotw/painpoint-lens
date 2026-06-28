@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《一流的人如何保持顛峰》',
-  'heading'   => '「有沒有人要」那條肌肉，你從沒壓過',
+  'heading'   => '練了兩年，最該練的那條肌肉你從沒壓過',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/peak-performance.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《非暴力溝通》',
-  'heading'   => '「一定有人要」，是你當成事實寫下的評論',
+  'heading'   => '你把判斷當成觀察，混進了自己的報告',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/nonviolent-communication.html',

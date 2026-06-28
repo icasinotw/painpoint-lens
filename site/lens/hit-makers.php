@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《引爆瘋潮》',
-  'heading'   => '那首「一定有人要」，全場只坐著你一個聽眾',
+  'heading'   => '你腦裡播了三千遍的歌，全場只你一個聽眾',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/hit-makers.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《資本主義沒告訴你的23件事》',
-  'heading'   => '「一定有人要」，還沒被押進過一次事實',
+  'heading'   => '你心裡那句想當然，還沒被押進過一次事實',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/23-things-they-dont-tell-you-about-capitalism.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《超牢記憶法》',
-  'heading'   => '「一定有人要」那份篤定，從沒被考過一次',
+  'heading'   => '你重讀上千遍的篤定，從沒被考過一次',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/make-it-stick.html',

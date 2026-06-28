@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《拖延心理學》',
-  'heading'   => '只要沒人說「不要」，「一定有人要」就一直是真的',
+  'heading'   => '你遲遲不交卷，就永遠等不到那張成績單',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/procrastination.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《路西法效應》',
-  'heading'   => '「一定有人要」，是你坐在辦公室打的包票',
+  'heading'   => '你坐在辦公室，替它打了一張包票',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-lucifer-effect.html',

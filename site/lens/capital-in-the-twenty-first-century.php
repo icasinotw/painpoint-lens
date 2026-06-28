@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《二十一世紀資本論》',
-  'heading'   => '「一定有人要」滾了兩年，本金到今天還是零',
+  'heading'   => '那個假設滾了兩年利息，本金到今天還是零',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/capital-in-the-twenty-first-century.html',

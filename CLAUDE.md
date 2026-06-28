@@ -3,6 +3,17 @@
 > 這個 repo 是 painpoint.tw 的網站原始碼 + 「/lens 拆書」出版引擎。GitHub Actions 在雲端跑 Claude 寫拆書、過品質閘門、部署上線。
 > 書稿與商業策略**不在這裡**(在另一個私有 repo)。本檔只放「把一本商業書寫成 /lens 拆書」需要的規則。寫作方法論細節見兩支 skill。
 
+## 進版 / 部署:本機手動改動「沒問題就自動進版上線」授權
+
+山姆在本機請我做的任何網站改動(像調 `/start`、改 partial、修文案),**機械閘門全部通過後就直接自動 commit + push,不必再每次問他確認**;部署交給主機 `git-deploy` 在 push 後自動同步上線(這個環境不跑 deploy.sh / rsync / ssh)。
+
+**「沒問題」= 動到什麼就真的驗什麼、全過,才准 push:**
+- 動到 `.php` → `php -l` 該檔(或全 site)無誤 + 本機 `php -S localhost:<port> site/router.php` render 受影響路由無壞。
+- 動到 `/lens` 或 `/ask` 正文(`_content/*.html`)→ 額外實跑 `tools/fix-punctuation.py`、`tools/count-contrast.py`、`tools/count-cta.py`,全部過。
+- **任一閘門沒過 → 停下、不准 push,先修到過或回報山姆**(凌駕本授權,等同觸發鏈最高鐵則)。
+
+**進版規矩(照舊):** 只 `git add` 相關檔(絕不 `git add -A`,別把 `.claude/`、`AGENTS.md`、`docs/` 等無關檔掃進去)、繁中 commit 訊息 + `Co-Authored-By: Claude` trailer、`git pull --rebase origin main` 後 `git push origin main`。push 完口頭回報 commit hash 與「git-deploy 約 5 分鐘內上線」即可。
+
 ## 觸發鏈(雲端工作流 .github/workflows/write-review.yml 會跑)
 
 一句「請撰寫《X》書評」進來 → 一路跑到底,中途不分段問:

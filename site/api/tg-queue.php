@@ -55,6 +55,8 @@ if ($action === 'report') {
         'running_books' => $s['running_books'],
         'slots'   => array_map(function ($x) { return ['book' => q_item_book($x), 'lane' => ($x['lane'] ?? 'a')]; }, $s['slots']),
         'lanes'   => TG_LANES,
+        'disabled_lanes' => $s['disabled_lanes'],   // 被斷路器自動停用的帳號(連敗達門檻)
+        'lane_fail'      => $s['lane_fail'],         // 各帳號目前連續引擎失敗次數
         'pending' => count($s['queue']),
         'queue'   => q_book_list($s['queue']),
         // 主機端 cron 健康度:cron_last_run 應該每 5 分鐘更新一次;cron_sapi 應為 cli

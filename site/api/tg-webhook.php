@@ -44,6 +44,9 @@ if ($cmd === '/queue') {
     } else {
         $line = "隊列是空的,沒有在跑。";
     }
+    if (!empty($s['disabled_lanes'])) {
+        $line .= "\n⏸️ 暫停中的帳號:" . implode('、', array_map(function ($l) { return "lane $l"; }, $s['disabled_lanes'])) . "(連敗暫停,用量回來會自動續、或 /resume)。";
+    }
     if (!empty($books)) $line .= "\n排隊中:" . implode('、', $books);
     tg_send($TG_BOT_TOKEN, $chatId, $line);
     echo json_encode(['ok' => true]); exit;

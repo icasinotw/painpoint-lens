@@ -12,6 +12,7 @@
       <a href="/eye">七天練眼</a>
       <a href="/read">免費試讀</a>
       <a href="/lens">痛點之尺·拆書</a>
+      <a href="/ask">痛點之尺·拆問題</a>
       <a href="/book">電子書</a>
       <a href="/about">關於</a>
       <a href="/contact">聯絡我們</a>

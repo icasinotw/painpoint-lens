@@ -5,14 +5,14 @@
 
 ## 進版 / 部署:本機手動改動「沒問題就自動進版上線」授權
 
-山姆在本機請我做的任何網站改動(像調 `/start`、改 partial、修文案),**機械閘門全部通過後就直接自動 commit + push,不必再每次問他確認**;部署交給主機 `git-deploy` 在 push 後自動同步上線(這個環境不跑 deploy.sh / rsync / ssh)。
+山姆在本機請我做的任何網站改動(像調 `/start`、改 partial、修文案),**機械閘門全部通過後就直接自動 commit + push,不必再每次問他確認**;**push 後立刻在本機跑 `bash deploy.sh` 即時部署上線**(SSH 金鑰免密碼、`BatchMode` 非互動,`rsync` 不帶 `--delete`),不必等主機 `git-deploy` 那 5 分鐘——山姆明講要「不等待」(2026-06-28 定)。(deploy.sh 含主機座標、已被 `.gitignore` 擋下不進公開 repo;主機 `git-deploy` 仍會在 push 後自動同步,當作 deploy.sh 跑不動時的後援。)
 
 **「沒問題」= 動到什麼就真的驗什麼、全過,才准 push:**
 - 動到 `.php` → `php -l` 該檔(或全 site)無誤 + 本機 `php -S localhost:<port> site/router.php` render 受影響路由無壞。
 - 動到 `/lens` 或 `/ask` 正文(`_content/*.html`)→ 額外實跑 `tools/fix-punctuation.py`、`tools/count-contrast.py`、`tools/count-cta.py`,全部過。
 - **任一閘門沒過 → 停下、不准 push,先修到過或回報山姆**(凌駕本授權,等同觸發鏈最高鐵則)。
 
-**進版規矩(照舊):** 只 `git add` 相關檔(絕不 `git add -A`,別把 `.claude/`、`AGENTS.md`、`docs/` 等無關檔掃進去)、繁中 commit 訊息 + `Co-Authored-By: Claude` trailer、`git pull --rebase origin main` 後 `git push origin main`。push 完口頭回報 commit hash 與「git-deploy 約 5 分鐘內上線」即可。
+**進版規矩(照舊):** 只 `git add` 相關檔(絕不 `git add -A`,別把 `.claude/`、`AGENTS.md`、`docs/` 等無關檔掃進去)、繁中 commit 訊息 + `Co-Authored-By: Claude` trailer、`git pull --rebase origin main` 後 `git push origin main`。push 後跑 `bash deploy.sh` 即時部署,完成後回報 commit hash 與「已即時上線」(必要時順手 curl `https://painpoint.tw/…` 驗一眼)。
 
 ## 觸發鏈(雲端工作流 .github/workflows/write-review.yml 會跑)
 
@@ -20,7 +20,7 @@
 
 1. **喵喵書評寫到定稿** —— 照 [`skills/meowbooks-book-review/SKILL.md`](skills/meowbooks-book-review/SKILL.md):P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉(實跑工具)。
 2. **自動轉成 painpoint 拆書** —— 照 [`skills/painpoint-lens/SKILL.md`](skills/painpoint-lens/SKILL.md):先做適配檢查(A/B/C 模式),輸出兩檔 + 補 `site/lens/_articles.php`,實跑 `fix-punctuation.py` / `count-contrast.py` / `count-cta.py` / `php -l` / 本機 render。
-3. **commit + push** —— 只 `git add` 相關檔(絕不 `git add -A`),繁中 commit 訊息 + `Co-Authored-By: Claude` trailer;`git pull --rebase` 後 `git push origin main`。部署由 CI 後續步驟自動接手(這個環境沒有、也不要執行 deploy.sh / rsync / ssh)。
+3. **commit + push** —— 只 `git add` 相關檔(絕不 `git add -A`),繁中 commit 訊息 + `Co-Authored-By: Claude` trailer;`git pull --rebase` 後 `git push origin main`。部署由 CI 後續步驟自動接手(**雲端 CI runner 沒有山姆的 SSH 金鑰,故這條雲端鏈不跑 deploy.sh / rsync / ssh**;本機互動式 session 則照上面「進版 / 部署」那節,push 後直接跑 `bash deploy.sh` 即時上線)。
 
 **最高鐵則:全自動不准讓任一篇品質下降。**
 - 當兩道各自全神貫注的 pass 寫:書評收乾淨,才開始寫拆書。

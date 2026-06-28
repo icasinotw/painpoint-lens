@@ -121,9 +121,9 @@ jobs:
 
             1) 完整跑兩段、機械閘門全部真的跑:
                ① 喵喵書評寫到定稿 —— P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉:實跑 `python3 tools/fix-punctuation.py` 全形化、實跑 `python3 tools/count-contrast.py` 把反差句砍到 ≤2、結尾非反差骨架、無撞句指紋。
-               ② 自動轉 painpoint 拆書 —— 先做適配檢查(A/B/C 模式),輸出 site/lens/{slug}.php + site/lens/_content/{slug}.html,並在 site/lens/_articles.php「最上面」補一筆;實跑 `python3 tools/fix-punctuation.py` + `python3 tools/count-contrast.py` + `php -l` + 本機 render 自測 /lens/{slug}。拆書必須是換角度重組的獨家文,不照搬書評原句。
+               ② 自動轉 painpoint 拆書 —— 先做適配檢查(A/B/C 模式),輸出 site/lens/{slug}.php + site/lens/_content/{slug}.html,並**新建一個碎片檔 site/lens/_articles.d/{slug}.php**(只 `return` 該篇一筆陣列:slug/kicker/title/blurb/category/date;kicker 固定「拆解《書名》」)。**絕對不要編輯 site/lens/_articles.php(它已是 loader)或 site/lens/_articles-base.php(凍結的歷史段)——那會讓平行寫書撞同一檔。** 列表頁與 sitemap 由 loader 讀 base + 所有碎片自動長、最新自動排前。實跑 `python3 tools/fix-punctuation.py` + `python3 tools/count-contrast.py` + `php -l` + 本機 render 自測 /lens/{slug}。拆書必須是換角度重組的獨家文,不照搬書評原句。
 
-            2) 這個環境「沒有」deploy.sh,你也「不要」執行任何部署 / rsync / ssh —— 部署交給後面的 CI 步驟自動接手。你只要:兩篇寫好自審過 → `git add` 相關檔(site/lens 下的 {slug}.php、_content/{slug}.html、_articles.php,以及書評若真的有改到的檔;絕不 `git add -A`、絕不 add 無關檔)→ `git commit`(繁中訊息講清楚動了什麼 + 結尾 Co-Authored-By: Claude trailer)→ `git pull --rebase origin main` → `git push origin main`。
+            2) 這個環境「沒有」deploy.sh,你也「不要」執行任何部署 / rsync / ssh —— 部署交給後面的 CI 步驟自動接手。你只要:兩篇寫好自審過 → `git add` 相關檔(site/lens 下的 {slug}.php、_content/{slug}.html、_articles.d/{slug}.php,以及書評若真的有改到的檔;**絕不要 add _articles.php 或 _articles-base.php**;絕不 `git add -A`、絕不 add 無關檔)→ `git commit`(繁中訊息講清楚動了什麼 + 結尾 Co-Authored-By: Claude trailer)→ `git pull --rebase origin main` → `git push origin main`。
 
             3) 收尾兩個檔給 CI 接力(這兩個「不要」git add):把這次拆書的 slug(英文書名 kebab-case、單獨一行,例 atomic-habits)寫進 `.ci/slug.txt`;把「喵喵書評定稿全文」寫進 `.ci/review.txt`(山姆要貼 meowbooks 用)。
 

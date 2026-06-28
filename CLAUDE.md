@@ -19,7 +19,7 @@
 一句「請撰寫《X》書評」進來 → 一路跑到底,中途不分段問:
 
 1. **喵喵書評寫到定稿** —— 照 [`skills/meowbooks-book-review/SKILL.md`](skills/meowbooks-book-review/SKILL.md):P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉(實跑工具)。
-2. **自動轉成 painpoint 拆書** —— 照 [`skills/painpoint-lens/SKILL.md`](skills/painpoint-lens/SKILL.md):先做適配檢查(A/B/C 模式),輸出兩檔 + 補 `site/lens/_articles.php`,實跑 `fix-punctuation.py` / `count-contrast.py` / `count-cta.py` / `count-title.py` / `php -l` / 本機 render。
+2. **自動轉成 painpoint 拆書** —— 照 [`skills/painpoint-lens/SKILL.md`](skills/painpoint-lens/SKILL.md):先做適配檢查(A/B/C 模式),輸出兩檔 + 建 `site/lens/_articles.d/{slug}.php` 碎片,實跑 `fix-punctuation.py` / `count-contrast.py` / `count-cta.py` / `count-title.py` / `php -l` / 本機 render。
 3. **commit + push** —— 只 `git add` 相關檔(絕不 `git add -A`),繁中 commit 訊息 + `Co-Authored-By: Claude` trailer;`git pull --rebase` 後 `git push origin main`。部署由 CI 後續步驟自動接手(**雲端 CI runner 沒有山姆的 SSH 金鑰,故這條雲端鏈不跑 deploy.sh / rsync / ssh**;本機互動式 session 則照上面「進版 / 部署」那節,push 後直接跑 `bash deploy.sh` 即時上線)。
 
 **最高鐵則:全自動不准讓任一篇品質下降。**
@@ -53,7 +53,7 @@
 **輸出:**
 1. 兩個檔到 `site/lens/`:`{slug}.php`(頁面,slug = 英文書名 kebab-case)+ `_content/{slug}.html`(正文)。
 2. 文末頁尾由 `partials/reading.php` 自動合成,別自己組;`.php` 的 funnel 只寫 title + 一句不提買書的 body、不設 ghost、prev/next 設 null。
-3. **在 `site/lens/_articles.php` 最上面加一筆**(slug/kicker/title/blurb/category/date,最新在前)——列表頁與 sitemap 都讀這份自動長。`category` 寫「主／次」,主分類一律從受控清單挑(策略/創新/行銷/管理/領導/行為/創業/理財/生產力/敘事/其他),別亂開新詞。
+3. **新建一個碎片檔 `site/lens/_articles.d/{slug}.php`**(只 `return` 該篇一筆:slug/kicker/title/blurb/category/date,kicker 固定「拆解《書名》」;最新自動排在前)——列表頁與 sitemap 由 `_articles.php`(已是 loader)讀 base + 所有碎片自動長。**絕不要編輯 `_articles.php`(loader)或 `_articles-base.php`(凍結的歷史 208 筆)——那會讓兩個帳號平行寫書撞同一檔、掉書。** `category` 寫「主／次」,主分類一律從受控清單挑(策略/創新/行銷/管理/領導/行為/創業/理財/生產力/敘事/其他),別亂開新詞。
 4. **內鏈硬上限**:整篇最多 1 個 `/tool`(能 0 就 0、結尾段不放、行為/理財/生產力/領導/敘事/管理那類「改變你自己」的書預設 0)、最多 1 個 `/book`(多數篇 0);絕不把整句做成連結、同段不並排 /tool 與 /book。
 5. 書況一律「電子書已上市」,絕不寫即將上市/實體書/留 email 通知。
 

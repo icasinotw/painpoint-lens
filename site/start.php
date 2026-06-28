@@ -65,6 +65,11 @@ require __DIR__ . '/partials/header.php';
       <h3>痛點之尺・拆書</h3>
       <p>想看這把尺實際怎麼用?挑幾篇,看它怎麼一格一格拆你聽過的經典商業書。</p>
     </a>
+    <a class="read-item" href="/ask">
+      <span class="ri-kicker">拆處境</span>
+      <h3>痛點之尺・拆問題</h3>
+      <p>同一把尺,這次不拆書,拆你正卡著的處境——「該不該做」「該不該停」,一篇帶你做一次動手前的判斷。</p>
+    </a>
     <a class="read-item" href="/read">
       <span class="ri-kicker">讀整套</span>
       <h3>免費試讀</h3>

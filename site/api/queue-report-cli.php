@@ -11,7 +11,7 @@
  *   所以把「推進隊列的回報」也改走 SSH:runner ssh 進主機跑這支,完全避開 HTTP 415。
  *
  * 用法(由工作流 ssh 呼叫):
- *   php applications/<app>/public_html/api/queue-report-cli.php <success|failure> <kind> <book_base64>
+ *   php applications/<app>/public_html/api/queue-report-cli.php <success|failure> <kind> <book_base64> [lane]
  *   - book 用 base64 傳,避開書名含空白/冒號/引號時的 shell 跳脫問題。
  *   - q_report 已冪等(只認 book==current 才動作)→ 重複/過期呼叫 0 風險。
  *
@@ -29,6 +29,7 @@ require_once __DIR__ . '/tg-queue-lib.php';
 $status = (($argv[1] ?? '') === 'success') ? 'success' : 'failure';
 $kind   = ($argv[2] ?? '') === 'engine' ? 'engine' : 'quality';   // 預設 quality(不誤暫停)
 $book   = isset($argv[3]) ? (string)base64_decode((string)$argv[3], true) : '';
+$lane   = isset($argv[4]) ? (string)$argv[4] : '';                 // 哪個帳號跑的(精準釋放對的 slot;沒帶也能只靠 book 找)
 
-$r = q_report($status, $kind, $book);
-echo json_encode(['ok' => true, 'status' => $status, 'kind' => $kind, 'book' => $book] + $r, JSON_UNESCAPED_UNICODE) . "\n";
+$r = q_report($status, $kind, $book, $lane);
+echo json_encode(['ok' => true, 'status' => $status, 'kind' => $kind, 'book' => $book, 'lane' => $lane] + $r, JSON_UNESCAPED_UNICODE) . "\n";

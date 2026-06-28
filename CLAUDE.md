@@ -20,7 +20,7 @@
 
 1. **喵喵書評寫到定稿** —— 照 [`skills/meowbooks-book-review/SKILL.md`](skills/meowbooks-book-review/SKILL.md):P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉(實跑工具)。
 2. **自動轉成 painpoint 拆書** —— 照 [`skills/painpoint-lens/SKILL.md`](skills/painpoint-lens/SKILL.md):先做適配檢查(A/B/C 模式),輸出兩檔 + 建 `site/lens/_articles.d/{slug}.php` 碎片,實跑 `fix-punctuation.py` / `count-contrast.py` / `count-cta.py` / `count-title.py` / `php -l` / 本機 render。
-3. **commit + push** —— 只 `git add` 相關檔(絕不 `git add -A`),繁中 commit 訊息 + `Co-Authored-By: Claude` trailer;`git pull --rebase` 後 `git push origin main`。部署由 CI 後續步驟自動接手(**雲端 CI runner 沒有山姆的 SSH 金鑰,故這條雲端鏈不跑 deploy.sh / rsync / ssh**;本機互動式 session 則照上面「進版 / 部署」那節,push 後直接跑 `bash deploy.sh` 即時上線)。
+3. **commit(雲端鏈自己不 push)** —— 只 `git add` 相關檔(絕不 `git add -A`),繁中 commit 訊息 + `Co-Authored-By: Claude` trailer;**commit 完就停、不要 push、不要 `git pull --rebase`**。push 由 CI 步驟在機械閘門全過「之後」才做 rebase-retry(壞稿永不進 main、雙帳號平行寫也不互撞、第三方 recommend 同推也收斂);部署同樣由 CI 後續步驟自動接手(**雲端 CI runner 沒有山姆的 SSH 金鑰,故這條雲端鏈不跑 deploy.sh / rsync / ssh**;本機互動式 session 則照上面「進版 / 部署」那節,push 後直接跑 `bash deploy.sh` 即時上線)。
 
 **最高鐵則:全自動不准讓任一篇品質下降。**
 - 當兩道各自全神貫注的 pass 寫:書評收乾淨,才開始寫拆書。

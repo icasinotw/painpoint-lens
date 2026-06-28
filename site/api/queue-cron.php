@@ -49,7 +49,8 @@ if ($r['resumed']) {
 
 $w = q_watchdog();
 if ($w['acted']) {
-    echo "[$ts] watchdog: 《{$w['stuck']}》卡死已接手" . ($w['dispatched'] ? "、派發《{$w['dispatched']}》" : "(隊列空)") . "\n";
+    $stuck = implode('、', array_map(function ($b) { return "《{$b}》"; }, (array)$w['stuck']));
+    echo "[$ts] watchdog: {$stuck} 卡死已接手" . ($w['dispatched'] ? "、派發《{$w['dispatched']}》" : "(無或所有 lane 仍忙)") . "\n";
 }
 
 if (!$r['resumed'] && !$w['acted']) {

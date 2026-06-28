@@ -21,11 +21,16 @@ on:
         description: '書名(不用加《》,例:原子習慣)'
         required: true
         type: string
-  repository_dispatch:        # 之後 Telegram → Cloudflare Worker 用這個觸發(帶 client_payload.book_name)
+      lane:
+        description: '帳號 lane(a=預設;b=用第二個 Claude 帳號 secret CLAUDE_CODE_OAUTH_TOKEN_B)'
+        required: false
+        default: 'a'
+        type: string
+  repository_dispatch:        # Telegram 隊列用這個觸發(帶 client_payload.book_name / author / lane)
     types: [write-review]
 
-concurrency:                  # 一次只跑一篇,避免兩個觸發同時 push main 撞車
-  group: write-review
+concurrency:                  # 同一個 lane 一次只跑一篇(避免同帳號自撞);a、b 不同 group → 兩個帳號可平行各跑一篇。
+  group: write-review-${{ github.event.client_payload.lane || inputs.lane || 'a' }}
   cancel-in-progress: false
 
 jobs:
@@ -54,11 +59,14 @@ jobs:
           IN_BOOK_INPUT: ${{ inputs.book_name }}
           IN_BOOK_DISPATCH: ${{ github.event.client_payload.book_name }}
           IN_AUTHOR: ${{ github.event.client_payload.author }}
+          IN_LANE: ${{ github.event.client_payload.lane || inputs.lane || 'a' }}
         run: |
           BOOK="${IN_BOOK_INPUT:-$IN_BOOK_DISPATCH}"
           if [ -z "$BOOK" ]; then echo "::error::沒有收到書名"; exit 1; fi
+          LANE="$IN_LANE"; [ "$LANE" = "b" ] || LANE="a"   # 只認 a / b,其餘一律當 a
           {
             echo "BOOK_NAME=$BOOK"
+            echo "LANE=$LANE"
             if [ -n "$IN_AUTHOR" ]; then
               echo "AUTHOR_NOTE=(作者:$IN_AUTHOR — 用作者確認是哪一本/哪個版本、別寫錯書)"
             else
@@ -66,6 +74,7 @@ jobs:
             fi
           } >> "$GITHUB_ENV"
           mkdir -p .ci
+          echo "本次 lane = $LANE"
 
       - name: 設定 git 身分(Claude commit 用)
         run: |
@@ -105,7 +114,7 @@ jobs:
             echo "線上不是 200(或撞 415)→ 照常開寫,不冒『把沒上線的書當成已上線』的險。"
           fi
 
-      - name: 寫書評 + 轉拆書 + commit/push(Claude,跑你的訂閱)
+      - name: 寫書評 + 轉拆書 + commit(Claude,跑你的訂閱;不 push,push 交給閘門後的 CI)
         if: env.ALREADY_LIVE != '1'
         id: claude          # 給隊列接力步驟判斷:失敗是「引擎自己掛(usage/API)」還是下游品質/收尾
         uses: anthropics/claude-code-action@v1
@@ -113,7 +122,8 @@ jobs:
           CLAUDE_CODE_EFFORT_LEVEL: xhigh   # 推理力度 Extra(xhigh,山姆選定:長文寫作甜蜜點);沒生效會退回預設 high、不會弄壞流程
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # token 依 lane 選:lane b 用第二個 Claude 帳號;沒設 CLAUDE_CODE_OAUTH_TOKEN_B 時退回 A(過渡期安全)。
+          claude_code_oauth_token: ${{ env.LANE == 'b' && secrets.CLAUDE_CODE_OAUTH_TOKEN_B || secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             請撰寫《${{ env.BOOK_NAME }}》${{ env.AUTHOR_NOTE }}書評。
 
@@ -123,11 +133,11 @@ jobs:
                ① 喵喵書評寫到定稿 —— P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉:實跑 `python3 tools/fix-punctuation.py` 全形化、實跑 `python3 tools/count-contrast.py` 把反差句砍到 ≤2、結尾非反差骨架、無撞句指紋。
                ② 自動轉 painpoint 拆書 —— 先做適配檢查(A/B/C 模式),輸出 site/lens/{slug}.php + site/lens/_content/{slug}.html,並**新建一個碎片檔 site/lens/_articles.d/{slug}.php**(只 `return` 該篇一筆陣列:slug/kicker/title/blurb/category/date;kicker 固定「拆解《書名》」)。**絕對不要編輯 site/lens/_articles.php(它已是 loader)或 site/lens/_articles-base.php(凍結的歷史段)——那會讓平行寫書撞同一檔。** 列表頁與 sitemap 由 loader 讀 base + 所有碎片自動長、最新自動排前。實跑 `python3 tools/fix-punctuation.py` + `python3 tools/count-contrast.py` + `php -l` + 本機 render 自測 /lens/{slug}。拆書必須是換角度重組的獨家文,不照搬書評原句。
 
-            2) 這個環境「沒有」deploy.sh,你也「不要」執行任何部署 / rsync / ssh —— 部署交給後面的 CI 步驟自動接手。你只要:兩篇寫好自審過 → `git add` 相關檔(site/lens 下的 {slug}.php、_content/{slug}.html、_articles.d/{slug}.php,以及書評若真的有改到的檔;**絕不要 add _articles.php 或 _articles-base.php**;絕不 `git add -A`、絕不 add 無關檔)→ `git commit`(繁中訊息講清楚動了什麼 + 結尾 Co-Authored-By: Claude trailer)→ `git pull --rebase origin main` → `git push origin main`。
+            2) 這個環境「沒有」deploy.sh,你也「不要」執行任何部署 / rsync / ssh。**也不要 push、不要 `git pull --rebase`** —— 推送到 main 交給後面的 CI 步驟(它會在機械閘門全過之後,才做 rebase-retry push;壞稿不進 main、平行寫也不互撞)。你只要:兩篇寫好自審過 → `git add` 相關檔(site/lens 下的 {slug}.php、_content/{slug}.html、_articles.d/{slug}.php,以及書評若真的有改到的檔;**絕不要 add _articles.php 或 _articles-base.php**;絕不 `git add -A`、絕不 add 無關檔)→ `git commit`(繁中訊息講清楚動了什麼 + 結尾 Co-Authored-By: Claude trailer)。**commit 完就停,不要 push。**
 
             3) 收尾兩個檔給 CI 接力(這兩個「不要」git add):把這次拆書的 slug(英文書名 kebab-case、單獨一行,例 atomic-habits)寫進 `.ci/slug.txt`;把「喵喵書評定稿全文」寫進 `.ci/review.txt`(山姆要貼 meowbooks 用)。
 
-            喵喵書評正文不必貼回對話。你在雲端的交付物 = 已 commit/push 的 painpoint 拆書 + .ci/ 兩個檔。
+            喵喵書評正文不必貼回對話。你在雲端的交付物 = 已 commit(未 push)的 painpoint 拆書 + .ci/ 兩個檔。
           show_full_output: true   # 除錯期間打開:看得到 Claude 實際在做什麼;穩定後可刪
           claude_args: |
             --max-turns 60
@@ -191,6 +201,32 @@ jobs:
             echo "::error::render /lens/$SLUG 失敗"; cat /tmp/php.log; exit 1
           fi
           echo "render OK:$(wc -c </tmp/page.html) bytes"
+
+      - name: 推送到 main(rebase-retry;三道閘門都過才推)
+        if: env.ALREADY_LIVE != '1'
+        run: |
+          # Claude 已在本機 commit(沒 push)。閘門全過,才在這裡 deterministic 地 rebase + push:
+          #   - 壞稿(任一閘門沒過)→ 上面早就 exit,根本不會到這步 → 壞 commit 永不進 main。
+          #   - 平行 lane / recommend-books 同時推 → 碎片化後各篇檔 disjoint,rebase 乾淨;被搶先就重抓重試。
+          #   - 真衝突(極罕見,例如撞同一個 slug)→ 放棄、回報 quality 讓隊列跳過這本,不無限重試。
+          if [ "$(git rev-parse HEAD)" = "$BEFORE_SHA" ]; then
+            echo "::error::Claude 沒有產生新 commit(HEAD 沒前進)→ 沒東西可推,當品質失敗處理"; exit 1
+          fi
+          ok=0
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main || { echo "::warning::fetch 第 $attempt 次失敗,重試…"; sleep 3; continue; }
+            if git rebase origin/main; then
+              if git push origin main; then ok=1; break; fi
+              echo "::warning::push 第 $attempt 次被搶先(non-fast-forward),重抓重試…"
+              sleep 3
+            else
+              git rebase --abort || true
+              echo "::error::rebase 衝突(可能與其他 lane 撞同一個 slug/檔)→ 放棄推送,回報 quality 讓隊列跳過"
+              exit 1
+            fi
+          done
+          [ "$ok" = 1 ] || { echo "::error::連續 5 次都被搶先 push,放棄(回報 quality,稍後隊列會重試這本)"; exit 1; }
+          echo "✅ 已推送到 main:$(git rev-parse --short HEAD)"
 
       - name: 部署到 Cloudways(三道閘門都過才跑)
         if: env.ALREADY_LIVE != '1'
@@ -296,7 +332,7 @@ jobs:
             for attempt in 1 2 3; do
               if out=$(ssh -p 22 -i ~/.ssh/report_key -o IdentitiesOnly=yes -o BatchMode=yes \
                          -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30 "$SSH_HOST" \
-                         "php ${REMOTE_PATH}api/queue-report-cli.php '$STATUS' '$KIND' '$BOOK_B64'" 2>&1); then
+                         "php ${REMOTE_PATH}api/queue-report-cli.php '$STATUS' '$KIND' '$BOOK_B64' '${LANE:-a}'" 2>&1); then
                 echo "SSH 回報成功(第 $attempt 次):$out"; ok=1; break
               fi
               echo "::warning::SSH 回報第 $attempt 次失敗($out),5 秒後重試…"; sleep 5
@@ -308,6 +344,7 @@ jobs:
           if [ "$ok" != 1 ] && [ -n "$TG_QUEUE_SECRET" ]; then
             echo "SSH 沒成功,改走 HTTP 後備…"
             Q="action=report&status=$STATUS"; [ -n "$KIND" ] && Q="$Q&kind=$KIND"
+            Q="$Q&lane=${LANE:-a}"
             for attempt in $(seq 1 12); do
               code=$(curl -sS -G -o /dev/null -w '%{http_code}' --max-time 20 \
                 --data-urlencode "book=${BOOK_NAME}" \

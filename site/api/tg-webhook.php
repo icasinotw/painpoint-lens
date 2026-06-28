@@ -38,8 +38,9 @@ if ($cmd === '/queue') {
     if ($s['paused']) {
         $line = "⏸️ 暫停中(疑似用量用完)。還有 " . count($books) . " 本等著,用量回來會自動續,或打 /resume 立刻試。";
     } elseif ($s['running']) {
-        $now = $s['current'] ? "《" . q_item_book($s['current']) . "》" : "1 本";
-        $line = "正在寫 {$now},後面排隊 " . count($books) . " 本。";
+        $now = implode('、', array_map(function ($b) { return "《{$b}》"; }, $s['running_books']));
+        $cnt = $s['running_count'];
+        $line = ($cnt > 1 ? "同時在寫 {$cnt} 本:{$now}" : "正在寫 {$now}") . ",後面排隊 " . count($books) . " 本。";
     } else {
         $line = "隊列是空的,沒有在跑。";
     }

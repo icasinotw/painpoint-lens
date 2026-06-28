@@ -25,7 +25,8 @@ if ($action === 'report') {
     $status = ($_GET['status'] ?? 'success') === 'success' ? 'success' : 'failure';
     $kind   = ($_GET['kind'] ?? '') === 'engine' ? 'engine' : 'quality';   // 預設 quality(沒帶 kind 的舊呼叫也不會誤暫停)
     $book   = isset($_GET['book']) ? (string)$_GET['book'] : '';            // 冪等鑰匙:這通回報是哪一本(可放心狂重試)
-    $r = q_report($status, $kind, $book);
+    $lane   = isset($_GET['lane']) ? (string)$_GET['lane'] : '';            // 哪個帳號跑的(精準定位 slot;沒帶也能只靠 book 找)
+    $r = q_report($status, $kind, $book, $lane);
     echo json_encode(['ok' => true] + $r, JSON_UNESCAPED_UNICODE);
 } elseif ($action === 'done') {                 // 舊別名:當成功處理
     $r = q_report('success');
@@ -49,6 +50,11 @@ if ($action === 'report') {
         'running' => $s['running'],
         'paused'  => $s['paused'],
         'current' => $s['current'] ? q_item_book($s['current']) : null,
+        // 多槽可視化:目前在跑哪幾本、各跑在哪個帳號、啟用了哪些 lane
+        'running_count' => $s['running_count'],
+        'running_books' => $s['running_books'],
+        'slots'   => array_map(function ($x) { return ['book' => q_item_book($x), 'lane' => ($x['lane'] ?? 'a')]; }, $s['slots']),
+        'lanes'   => TG_LANES,
         'pending' => count($s['queue']),
         'queue'   => q_book_list($s['queue']),
         // 主機端 cron 健康度:cron_last_run 應該每 5 分鐘更新一次;cron_sapi 應為 cli

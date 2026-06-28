@@ -108,15 +108,36 @@ jobs:
             「書名」，作者 :「作者名字」
             規則:書名用「」夾、作者名也用「」夾、中間是全形逗號;作者給中文譯名(必要時中英對照,如「John Doerr 約翰・杜爾」)。不要表格、不要原書名/出版社欄、不要任何開場白或結尾客套,第一行就是第一本書。
 
-            ## 第五步:commit + push
-            只 `git add data/recommended-books.md`(【不要】git add .ci/、不要 git add -A)→ `git commit`(繁中訊息講清楚加了哪一批幾本 + 結尾 Co-Authored-By: Claude trailer)→ `git pull --rebase origin main` → `git push origin main`。
+            ## 第五步:commit(不 push)
+            只 `git add data/recommended-books.md`(【不要】git add .ci/、不要 git add -A)→ `git commit`(繁中訊息講清楚加了哪一批幾本 + 結尾 Co-Authored-By: Claude trailer)。**commit 完就停,不要 push、不要 `git pull --rebase`** —— push 交給後面的 CI 步驟(rebase-retry;和寫書工作流同時推也不互撞)。
 
-            完成。你的交付物 = 已 append 並 push 的帳本 + .ci/recommend.txt(那份清單會由後面的步驟傳回 Telegram)。
+            完成。你的交付物 = 已 commit(未 push)的帳本 + .ci/recommend.txt(那份清單會由後面的步驟傳回 Telegram)。
           show_full_output: true
           claude_args: |
             --max-turns 40
             --model claude-opus-4-8
             --allowedTools "Bash,Edit,Write,Read,Glob,Grep,WebSearch,WebFetch"
+
+      - name: 推送帳本到 main(rebase-retry;與寫書工作流同時推也不互撞)
+        run: |
+          # Claude 已 commit(沒 push)。帳本只動 data/recommended-books.md,與 /lens 碎片 disjoint → rebase 必乾淨。
+          git fetch origin main || true
+          if [ -z "$(git log origin/main..HEAD --oneline 2>/dev/null)" ]; then
+            echo "沒有新 commit 要推(這次可能沒挑成書);略過。"; exit 0
+          fi
+          ok=0
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main || { echo "::warning::fetch 第 $attempt 次失敗,重試…"; sleep 3; continue; }
+            if git rebase origin/main; then
+              if git push origin main; then ok=1; break; fi
+              echo "::warning::push 第 $attempt 次被搶先(non-fast-forward),重抓重試…"; sleep 3
+            else
+              git rebase --abort || true
+              echo "::error::帳本 rebase 衝突(罕見)→ 放棄推送"; exit 1
+            fi
+          done
+          [ "$ok" = 1 ] || { echo "::error::連續 5 次被搶先 push,放棄(稍後可重跑)"; exit 1; }
+          echo "✅ 帳本已推送:$(git rev-parse --short HEAD)"
 
       - name: 把清單回傳 Telegram
         if: always()

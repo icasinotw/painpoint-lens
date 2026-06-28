@@ -21,6 +21,7 @@ require __DIR__ . '/partials/header.php';
       <a class="btn btn-primary btn-lg" href="/tool">免費體檢我的點子 →</a>
       <a class="btn btn-ghost btn-lg" href="/read">先讀一章免費試讀</a>
     </div>
+    <p class="center" style="margin-top:14px"><a class="hero-start" href="/start">第一次來?三十秒,我幫你指路 →</a></p>
     <p class="honest">作者是一個還在賠錢的創業者。四年,近五百萬,換來這四個問題——<b>先免費送你。</b></p>
   </section>
 

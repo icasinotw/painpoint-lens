@@ -135,6 +135,10 @@ h3{font-size:1.2rem;margin:0 0 .4em}
 .hero .sub{font-size:1.12rem;color:var(--ink-soft);max-width:42ch;margin:0 auto 32px}
 .hero .honest{font-size:.95rem;color:var(--grey);margin-top:26px}
 .hero .honest b{color:var(--crimson);font-weight:700}
+/* 首頁 hero 的新手指路連結:清楚可點,但不搶主 CTA */
+.hero-start{font-family:var(--font-sans);font-weight:700;font-size:1rem;
+  color:var(--gold-ink);border-bottom:2px solid var(--gold-soft);padding-bottom:2px}
+.hero-start:hover{text-decoration:none;border-bottom-color:var(--gold)}
 /* 首頁「這也是一本書」showcase:沿用 /book 的 .book-cta 版型 */
 .home-book{padding-block:10px 36px}
 .home-book .book-cover{transition:transform .15s ease}

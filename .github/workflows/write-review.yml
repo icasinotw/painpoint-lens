@@ -170,6 +170,12 @@ jobs:
           python3 tools/count-cta.py "site/lens/_content/$SLUG.html" || {
             echo "::error::CTA 閘門未過 → 擋下部署(內文導購過量,違反 CTA 北極星:拆書是內容價值、不是導購;見 painpoint-lens skill〈內部連結與導流〉)"; exit 1; }
 
+      - name: 閘門 2.7 — 標題長度(count-title,超長或塞兩段就不部署)
+        if: env.ALREADY_LIVE != '1'
+        run: |
+          python3 tools/count-title.py "$SLUG" || {
+            echo "::error::標題閘門未過 → 擋下部署(卡片 title／heading／<h1> 任一 >32 字或含全形分號「；」;防 2026-06-28 長標漂移重演,見 painpoint-lens skill〈標題〉)"; exit 1; }
+
       - name: 閘門 3 — 本機 render 測 /lens/{slug}
         if: env.ALREADY_LIVE != '1'
         run: |

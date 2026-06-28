@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《永不放棄》',
-  'heading'   => '一張八台奶昔機的訂單，逼克洛克去看了麥當勞；你那個點子，還沒人下過一張單',
+  'heading'   => '你那個點子，還沒人下過一張單',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/grinding-it-out.html',

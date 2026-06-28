@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《精準訂價》',
-  'heading'   => '西蒙把顧客肯付的價格量到分毫不差，你那個點子，還沒有一個陌生人肯為它付過第一塊錢',
+  'heading'   => '還沒一個陌生人，為它付過第一塊錢',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/confessions-of-the-pricing-man.html',

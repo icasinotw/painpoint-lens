@@ -14,5 +14,9 @@
 *.swp
 *~
 
+# Python 工具快取(tools/*.py 執行時產生)
+__pycache__/
+*.pyc
+
 # build 產物(若有)
 /build/

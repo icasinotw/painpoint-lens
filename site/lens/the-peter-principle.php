@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《彼得原理》',
-  'heading'   => '每個人都升到自己做不好的那一格',
+  'heading'   => '你拿上一格的成績單，賭一個全新的市場',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/the-peter-principle.html',

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《矽谷最夯・產品專案管理全書》',
-  'heading'   => '凱根跟你站同一邊——先確認有沒有人要，只是他那套驗法，預設你早就有人可問',
+  'heading'   => '他那套驗法，預設你早就有人可問',
   'published' => '2026-06-26',
   'updated'   => '2026-06-26',
   'content'   => __DIR__ . '/_content/inspired.html',

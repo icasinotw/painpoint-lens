@@ -9,7 +9,7 @@
 
 **「沒問題」= 動到什麼就真的驗什麼、全過,才准 push:**
 - 動到 `.php` → `php -l` 該檔(或全 site)無誤 + 本機 `php -S localhost:<port> site/router.php` render 受影響路由無壞。
-- 動到 `/lens` 或 `/ask` 正文(`_content/*.html`)→ 額外實跑 `tools/fix-punctuation.py`、`tools/count-contrast.py`、`tools/count-cta.py`,全部過。
+- 動到 `/lens` 或 `/ask` 正文(`_content/*.html`)→ 額外實跑 `tools/fix-punctuation.py`、`tools/count-contrast.py`、`tools/count-cta.py`,全部過(/lens 拆書再跑 `tools/count-title.py {slug}` 驗標題 ≤32 字、無「；」)。
 - **任一閘門沒過 → 停下、不准 push,先修到過或回報山姆**(凌駕本授權,等同觸發鏈最高鐵則)。
 
 **進版規矩(照舊):** 只 `git add` 相關檔(絕不 `git add -A`,別把 `.claude/`、`AGENTS.md`、`docs/` 等無關檔掃進去)、繁中 commit 訊息 + `Co-Authored-By: Claude` trailer、`git pull --rebase origin main` 後 `git push origin main`。push 後跑 `bash deploy.sh` 即時部署,完成後回報 commit hash 與「已即時上線」(必要時順手 curl `https://painpoint.tw/…` 驗一眼)。
@@ -19,7 +19,7 @@
 一句「請撰寫《X》書評」進來 → 一路跑到底,中途不分段問:
 
 1. **喵喵書評寫到定稿** —— 照 [`skills/meowbooks-book-review/SKILL.md`](skills/meowbooks-book-review/SKILL.md):P.A.I.N. 審書尺、聲音 DNA、反 AI 味清單、〈定稿三查〉(實跑工具)。
-2. **自動轉成 painpoint 拆書** —— 照 [`skills/painpoint-lens/SKILL.md`](skills/painpoint-lens/SKILL.md):先做適配檢查(A/B/C 模式),輸出兩檔 + 補 `site/lens/_articles.php`,實跑 `fix-punctuation.py` / `count-contrast.py` / `count-cta.py` / `php -l` / 本機 render。
+2. **自動轉成 painpoint 拆書** —— 照 [`skills/painpoint-lens/SKILL.md`](skills/painpoint-lens/SKILL.md):先做適配檢查(A/B/C 模式),輸出兩檔 + 補 `site/lens/_articles.php`,實跑 `fix-punctuation.py` / `count-contrast.py` / `count-cta.py` / `count-title.py` / `php -l` / 本機 render。
 3. **commit + push** —— 只 `git add` 相關檔(絕不 `git add -A`),繁中 commit 訊息 + `Co-Authored-By: Claude` trailer;`git pull --rebase` 後 `git push origin main`。部署由 CI 後續步驟自動接手(**雲端 CI runner 沒有山姆的 SSH 金鑰,故這條雲端鏈不跑 deploy.sh / rsync / ssh**;本機互動式 session 則照上面「進版 / 部署」那節,push 後直接跑 `bash deploy.sh` 即時上線)。
 
 **最高鐵則:全自動不准讓任一篇品質下降。**
@@ -66,6 +66,7 @@
 - `python3 tools/fix-punctuation.py` —— 正文全形化(剪貼簿:`pbpaste | python3 tools/fix-punctuation.py | pbcopy`)。
 - `python3 tools/count-contrast.py site/lens/_content/{slug}.html` —— 反差句/結尾/撞句閘門,沒過不部署。
 - `python3 tools/count-cta.py site/lens/_content/{slug}.html` —— /tool、/book 各 ≤1、結尾不導工具,過量不部署。
+- `python3 tools/count-title.py {slug}`(或 `--all` 全站稽核)—— 標題長度閘門:卡片 `title`／`heading`／`<h1>` 三處同一句、各 ≤32 字、不准含全形分號「；」,超長或塞兩段不部署(防 2026-06-28 那批「作者說 X;你的盲點 Y」整段壓進標題、最長 125 字的漂移重演)。
 - `php -l`(全 site)+ 本機 `php -S localhost:8080 site/router.php` render 測 `/lens/{slug}`。
 
 ## 規則:推薦商業書(recommend-books 工作流用)

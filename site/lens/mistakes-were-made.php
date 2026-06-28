@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《錯不在我？》',
-  'heading'   => '你抱著點子站上金字塔頂，每替它辯護一次，就往「絕不會錯」的牆角滑下一階',
+  'heading'   => '每替它辯護一次，你就更不敢認它錯',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/mistakes-were-made.html',

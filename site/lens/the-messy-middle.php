@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《混亂的中程》',
-  'heading'   => '他遞給你一盞燈，陪你走過那段最黑的中場；但沒人提醒你，有些隧道根本沒有出口',
+  'heading'   => '有些隧道，你埋頭走完才發現沒有出口',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/the-messy-middle.html',

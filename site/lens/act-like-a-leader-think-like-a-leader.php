@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《破框能力》',
-  'heading'   => '伊貝拉要你做了才認識自己，你卻把那個點子在腦裡想了兩年，沒做給一個陌生人看',
+  'heading'   => '那個點子你想了兩年，沒做給一個陌生人看',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/act-like-a-leader-think-like-a-leader.html',

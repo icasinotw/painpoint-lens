@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《跨能致勝》',
-  'heading'   => '火追上來時，他們手裡還抓著那把鋸子——你那把放不下的，叫「我這個點子」',
+  'heading'   => '你那把放不下的鋸子，叫「我這個點子」',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/range.html',

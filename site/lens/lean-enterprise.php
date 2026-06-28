@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《精實企業》',
-  'heading'   => '你拿一張替「已經會賺的生意」設計的計分板，在替一個還沒人要的點子打分',
+  'heading'   => '你拿賺錢生意的計分板，替沒人要的點子打分',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/lean-enterprise.html',

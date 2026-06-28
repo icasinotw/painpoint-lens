@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《區塊鏈革命》',
-  'heading'   => '泰普史考特把那把鎖打磨到撬不開，十年過去，大半的門後面根本沒人在怕小偷',
+  'heading'   => '鎖打磨到撬不開，門後根本沒人在怕小偷',
   'published' => '2026-06-27',
   'updated'   => '2026-06-27',
   'content'   => __DIR__ . '/_content/blockchain-revolution.html',

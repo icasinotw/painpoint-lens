@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《第四次工業革命》',
-  'heading'   => '施瓦布整本書都在喊：這場革命會變成什麼樣，是人一個一個選出來的；你卻把它讀成了「技術翻新到這一步，就有人要我那個點子」',
+  'heading'   => '你把它讀成了「技術到位，就有人要我點子」',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-fourth-industrial-revolution.html',

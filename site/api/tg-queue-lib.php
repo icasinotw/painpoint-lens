@@ -25,8 +25,16 @@
  */
 require_once __DIR__ . '/config-tg.php';   // $TG_BOT_TOKEN, $TG_ALLOWED_CHAT_ID, $TG_WEBHOOK_SECRET, $GH_DISPATCH_PAT, $TG_QUEUE_SECRET[, define('TG_LANES', [...])]
 
-// 啟用的 lane(= 同時可跑幾個帳號)。config-tg.php 可先 define 覆蓋;否則預設只用 lane a。
-if (!defined('TG_LANES')) define('TG_LANES', ['a']);
+// 啟用的 lane(= 同時可跑幾個帳號)。解析順序:
+//   ① 若已 define(測試或 config-tg.php 覆蓋)→ 用它;
+//   ② 否則讀可部署的開關檔 site/api/active-lanes.php(return ['a'] 或 ['a','b']);
+//   ③ 都沒有 → 預設只用 lane a(= 與單帳號時代完全一致)。
+// 這樣「開第二個帳號」只要改 active-lanes.php(push + 部署即生效)+ 在 GitHub 加 token secret,不必動主機機密檔。
+if (!defined('TG_LANES')) {
+    $_lf = __DIR__ . '/active-lanes.php';
+    $_lanes = is_file($_lf) ? @include $_lf : null;
+    define('TG_LANES', (is_array($_lanes) && $_lanes) ? array_values($_lanes) : ['a']);
+}
 
 const TG_STALE_SECS    = 1800;   // 30 分沒回報視為卡死 → 看門狗接手。實測每本 14~21 分,30 分留足餘裕又救得快;
                                  // 回報已改冪等後,看門狗就算誤判(某本真的還在跑),那本之後的回報會被冪等忽略、絕不掉書、不重複,

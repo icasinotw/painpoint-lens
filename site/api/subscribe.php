@@ -55,6 +55,11 @@ if ($source === 'fieldkit' || $source === 'eye') {
   $tagId = esp_tag_id_for_name($source === 'eye' ? '七天練眼-下載' : '出門找痛-下載');
   if ($tagId) esp_push($email, [], $tagId);
   send_download_link($email, $source, $cfg);
+} elseif ($source === 'slides') {
+  // 私密簡報下載頁(/slides):貼專屬下載標籤 + 用 Resend 寄「3 份下載連結」,不寄體檢報告。
+  $tagId = esp_tag_id_for_name('簡報-下載');
+  if ($tagId) esp_push($email, [], $tagId);
+  send_slides_link($email, $cfg);
 } elseif ($source === 'lens-newsletter') {
   // 從 /lens 拆書文末「訂閱拆書電子報」來的人:只貼標籤、不寄體檢報告(他沒做體檢、沒有 $scores)。
   // 歡迎信與每週電子報交給 Kit(群發)處理。
@@ -198,6 +203,50 @@ function send_download_link($email, $source, $cfg) {
   $subject = "你的《{$title}》下載連結";
   $from = $cfg['from_name'] ? ($cfg['from_name'] . ' <' . $cfg['from_email'] . '>') : $cfg['from_email'];
   resend_send($cfg['resend_api_key'], $from, $email, $subject, $h, $text);
+}
+
+/** 寄「《痛點》簡報 + P.A.I.N. 隨身卡」3 份下載連結(/slides 頁)。經 Resend;沒設定就略過、不阻斷。 */
+function send_slides_link($email, $cfg) {
+  if (empty($cfg['resend_api_key']) || empty($cfg['from_email'])) return;
+  $site = require __DIR__ . '/../config.php';
+  $url  = rtrim($site['site_url'], '/');
+  $esc  = function ($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); };
+
+  // [下載網址, 顯示名稱]
+  $files = [
+    [$url . '/assets/dl/painpoint-deck.pdf?v=1',             '《痛點》簡報全文'],
+    [$url . '/assets/dl/painpoint-pain-card.pdf?v=1',        'P.A.I.N. 隨身卡・列印版'],
+    [$url . '/assets/dl/painpoint-pain-card-mobile.pdf?v=1', 'P.A.I.N. 隨身卡・手機版'],
+  ];
+  $intro = '這是你的下載包:《痛點》簡報,加上那張 P.A.I.N. 隨身卡(列印版＋手機版)。卡片印一張帶在身邊,動手前先把四個問題問過一遍。';
+
+  // ---- 純文字版(備援) ----
+  $lines = ['《痛點》簡報與 P.A.I.N. 隨身卡 — 你的下載連結', '', $intro, ''];
+  foreach ($files as $f) { $lines[] = $f[1] . ':' . $f[0]; }
+  $lines[] = '(若連結沒反應,複製貼到瀏覽器即可)';
+  $lines[] = '';
+  $lines[] = '──';
+  $lines[] = '想把卡片上的四個問題拿來量一個點子,做一次免費點子體檢:' . $url . '/tool';
+  $lines[] = '想讀整套方法(免費試讀):' . $url . '/read';
+  $lines[] = '';
+  $lines[] = '—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者';
+  $text = implode("\n", $lines);
+
+  // ---- HTML 版 ----
+  $h  = '<div style="font-family:-apple-system,BlinkMacSystemFont,\'Noto Sans TC\',sans-serif;color:#1a1a1a;line-height:1.75;font-size:15px;max-width:560px;margin:0;text-align:left">';
+  $h .= '<p style="margin:0 0 16px;font-size:17px"><b>《痛點》簡報與 P.A.I.N. 隨身卡 — 你的下載連結</b></p>';
+  $h .= '<p style="margin:0 0 22px;color:#3a3733">' . $esc($intro) . '</p>';
+  foreach ($files as $f) {
+    $h .= '<p style="margin:0 0 12px"><a href="' . $esc($f[0]) . '" style="display:inline-block;background:#b59410;color:#fff;text-decoration:none;font-weight:700;padding:11px 20px;border-radius:8px">↓ ' . $esc($f[1]) . '</a></p>';
+  }
+  $h .= '<hr style="border:0;border-top:1px solid #e3ddd1;margin:18px 0 18px">';
+  $h .= '<p style="margin:0 0 4px"><a href="' . $esc($url) . '/tool" style="color:#b59410">把四個問題拿來量一個點子(免費點子體檢)→</a></p>';
+  $h .= '<p style="margin:0 0 18px"><a href="' . $esc($url) . '/read" style="color:#b59410">讀整套方法(免費試讀)→</a></p>';
+  $h .= '<p style="margin:0;color:#8a857c">—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者</p>';
+  $h .= '</div>';
+
+  $from = $cfg['from_name'] ? ($cfg['from_name'] . ' <' . $cfg['from_email'] . '>') : $cfg['from_email'];
+  resend_send($cfg['resend_api_key'], $from, $email, '你的《痛點》簡報與 P.A.I.N. 隨身卡下載連結', $h, $text);
 }
 
 /** 經 Resend HTTPS API 寄一封信。最佳努力:失敗只記 log,不阻斷主流程。 */

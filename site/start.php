@@ -74,7 +74,7 @@ require __DIR__ . '/partials/header.php';
 
   <p class="center" style="margin-top:18px;font-size:.96rem"><a href="/book">想要完整版隨身帶 →</a></p>
 
-  <p class="center muted" style="margin-top:40px;max-width:40ch;margin-inline:auto">整個站就這幾頁,全部免費。先動一步,比在房間裡想一個月有用。</p>
+  <p class="center muted" style="margin-top:40px;max-width:40ch;margin-inline:auto">核心就這幾步,全部免費。先動一步,比在房間裡想一個月有用。</p>
 
 </main>
 <?php require __DIR__ . '/partials/footer.php'; ?>

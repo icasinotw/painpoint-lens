@@ -21,7 +21,7 @@ $reading = [
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
   'prev'      => null,
-  'next'      => ['url' => '/ask/fake-demand', 'label' => '二十幾個人都說「我會買」，上線那天一張單都沒進'],
+  'next'      => ['url' => '/ask/crowded-market', 'label' => '想做的東西，早就一堆人在做了——我還該擠進去嗎？'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

@@ -12,7 +12,9 @@
 - 動到 `/lens` 或 `/ask` 正文(`_content/*.html`)→ 額外實跑 `tools/fix-punctuation.py`、`tools/count-contrast.py`、`tools/count-cta.py`,全部過(/lens 拆書再跑 `tools/count-title.py {slug}` 驗標題 ≤32 字、無「；」)。
 - **任一閘門沒過 → 停下、不准 push,先修到過或回報山姆**(凌駕本授權,等同觸發鏈最高鐵則)。
 
-**進版規矩(照舊):** 只 `git add` 相關檔(絕不 `git add -A`,別把 `.claude/`、`AGENTS.md`、`docs/` 等無關檔掃進去)、繁中 commit 訊息 + `Co-Authored-By: Claude` trailer、`git pull --rebase origin main` 後 `git push origin main`。push 後跑 `bash deploy.sh` 即時部署,完成後回報 commit hash 與「已即時上線」(必要時順手 curl `https://painpoint.tw/…` 驗一眼)。
+**進版規矩(照舊):** 只 `git add` 相關檔(絕不 `git add -A`,別把 `.claude/`、`AGENTS.md`、`docs/` 等無關檔掃進去)、繁中 commit 訊息 + `Co-Authored-By: Claude` trailer。
+
+**push 用 rebase-retry(2026-06-29 起,因雲端有 lane a／lane b／recommend 多個 pusher,本機 push 可能被搶先 non-fast-forward):** `git pull --rebase origin main` → `git push origin main`;若 push 被拒(non-fast-forward),就**重抓重推**(再 `git pull --rebase origin main` → `git push`),最多重試約 5 次。本機改的是版面/模板檔、雲端寫的是各本書專屬的 `_articles.d/{slug}.php`＋`{slug}.php`＋`_content/{slug}.html`(disjoint),所以 rebase 必乾淨、純粹是搶先重試的問題。**只有萬一真的 rebase 衝突(極罕見,例如剛好兩邊都動到同一個版面檔)才停下回報山姆,別硬推。** push 成功後跑 `bash deploy.sh` 即時部署(它有安全閘:rebase 沒解完／有衝突標記會拒絕部署),完成後回報 commit hash 與「已即時上線」(必要時順手 curl `https://painpoint.tw/…` 驗一眼)。
 
 ## 觸發鏈(雲端工作流 .github/workflows/write-review.yml 會跑)
 

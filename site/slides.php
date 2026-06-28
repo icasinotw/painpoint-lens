@@ -60,7 +60,7 @@ require __DIR__ . '/partials/header.php';
   var UNLOCK = 'painUnlocked', SENT = 'painSentSources', SRC = 'slides';
   // 這頁的下載包(3 份):[網址, 下載另存的檔名, 顯示文字]
   var FILES = [
-    ['/assets/dl/painpoint-deck.pdf?v=1',             '痛點簡報.pdf',                '《痛點》簡報全文'],
+    ['/assets/dl/painpoint-deck.pdf?v=2',             '痛點簡報.pdf',                '《痛點》簡報全文'],
     ['/assets/dl/painpoint-pain-card.pdf?v=1',        '痛點-PAIN-隨身卡.pdf',         'P.A.I.N. 隨身卡・列印版'],
     ['/assets/dl/painpoint-pain-card-mobile.pdf?v=1', '痛點-PAIN-隨身卡-手機版.pdf',  'P.A.I.N. 隨身卡・手機版']
   ];

@@ -214,7 +214,7 @@ function send_slides_link($email, $cfg) {
 
   // [下載網址, 顯示名稱]
   $files = [
-    [$url . '/assets/dl/painpoint-deck.pdf?v=1',             '《痛點》簡報全文'],
+    [$url . '/assets/dl/painpoint-deck.pdf?v=2',             '《痛點》簡報全文'],
     [$url . '/assets/dl/painpoint-pain-card.pdf?v=1',        'P.A.I.N. 隨身卡・列印版'],
     [$url . '/assets/dl/painpoint-pain-card-mobile.pdf?v=1', 'P.A.I.N. 隨身卡・手機版'],
   ];

@@ -39,7 +39,7 @@ require __DIR__ . '/partials/header.php';
   <!-- 分岔 ② 已經有點子 -->
   <div class="section-head" style="margin:56px auto 22px">
     <p class="eyebrow">有了,但還沒驗證</p>
-    <h2 class="h-display" style="font-size:1.45rem;margin:0">順著這幾步,把「我猜」磨成「我確定」</h2>
+    <h2 class="h-display" style="font-size:1.45rem;margin:0">動手兩步,把「我猜」磨成「我確定」</h2>
   </div>
   <div class="read-list">
     <a class="read-item" href="/fieldkit">
@@ -52,24 +52,29 @@ require __DIR__ . '/partials/header.php';
       <h3>點子體檢</h3>
       <p>把現場帶回來的真資料,30 秒跑一張雷達圖,看你的點子最弱在 P、A、I、N 哪一格。</p>
     </a>
+  </div>
+
+  <!-- 想更深(延伸,不編號) -->
+  <div class="section-head" style="margin:44px auto 16px">
+    <p class="eyebrow">想更深(延伸)</p>
+    <h2 class="h-display" style="font-size:1.18rem;margin:0">看這把尺怎麼用,或讀整套方法</h2>
+  </div>
+  <div class="read-list">
     <a class="read-item" href="/lens">
-      <span class="ri-kicker">第 3 步</span>
+      <span class="ri-kicker">看範例</span>
       <h3>痛點之尺・拆書</h3>
       <p>想看這把尺實際怎麼用?挑幾篇,看它怎麼一格一格拆你聽過的經典商業書。</p>
     </a>
     <a class="read-item" href="/read">
-      <span class="ri-kicker">第 4 步</span>
+      <span class="ri-kicker">讀整套</span>
       <h3>免費試讀</h3>
       <p>想要整套方法,先免費讀前言和第一章——不留 email、不擋入口,手機也好讀。</p>
     </a>
-    <a class="read-item" href="/book">
-      <span class="ri-kicker">第 5 步</span>
-      <h3>電子書</h3>
-      <p>讀完試讀覺得有用,再把整把尺收進手裡(判斷卡・濾鏡卡・動手卡,NT$199)。沒買,前面幾頁也夠你用。</p>
-    </a>
   </div>
 
-  <p class="center muted" style="margin-top:44px;max-width:40ch;margin-inline:auto">整個站就這幾頁,全部免費。先動一步,比在房間裡想一個月有用。</p>
+  <p class="center" style="margin-top:18px;font-size:.96rem"><a href="/book">想要完整版隨身帶 →</a></p>
+
+  <p class="center muted" style="margin-top:40px;max-width:40ch;margin-inline:auto">整個站就這幾頁,全部免費。先動一步,比在房間裡想一個月有用。</p>
 
 </main>
 <?php require __DIR__ . '/partials/footer.php'; ?>

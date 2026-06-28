@@ -14,6 +14,8 @@
       <a href="/eye">七天練眼</a>
       <a href="/read">免費試讀</a>
       <a href="/lens">拆書</a>
+      <?php /* 拆問題(/ask)頁籤已建好,先不露出 —— 山姆看過 local 後,把下一行解除註解即上線 */ ?>
+      <?php /* <a href="/ask">拆問題</a> */ ?>
       <a href="/book">電子書</a>
       <a class="btn btn-primary btn-sm" href="/book">購買電子書</a>
     </nav>

@@ -103,6 +103,39 @@ if (!function_exists('pain_base')) {
     return ['@type' => 'ItemList', 'name' => '痛點之尺・拆書', 'itemListElement' => $items];
   }
 
+  // 拆問題長文(Article):用 P.A.I.N. 之尺拆解一個「該不該做 X」的創業前處境。
+  // 與拆書不同 —— 它扣的是「一個問題/處境」而非一本書,故無 about/isBasedOn 指向某本書。
+  function pain_ask_article($cfg, $page, $ask) {
+    $base = pain_base($cfg);
+    return [
+      '@type'            => 'Article',
+      'headline'         => $ask['heading'] ?? $page['title'],
+      'description'      => $page['desc'],
+      'inLanguage'       => 'zh-Hant-TW',
+      'author'           => ['@id' => $base . '/#person'],
+      'publisher'        => ['@id' => $base . '/#person'],
+      'datePublished'    => $ask['published'] ?? '2026-06-28',
+      'dateModified'     => $ask['updated'] ?? ($ask['published'] ?? '2026-06-28'),
+      'mainEntityOfPage' => $base . $page['path'],
+      'image'            => $base . ($page['og_image'] ?? '/assets/img/og-brand.jpg?v=1'),
+    ];
+  }
+
+  // 拆問題列表頁的 ItemList(SEO:讓搜尋引擎看見整個拆問題系列、抓到每篇)。
+  function pain_ask_itemlist($cfg, $articles) {
+    $base = pain_base($cfg);
+    $items = [];
+    foreach ($articles as $i => $a) {
+      $items[] = [
+        '@type'    => 'ListItem',
+        'position' => $i + 1,
+        'url'      => $base . '/ask/' . $a['slug'],
+        'name'     => $a['title'],
+      ];
+    }
+    return ['@type' => 'ItemList', 'name' => '痛點之尺・拆問題', 'itemListElement' => $items];
+  }
+
   // 主分類 = category 取「／」(或半形 /)前半;次分類忽略,一篇只歸一個主分類。
   function pain_primary_cat($cat) {
     $parts = preg_split('#[／/]#u', (string)$cat);

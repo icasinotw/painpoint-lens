@@ -409,6 +409,10 @@ h3{font-size:1.2rem;margin:0 0 .4em}
   margin:1.8em 0 .6em;padding-top:.4em;color:var(--ink)}
 .reading p{margin:0 0 1.25em}
 .reading strong{font-weight:700;color:var(--ink)}
+/* 對照清單(拆問題用):句首是一句口頭禪/問句,破折號後是判讀;金色項目符號扣品牌 */
+.reading ul{margin:0 0 1.25em;padding-left:1.3em}
+.reading li{margin:0 0 .7em;line-height:1.75}
+.reading li::marker{color:var(--gold)}
 .reading a{color:var(--gold-ink);text-decoration:underline;text-underline-offset:3px}
 /* 文末導購按鈕與上一篇/下一篇是結構連結,不套用內文連結的金色底線 */
 .reading .read-funnel a.btn{text-decoration:none}

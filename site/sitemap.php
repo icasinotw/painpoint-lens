@@ -17,6 +17,7 @@ $urls = [
   ['/read/ch01',           '2026-06-23'],
   ['/read/pain-framework', '2026-06-23'],
   ['/lens',                '2026-06-25'],
+  ['/ask',                 '2026-06-28'],
   ['/about',               '2026-06-23'],
   ['/contact',             null],
   ['/privacy',             null],
@@ -38,6 +39,11 @@ foreach (pain_lens_eligible_cats($lensArticles) as $cat => $c) {
   }
   rsort($dates);
   $urls[] = ['/lens/c/' . $c['slug'], $dates[0] ?? null];
+}
+// 拆問題長文:同樣從單一清單自動納入(新增一篇不必手改 sitemap)。
+$askArticles = require __DIR__ . '/ask/_articles.php';
+foreach ($askArticles as $a) {
+  $urls[] = ['/ask/' . $a['slug'], $a['updated'] ?? $a['date']];
 }
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";

@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《不公平的代價》',
-  'heading'   => '你那個點子的身價，是你自己頒給自己的金牌',
+  'heading'   => '那面金牌，是你當裁判頒給自己的',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-price-of-inequality.html',

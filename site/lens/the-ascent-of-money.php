@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《貨幣崛起》',
-  'heading'   => '你那個點子的天價，沒人拿真錢兌現過',
+  'heading'   => '那個天價是你一個人估的，沒人拿真錢兌現過',
   'published' => '2026-06-28',
   'updated'   => '2026-06-28',
   'content'   => __DIR__ . '/_content/the-ascent-of-money.html',

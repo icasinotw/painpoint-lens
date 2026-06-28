@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '痛點之尺 · 拆解《智慧型股票投資人》',
-  'heading'   => '你那個點子，連一張股票的安全邊際都沒有',
+  'heading'   => '連一張股票的安全邊際，你那個點子都沒有',
   'published' => '2026-06-26',
   'updated'   => '2026-06-26',
   'content'   => __DIR__ . '/_content/the-intelligent-investor.html',

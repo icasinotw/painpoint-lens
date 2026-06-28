@@ -8,7 +8,7 @@ $page = [
 ];
 $reading = [
   'kicker'    => '拆解《十倍勝，絕不單靠運氣》',
-  'heading'   => '你那個點子，是一顆沒校準就發射的砲彈',
+  'heading'   => '沒校準就發射的那顆砲彈，叫你那個點子',
   'published' => '2026-06-25',
   'updated'   => '2026-06-25',
   'content'   => __DIR__ . '/_content/great-by-choice.html',

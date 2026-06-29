@@ -18,6 +18,7 @@ $urls = [
   ['/read/pain-framework', '2026-06-23'],
   ['/lens',                '2026-06-25'],
   ['/ask',                 '2026-06-28'],
+  ['/guide',               '2026-06-30'],
   ['/about',               '2026-06-23'],
   ['/contact',             null],
   ['/privacy',             null],
@@ -44,6 +45,11 @@ foreach (pain_lens_eligible_cats($lensArticles) as $cat => $c) {
 $askArticles = require __DIR__ . '/ask/_articles.php';
 foreach ($askArticles as $a) {
   $urls[] = ['/ask/' . $a['slug'], $a['updated'] ?? $a['date']];
+}
+// 創業指南(關鍵字樞紐頁):同樣從單一清單自動納入。
+$guideArticles = require __DIR__ . '/guide/_articles.php';
+foreach ($guideArticles as $a) {
+  $urls[] = ['/guide/' . $a['slug'], $a['updated'] ?? $a['date']];
 }
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";

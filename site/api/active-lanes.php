@@ -12,4 +12,4 @@
  *   3) 把下面改成 ['a','b'],commit + push + bash deploy.sh(或等主機 git-deploy 5 分自動同步)。
  *   想退回單帳號:改回 ['a'] 再部署即可。
  */
-return ['a'];
+return ['a','b'];

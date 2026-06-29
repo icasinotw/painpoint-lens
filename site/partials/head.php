@@ -74,6 +74,6 @@ $page['canonical'] = rtrim($cfg['site_url'], '/') . $page['path'];
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;600;700&display=swap"></noscript>
 
-<link rel="stylesheet" href="/assets/css/style.css?v=47">
+<link rel="stylesheet" href="/assets/css/style.css?v=49">
 </head>
 <body class="<?= e($page['body_class']) ?>">

@@ -89,8 +89,11 @@ h3{font-size:1.2rem;margin:0 0 .4em}
 .store-btn--pubu{background:#ea6105}
 .store-btn--google{background:#01875f}
 .store-btn--readmoo{background:#1098cc}
-/* 購買鈕直向堆疊(Kobo→讀墨→Google Play→Pubu),各自保持原寬靠左排成一列清單,任何欄寬都不會出現孤行/過寬 */
-.store-buttons .btn-row{flex-direction:column;align-items:flex-start;gap:10px}
+/* 購買鈕 2 欄排列(每行 2 顆,Kobo→讀墨→Pubu→Google),每顆填滿格子靠左對齊。
+   窄欄(手機)格子約 168px,收緊右內距/間距並禁止文字換行,讓「Google 電子書」也能單行不擠。 */
+.store-buttons .btn-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+.store-buttons .store-btn{width:100%;justify-content:flex-start;gap:7px;padding-right:12px}
+.store-buttons .store-btn>span:last-child{white-space:nowrap}
 .store-btn[disabled],.store-btn[aria-disabled="true"]{opacity:.6;cursor:not-allowed;
   transform:none;box-shadow:none;filter:none}
 

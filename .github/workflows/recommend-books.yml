@@ -12,7 +12,7 @@ name: 推薦商業書 → 回傳 Telegram
 #   → 用簡式格式「書名」，作者 :「作者名字」把清單回傳 Telegram。
 #
 # 用到的 Secret(都跟寫書評那條共用,不必另設):
-#   CLAUDE_CODE_OAUTH_TOKEN   跑你的 Claude 訂閱
+#   CLAUDE_CODE_OAUTH_TOKEN_B  跑 B 帳號訂閱(Max 20x、額度大;與 /lens lane b 同帳號)
 #   TG_BOT_TOKEN / TG_CHAT_ID  把清單回傳 Telegram
 # ────────────────────────────────────────────────────────────────────
 
@@ -85,7 +85,7 @@ jobs:
           CLAUDE_CODE_EFFORT_LEVEL: high
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_B }}   # 改吃 B 帳號(Max 20x、額度大):與 /lens lane b 同帳號,讓額度大的 B 多扛;A 專心拆書 lane a。退回 A:改回 CLAUDE_CODE_OAUTH_TOKEN。
           prompt: |
             你在 GitHub Actions 雲端,要照「痛點」專案 CLAUDE.md〈規則:推薦書籍〉幫山姆挑商業書,並把結果回傳給他。
 

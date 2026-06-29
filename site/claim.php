@@ -77,7 +77,7 @@ require __DIR__ . '/partials/header.php';
   // ⚠️ 這份清單要與 site/api/subscribe.php 的 send_claim_bonus() 保持同步。PDF 由 tools/build-anthology.php 生成。
   // [下載網址, 下載另存的檔名, 顯示文字, 已就緒?]
   var FILES = [
-    ['/assets/dl/painpoint-anthology.pdf?v=1', '痛點-讀者精選拆書15篇.pdf', '《痛點》讀者精選拆書 15 篇(PDF)', true]
+    ['/assets/dl/painpoint-anthology.pdf?v=1', '痛點-讀者精選拆書15篇.pdf', '精選拆書 15 篇・PDF', true]
   ].filter(function(f){ return f[3] === true; });
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function storedEmail(){ try { return localStorage.getItem(UNLOCK) || ''; } catch(e){ return ''; } }
@@ -94,7 +94,7 @@ require __DIR__ . '/partials/header.php';
     }
     var btns = FILES.map(function(f, i){
       var cls = i === 0 ? 'btn btn-primary' : 'btn btn-ghost';
-      return '<a class="' + cls + '" style="width:100%;margin-top:8px" href="' + esc(f[0]) + '" download="' + esc(f[1]) + '">↓ ' + esc(f[2]) + '</a>';
+      return '<a class="' + cls + '" style="width:100%;margin-top:8px;white-space:nowrap" href="' + esc(f[0]) + '" download="' + esc(f[1]) + '">↓ ' + esc(f[2]) + '</a>';
     }).join('');
     g.innerHTML =
       '<div class="fk-gate-done"><p class="fk-done-h">✓ 你的讀者好禮</p>' +

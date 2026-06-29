@@ -31,7 +31,26 @@ if (!function_exists('pain_base')) {
     ];
   }
 
-  // 整個網站(WebSite),發行人指向作者。
+  // 發行品牌(Organization):當 Article/WebSite 的 publisher(author 仍是 Person 本人)。
+  // 內嵌、自帶 name + logo(ImageObject),一次滿足 Google Article 對 publisher.logo 的建議,
+  // 且不依賴跨節點 @id 解析(每頁自含,Rich Results 必綠)。
+  function pain_publisher($cfg) {
+    $base = pain_base($cfg);
+    return [
+      '@type' => 'Organization',
+      '@id'   => $base . '/#org',
+      'name'  => $cfg['site_name'],
+      'url'   => $base . '/',
+      'logo'  => [
+        '@type'  => 'ImageObject',
+        'url'    => $base . '/assets/img/apple-touch-icon.png',
+        'width'  => 180,
+        'height' => 180,
+      ],
+    ];
+  }
+
+  // 整個網站(WebSite),發行品牌指向 Organization。
   function pain_website($cfg) {
     $base = pain_base($cfg);
     return [
@@ -41,7 +60,7 @@ if (!function_exists('pain_base')) {
       'url'         => $base . '/',
       'inLanguage'  => 'zh-Hant-TW',
       'description' => $cfg['desc'],
-      'publisher'   => ['@id' => $base . '/#person'],
+      'publisher'   => pain_publisher($cfg),
     ];
   }
 
@@ -54,11 +73,11 @@ if (!function_exists('pain_base')) {
       'description'      => $page['desc'],
       'inLanguage'       => 'zh-Hant-TW',
       'author'           => ['@id' => $base . '/#person'],
-      'publisher'        => ['@id' => $base . '/#person'],
+      'publisher'        => pain_publisher($cfg),
       'datePublished'    => '2026-06-20',
       'dateModified'     => $reading['updated'] ?? '2026-06-20',
       'mainEntityOfPage' => $base . $page['path'],
-      'image'            => $base . '/assets/img/cover-ebook.jpg?v=1',
+      'image'            => $base . '/assets/img/og-brand.jpg?v=1', // Article 用橫式 OG 圖(1200×630),比直式書封更合 Rich Results
       'isPartOf'         => ['@type' => 'Book', 'name' => '痛點 P.A.I.N.'],
     ];
   }
@@ -72,7 +91,7 @@ if (!function_exists('pain_base')) {
       'description'      => $page['desc'],
       'inLanguage'       => 'zh-Hant-TW',
       'author'           => ['@id' => $base . '/#person'],
-      'publisher'        => ['@id' => $base . '/#person'],
+      'publisher'        => pain_publisher($cfg),
       'datePublished'    => $lens['published'] ?? '2026-06-24',
       'dateModified'     => $lens['updated'] ?? ($lens['published'] ?? '2026-06-24'),
       'mainEntityOfPage' => $base . $page['path'],
@@ -113,7 +132,7 @@ if (!function_exists('pain_base')) {
       'description'      => $page['desc'],
       'inLanguage'       => 'zh-Hant-TW',
       'author'           => ['@id' => $base . '/#person'],
-      'publisher'        => ['@id' => $base . '/#person'],
+      'publisher'        => pain_publisher($cfg),
       'datePublished'    => $ask['published'] ?? '2026-06-28',
       'dateModified'     => $ask['updated'] ?? ($ask['published'] ?? '2026-06-28'),
       'mainEntityOfPage' => $base . $page['path'],

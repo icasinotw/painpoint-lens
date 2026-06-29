@@ -105,7 +105,7 @@ require __DIR__ . '/../partials/header.php';
   var moreCb  = document.getElementById('lensMore');
   function apply(cat){
     if (cat === 'all'){
-      // 全部:交還給 CSS 折疊(前 24 張),清掉篩選、重置「顯示全部」鈕。
+      // 全部:交還給 CSS 折疊(前 12 張),清掉篩選、重置「顯示全部」鈕。
       if (list) list.classList.add('is-collapsed');
       items.forEach(function(it){ it.hidden = false; });
       if (moreCb)  moreCb.checked = false;

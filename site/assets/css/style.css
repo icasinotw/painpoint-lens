@@ -468,11 +468,11 @@ h3{font-size:1.2rem;margin:0 0 .4em}
 @media(max-width:980px){.read-list.lens-grid{grid-template-columns:repeat(2,1fr);max-width:720px}}
 @media(max-width:640px){.read-list.lens-grid{grid-template-columns:1fr;max-width:42rem}}
 
-/* 折疊「顯示全部」:預設只露前 24 張卡,其餘『仍留在 HTML 裡』(display:none,爬蟲照樣讀得到、
+/* 折疊「顯示全部」:預設只露前 12 張卡,其餘『仍留在 HTML 裡』(display:none,爬蟲照樣讀得到、
    跟得進連結,連結權重與 ItemList 完全不流失)。純 CSS checkbox 展開,無 JS 也能按開。
    分類篩選(JS)啟動時會把 .is-collapsed 拿掉、改由 [hidden] 控管,兩者不打架。 */
-.read-list.is-collapsed .read-item:nth-child(n+25){display:none}
-.lens-more-cb:checked ~ #lensList.is-collapsed .read-item:nth-child(n+25){display:block}
+.read-list.is-collapsed .read-item:nth-child(n+13){display:none}
+.lens-more-cb:checked ~ #lensList.is-collapsed .read-item:nth-child(n+13){display:block}
 .lens-more-cb{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .lens-more-row{display:flex;justify-content:center;margin-top:24px}
 .lens-more-row[hidden]{display:none}

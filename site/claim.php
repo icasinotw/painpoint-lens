@@ -15,7 +15,7 @@ require __DIR__ . '/partials/header.php';
   <div class="fk-intro">
     <p class="eyebrow">買了書的人專屬 · 完全免費</p>
     <h1 class="h-display"><span class="kw">買了《痛點》?</span><span class="kw"><span class="hl">來領讀者好禮</span></span></h1>
-    <p class="lead">你在 Kobo、Pubu 那些平台買的書,我這邊看不到是誰買的。留個 email、順手填一下在哪買的,我把讀者專屬好禮寄給你——也好讓我知道該謝謝誰。</p>
+    <p class="lead">你在 Kobo、讀墨 那些平台買的書,我這邊看不到是誰買的。留個 email、順手填一下在哪買的,我把讀者專屬好禮寄給你——也好讓我知道該謝謝誰。</p>
   </div>
 
   <div class="fk-download" id="fkTop">
@@ -35,8 +35,8 @@ require __DIR__ . '/partials/header.php';
         <select id="fkPlat" class="fk-select" required aria-label="在哪個平台買的">
           <option value="" disabled selected>在哪買的?</option>
           <option value="Kobo">Kobo</option>
-          <option value="Pubu">Pubu</option>
           <option value="讀墨 Readmoo">讀墨 Readmoo</option>
+          <option value="Pubu">Pubu</option>
           <option value="Google 電子書">Google 電子書</option>
           <option value="其他">其他</option>
         </select>

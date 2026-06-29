@@ -89,6 +89,8 @@ h3{font-size:1.2rem;margin:0 0 .4em}
 .store-btn--pubu{background:#ea6105}
 .store-btn--google{background:#01875f}
 .store-btn--readmoo{background:#1098cc}
+/* 購買鈕直向堆疊(Kobo→讀墨→Google Play→Pubu),各自保持原寬靠左排成一列清單,任何欄寬都不會出現孤行/過寬 */
+.store-buttons .btn-row{flex-direction:column;align-items:flex-start;gap:10px}
 .store-btn[disabled],.store-btn[aria-disabled="true"]{opacity:.6;cursor:not-allowed;
   transform:none;box-shadow:none;filter:none}
 

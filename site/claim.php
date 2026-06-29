@@ -20,10 +20,9 @@ require __DIR__ . '/partials/header.php';
 
   <div class="fk-download" id="fkTop">
     <div class="fk-dl-main">
-      <p class="fk-dl-h">讀者專屬好禮</p>
+      <p class="fk-dl-h">讀者專屬好禮:精選拆書 15 篇</p>
       <p class="fk-dl-sub">
-        ① 「燒掉五百萬」完整虧損時間軸——書裡沒收錄的細節<br>
-        ② P.A.I.N. 體檢工作表(可列印一頁,動手前自己量一次)
+        我用書裡同一把 P.A.I.N. 之尺,拆過最經典的 15 本商業書——精實創業、定位、黑天鵝、致富心態……照書的 P→A→I→N 順序,整理成一份排版乾淨的 PDF(收錄全篇,五十多頁)。
       </p>
       <p class="fk-dl-fine">只給買了書的讀者 · 留 email 後寄到你信箱</p>
     </div>
@@ -74,12 +73,11 @@ require __DIR__ . '/partials/header.php';
 (function(){
   // 跨頁共用:painUnlocked = 已留過的 email;painSentSources = 已送出過的行為(避免重複寄信,但每種行為至少送一次→標籤不漏)
   var UNLOCK = 'painUnlocked', SENT = 'painSentSources', SRC = 'claim';
-  // 讀者專屬好禮(數位贈品)。檔案做好放進 /assets/dl/ 後,把對應那筆的最後一欄改成 true,前台就會出現下載鈕。
-  // ⚠️ 這份清單要與 site/api/subscribe.php 的 send_claim_bonus() 保持同步。
+  // 讀者專屬好禮(數位贈品)。換檔/加檔後把最後一欄設 true、進版 ?v=,前台就會出現下載鈕。
+  // ⚠️ 這份清單要與 site/api/subscribe.php 的 send_claim_bonus() 保持同步。PDF 由 tools/build-anthology.php 生成。
   // [下載網址, 下載另存的檔名, 顯示文字, 已就緒?]
   var FILES = [
-    ['/assets/dl/painpoint-loss-timeline.pdf?v=1', '痛點-燒掉五百萬時間軸.pdf', '「燒掉五百萬」完整虧損時間軸', false],
-    ['/assets/dl/painpoint-pain-worksheet.pdf?v=1', '痛點-PAIN-體檢工作表.pdf',  'P.A.I.N. 體檢工作表(可列印)', false]
+    ['/assets/dl/painpoint-anthology.pdf?v=1', '痛點-讀者精選拆書15篇.pdf', '《痛點》讀者精選拆書 15 篇(PDF)', true]
   ].filter(function(f){ return f[3] === true; });
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function storedEmail(){ try { return localStorage.getItem(UNLOCK) || ''; } catch(e){ return ''; } }

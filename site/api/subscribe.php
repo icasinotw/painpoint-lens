@@ -273,10 +273,9 @@ function send_claim_bonus($email, $cfg) {
   $url  = rtrim($site['site_url'], '/');
   $esc  = function ($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); };
 
-  // [下載網址, 顯示名稱, 已就緒?]
+  // [下載網址, 顯示名稱, 已就緒?]。PDF 由 tools/build-anthology.php 生成;換檔後進版 ?v=、並同步 site/claim.php 的 FILES。
   $all = [
-    [$url . '/assets/dl/painpoint-loss-timeline.pdf?v=1', '「燒掉五百萬」完整虧損時間軸', false],
-    [$url . '/assets/dl/painpoint-pain-worksheet.pdf?v=1', 'P.A.I.N. 體檢工作表(可列印)', false],
+    [$url . '/assets/dl/painpoint-anthology.pdf?v=1', '《痛點》讀者精選拆書 15 篇(PDF)', true],
   ];
   $files = array_values(array_filter($all, function ($f) { return $f[2] === true; }));
   $from  = $cfg['from_name'] ? ($cfg['from_name'] . ' <' . $cfg['from_email'] . '>') : $cfg['from_email'];
@@ -307,14 +306,14 @@ function send_claim_bonus($email, $cfg) {
   }
 
   // 好禮已就緒 → 寄下載連結。
-  $intro = '謝謝你買《痛點》。這是讀者專屬好禮——書裡沒收錄的那段完整時間軸,加上一頁可列印的 P.A.I.N. 體檢工作表,動手前自己量一次。';
+  $intro = '謝謝你買《痛點》。這是讀者專屬好禮——我用書裡同一把 P.A.I.N. 之尺,拆過最經典的 15 本商業書(精實創業、定位、黑天鵝、致富心態……),照書的 P→A→I→N 順序整理成一份 PDF。挑你現在最卡的那一格先讀。';
   $lines = ['你的《痛點》讀者好禮 — 下載連結', '', $intro, ''];
   foreach ($files as $f) { $lines[] = $f[1] . ':' . $f[0]; }
   $lines[] = '(若連結沒反應,複製貼到瀏覽器即可)';
   $lines[] = '';
   $lines[] = '──';
-  $lines[] = '把工作表填完,回去重做一次點子體檢:' . $url . '/tool';
-  $lines[] = '看我用同一把尺拆別人的書:' . $url . '/lens';
+  $lines[] = '讀的時候,手邊放一個你正在想的點子,讀一段、就量一下:' . $url . '/tool';
+  $lines[] = '想看更多?同一把尺,我在站上拆過三百多本:' . $url . '/lens';
   $lines[] = '';
   $lines[] = '—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者';
   $text = implode("\n", $lines);
@@ -326,8 +325,8 @@ function send_claim_bonus($email, $cfg) {
     $h .= '<p style="margin:0 0 12px"><a href="' . $esc($f[0]) . '" style="display:inline-block;background:#b59410;color:#fff;text-decoration:none;font-weight:700;padding:11px 20px;border-radius:8px">↓ ' . $esc($f[1]) . '</a></p>';
   }
   $h .= '<hr style="border:0;border-top:1px solid #e3ddd1;margin:18px 0 18px">';
-  $h .= '<p style="margin:0 0 4px"><a href="' . $esc($url) . '/tool" style="color:#b59410">把工作表填完,回去重做一次點子體檢 →</a></p>';
-  $h .= '<p style="margin:0 0 18px"><a href="' . $esc($url) . '/lens" style="color:#b59410">看我用同一把尺拆別人的書 →</a></p>';
+  $h .= '<p style="margin:0 0 4px"><a href="' . $esc($url) . '/tool" style="color:#b59410">手邊放一個點子,讀一段就量一下 →</a></p>';
+  $h .= '<p style="margin:0 0 18px"><a href="' . $esc($url) . '/lens" style="color:#b59410">同一把尺,我拆過三百多本 →</a></p>';
   $h .= '<p style="margin:0;color:#8a857c">—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者</p>';
   $h .= '</div>';
 

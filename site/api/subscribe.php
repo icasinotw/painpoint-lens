@@ -24,6 +24,13 @@ if (!$email) json_out(['ok' => false, 'error' => 'email'], 422);
 
 $source = $in['source'] ?? 'tool';
 $idea   = mb_substr(preg_replace('/[\x00-\x1F\x7F]/u', '', (string) ($in['idea'] ?? '')), 0, 120);
+
+// /claim 歸因頁:買家填「在哪買 + 訂單編號」,把它打包進 idea 欄,讓名單看得到歸因來源(免動 schema)。
+$platform = mb_substr(preg_replace('/[\x00-\x1F\x7F]/u', '', (string) ($in['platform'] ?? '')), 0, 40);
+$order    = mb_substr(preg_replace('/[\x00-\x1F\x7F]/u', '', (string) ($in['order'] ?? '')), 0, 60);
+if ($source === 'claim') {
+  $idea = trim($platform . ($order !== '' ? '・訂單 ' . $order : ''));
+}
 $scores = is_array($in['scores'] ?? null) ? $in['scores'] : null;
 $unsure = is_array($in['unsure'] ?? null)
   ? array_slice(array_values(array_filter(array_map(
@@ -65,6 +72,11 @@ if ($source === 'fieldkit' || $source === 'eye') {
   // 歡迎信與每週電子報交給 Kit(群發)處理。
   $tagId = esp_tag_id_for_name('拆書電子報-訂閱');
   if ($tagId) esp_push($email, [], $tagId);
+} elseif ($source === 'claim') {
+  // /claim 讀者歸因頁:買家回來領讀者專屬好禮 → 貼「已購買-痛點」標籤(歸因 + 名單核心),寄好禮。
+  $tagId = esp_tag_id_for_name('已購買-痛點');
+  if ($tagId) esp_push($email, [], $tagId);
+  send_claim_bonus($email, $cfg);
 } else {
   // 其餘(工具體檢 / lp / book-notify):每次提交都寄體檢報告,內容是他剛做完的這份結果。
   // 透過 Resend(已驗證網域)寄出 → 通過 SPF/DKIM/DMARC、進收件匣。
@@ -247,6 +259,79 @@ function send_slides_link($email, $cfg) {
 
   $from = $cfg['from_name'] ? ($cfg['from_name'] . ' <' . $cfg['from_email'] . '>') : $cfg['from_email'];
   resend_send($cfg['resend_api_key'], $from, $email, '你的《痛點》簡報與 P.A.I.N. 隨身卡下載連結', $h, $text);
+}
+
+/**
+ * 寄「讀者專屬好禮」給買書回來歸因的人(/claim 頁)。經 Resend;沒設定就略過、不阻斷。
+ * 好禮檔案做好放進 /assets/dl/ 後,把對應那筆的最後一欄改成 true,信裡就會出現下載連結;
+ * 在那之前(全部 false)寄的是「收到了、好禮整理中」確認信——歸因(標籤+名單)此刻已完成。
+ * ⚠️ 這份清單要與 site/claim.php 前台的 FILES 保持同步。
+ */
+function send_claim_bonus($email, $cfg) {
+  if (empty($cfg['resend_api_key']) || empty($cfg['from_email'])) return;
+  $site = require __DIR__ . '/../config.php';
+  $url  = rtrim($site['site_url'], '/');
+  $esc  = function ($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); };
+
+  // [下載網址, 顯示名稱, 已就緒?]
+  $all = [
+    [$url . '/assets/dl/painpoint-loss-timeline.pdf?v=1', '「燒掉五百萬」完整虧損時間軸', false],
+    [$url . '/assets/dl/painpoint-pain-worksheet.pdf?v=1', 'P.A.I.N. 體檢工作表(可列印)', false],
+  ];
+  $files = array_values(array_filter($all, function ($f) { return $f[2] === true; }));
+  $from  = $cfg['from_name'] ? ($cfg['from_name'] . ' <' . $cfg['from_email'] . '>') : $cfg['from_email'];
+
+  // 好禮檔案還沒就緒 → 寄確認信(歸因已成,先安撫、之後再補)。
+  if (!$files) {
+    $text = implode("\n", [
+      '收到了,謝謝你買《痛點》。',
+      '',
+      '讀者專屬好禮(燒掉五百萬完整時間軸、P.A.I.N. 體檢工作表)正在做最後整理,弄好我第一個 email 你。',
+      '',
+      '──',
+      '在等的這段,先把書裡那把尺拿來量一個真的點子:' . $url . '/tool',
+      '看我用同一把尺拆別人的書:' . $url . '/lens',
+      '',
+      '—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者',
+    ]);
+    $h  = '<div style="font-family:-apple-system,BlinkMacSystemFont,\'Noto Sans TC\',sans-serif;color:#1a1a1a;line-height:1.75;font-size:15px;max-width:560px;margin:0;text-align:left">';
+    $h .= '<p style="margin:0 0 16px;font-size:17px"><b>收到了,謝謝你買《痛點》</b></p>';
+    $h .= '<p style="margin:0 0 22px;color:#3a3733">讀者專屬好禮(燒掉五百萬完整時間軸、P.A.I.N. 體檢工作表)正在做最後整理,弄好我第一個 email 你。</p>';
+    $h .= '<hr style="border:0;border-top:1px solid #e3ddd1;margin:0 0 18px">';
+    $h .= '<p style="margin:0 0 4px"><a href="' . $esc($url) . '/tool" style="color:#b59410">先把那把尺拿來量一個真的點子 →</a></p>';
+    $h .= '<p style="margin:0 0 18px"><a href="' . $esc($url) . '/lens" style="color:#b59410">看我用同一把尺拆別人的書 →</a></p>';
+    $h .= '<p style="margin:0;color:#8a857c">—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者</p>';
+    $h .= '</div>';
+    resend_send($cfg['resend_api_key'], $from, $email, '收到了,謝謝你買《痛點》(讀者好禮整理中)', $h, $text);
+    return;
+  }
+
+  // 好禮已就緒 → 寄下載連結。
+  $intro = '謝謝你買《痛點》。這是讀者專屬好禮——書裡沒收錄的那段完整時間軸,加上一頁可列印的 P.A.I.N. 體檢工作表,動手前自己量一次。';
+  $lines = ['你的《痛點》讀者好禮 — 下載連結', '', $intro, ''];
+  foreach ($files as $f) { $lines[] = $f[1] . ':' . $f[0]; }
+  $lines[] = '(若連結沒反應,複製貼到瀏覽器即可)';
+  $lines[] = '';
+  $lines[] = '──';
+  $lines[] = '把工作表填完,回去重做一次點子體檢:' . $url . '/tool';
+  $lines[] = '看我用同一把尺拆別人的書:' . $url . '/lens';
+  $lines[] = '';
+  $lines[] = '—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者';
+  $text = implode("\n", $lines);
+
+  $h  = '<div style="font-family:-apple-system,BlinkMacSystemFont,\'Noto Sans TC\',sans-serif;color:#1a1a1a;line-height:1.75;font-size:15px;max-width:560px;margin:0;text-align:left">';
+  $h .= '<p style="margin:0 0 16px;font-size:17px"><b>你的《痛點》讀者好禮</b></p>';
+  $h .= '<p style="margin:0 0 22px;color:#3a3733">' . $esc($intro) . '</p>';
+  foreach ($files as $f) {
+    $h .= '<p style="margin:0 0 12px"><a href="' . $esc($f[0]) . '" style="display:inline-block;background:#b59410;color:#fff;text-decoration:none;font-weight:700;padding:11px 20px;border-radius:8px">↓ ' . $esc($f[1]) . '</a></p>';
+  }
+  $h .= '<hr style="border:0;border-top:1px solid #e3ddd1;margin:18px 0 18px">';
+  $h .= '<p style="margin:0 0 4px"><a href="' . $esc($url) . '/tool" style="color:#b59410">把工作表填完,回去重做一次點子體檢 →</a></p>';
+  $h .= '<p style="margin:0 0 18px"><a href="' . $esc($url) . '/lens" style="color:#b59410">看我用同一把尺拆別人的書 →</a></p>';
+  $h .= '<p style="margin:0;color:#8a857c">—— 山姆(謝冠生)・《痛點 P.A.I.N.》作者</p>';
+  $h .= '</div>';
+
+  resend_send($cfg['resend_api_key'], $from, $email, '你的《痛點》讀者專屬好禮(下載連結)', $h, $text);
 }
 
 /** 經 Resend HTTPS API 寄一封信。最佳努力:失敗只記 log,不阻斷主流程。 */

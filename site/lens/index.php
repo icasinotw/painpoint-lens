@@ -14,17 +14,21 @@ $total = count($articles);
 
 // 依主題瀏覽:只列「已達標、有主題頁」的分類(與 /lens/c 主題頁、sitemap 同一道閘門:
 // 滿 PAIN_LENS_CAT_MIN 篇 + 有手寫 intro)。滿篇數會自動長出一張主題卡,不必動這支檔。
-// 排序:含「最新拆書」的主題排最前(=該主題裡最大的 seq)——與主列表「最新置頂」一致;
-//       同 recency 再以篇數多者優先。($articles 已是 loader 的 seq 降冪,首見即最大。)
-$catMaxSeq = [];
-foreach ($articles as $a) {
-  $c = pain_primary_cat($a['category']);
-  if (!isset($catMaxSeq[$c])) $catMaxSeq[$c] = (int)($a['seq'] ?? 0);  // 首見即該類最新
-}
-$hubCats = pain_lens_eligible_cats($articles);
-uksort($hubCats, function ($x, $y) use ($catMaxSeq, $hubCats) {
-  $rs = ($catMaxSeq[$y] ?? 0) <=> ($catMaxSeq[$x] ?? 0);   // 最新拆書的主題在前
-  return $rs !== 0 ? $rs : (($hubCats[$y]['count'] ?? 0) <=> ($hubCats[$x]['count'] ?? 0));
+//
+// 排序:★固定★、不隨發新書變動——使用者找主題要穩定的介面,卡片每次都在同一格。
+// 順序依「痛點」邏輯、由重要性遞減:
+//   ① 解客戶的痛(對外、創造價值,痛點核心):創業→創新→行銷→敘事→策略
+//   ② 經營組織(把事做成):領導→管理
+//   ③ 改變自己(模式 C,對內,離解客戶的痛最遠):行為→生產力→理財  ④ 其他兜底
+// 要改順序,只改下面這張 $PAIN_CAT_ORDER 即可;沒列到的(未來新達標主題)自動排最後、彼此依篇數。
+$PAIN_CAT_ORDER = ['創業','創新','行銷','敘事','策略','領導','管理','行為','生產力','理財','其他'];
+$catRank  = array_flip($PAIN_CAT_ORDER);            // 主題名 → 名次(越小越前)
+$hubCats  = pain_lens_eligible_cats($articles);
+uksort($hubCats, function ($x, $y) use ($catRank, $hubCats) {
+  $rx = $catRank[$x] ?? PHP_INT_MAX;
+  $ry = $catRank[$y] ?? PHP_INT_MAX;
+  if ($rx !== $ry) return $rx <=> $ry;                              // 固定痛點順序
+  return ($hubCats[$y]['count'] ?? 0) <=> ($hubCats[$x]['count'] ?? 0);  // 未列到的才用篇數兜底
 });
 
 $page = [

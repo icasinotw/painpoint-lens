@@ -21,7 +21,7 @@ $reading = [
     'ghost'   => ['url' => '/lens', 'label' => '看更多拆書'],
   ],
   'prev'      => null,
-  'next'      => null,
+  'next'      => ['url' => '/guide/find-real-pain-point', 'label' => '怎麼找到真正的痛點'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

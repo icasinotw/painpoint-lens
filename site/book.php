@@ -90,7 +90,7 @@ require __DIR__ . '/partials/header.php';
     <ul class="checklist" style="margin-top:14px">
       <li><strong>一個讀過近千本商業書的人寫的</strong>——喵喵書評創辦人,看過整面書牆,最清楚這類書通常在哪裡讓你以為自己懂了。</li>
       <li><strong>一個還在賠錢的創業者寫的</strong>——這不是成功學。近五百萬的坑我帶血走過一遍,書裡誠實寫出每個坑、以及本來該怎麼做。</li>
-      <li><strong>方法不是用講的,是公開驗的</strong>——同一把 P.A.I.N. 之尺,我已經在站上一篇一篇<a href="/lens">公開拆過幾十本經典商業書</a>。先看我怎麼用它拆別人的書,再決定要不要把它收進手裡。</li>
+      <li><strong>方法不是用講的,是公開驗的</strong>——同一把 P.A.I.N. 之尺,我已經在站上一篇一篇<a href="/lens">公開拆過幾百本經典商業書</a>。先看我怎麼用它拆別人的書,再決定要不要把它收進手裡。</li>
     </ul>
   </div>
 

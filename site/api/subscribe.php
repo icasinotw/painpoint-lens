@@ -275,7 +275,7 @@ function send_claim_bonus($email, $cfg) {
 
   // [下載網址, 顯示名稱, 已就緒?]。PDF 由 tools/build-anthology.php 生成;換檔後進版 ?v=、並同步 site/claim.php 的 FILES。
   $all = [
-    [$url . '/assets/dl/painpoint-anthology.pdf?v=1', '《痛點》讀者精選拆書 15 篇(PDF)', true],
+    [$url . '/assets/dl/painpoint-anthology.pdf?v=2', '《痛點》讀者精選拆書 15 篇(PDF)', true],
   ];
   $files = array_values(array_filter($all, function ($f) { return $f[2] === true; }));
   $from  = $cfg['from_name'] ? ($cfg['from_name'] . ' <' . $cfg['from_email'] . '>') : $cfg['from_email'];

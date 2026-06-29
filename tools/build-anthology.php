@@ -50,12 +50,16 @@ $SECTIONS = [
 
 function esc($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 
+const SITE = 'https://painpoint.tw';
+
 // 把 _content 的 <h1> 拿掉(章名改由我們的書卡呈現),其餘原樣保留。
 function body_of($file){
   $html = file_get_contents($file);
   $html = preg_replace('#<h1[^>]*>.*?</h1>#su', '', $html, 1);
   // 拿掉 h2 的 id(PDF 不需要錨點)
   $html = preg_replace('#(<h2)\s+id="[^"]*"#i', '$1', $html);
+  // 把站內相對連結改成絕對網址 —— PDF 裡 href="/x" 會被當成 file:///x 而失效。
+  $html = preg_replace('#href="/#', 'href="' . SITE . '/', $html);
   return trim($html);
 }
 
@@ -74,6 +78,7 @@ ob_start();
   }
   p{ margin:0 0 1.05em; text-align:justify; }
   strong{ color:#0f0d0a; font-weight:700; }
+  a{ color:#9a7a0c; text-decoration:none; border-bottom:1px solid #d9c47a; }
   h2{ font-size:14.5pt; line-height:1.5; margin:1.9em 0 .7em; color:#1a1814;
       border-left:4px solid #c8a32e; padding-left:.6em; }
   .gold{ color:#b59410; }
@@ -211,8 +216,8 @@ foreach($SECTIONS as $sec){ ?>
 <section class="outro">
   <h2>劃完這 15 刀,換你了</h2>
   <p>看別人怎麼用這把尺,是為了讓你自己用得順。現在,挑一個你心裡正在想的點子,把它放上桌——</p>
-  <p>用那把尺,從最會要你命的那一格開始量:<strong>真的有人在痛嗎?痛到會付錢嗎?</strong>站上有一個免費的點子體檢工具,五分鐘陪你量一輪,告訴你最弱、最該先補的是哪一格(painpoint.tw/tool)。</p>
-  <p>還想看更多?同一把尺,我在站上一篇一篇公開拆過三百多本經典商業書,這 15 篇只是其中最精的一小撮(painpoint.tw/lens)。</p>
+  <p>用那把尺,從最會要你命的那一格開始量:<strong>真的有人在痛嗎?痛到會付錢嗎?</strong>站上有一個免費的點子體檢工具,五分鐘陪你量一輪,告訴你最弱、最該先補的是哪一格 → <a href="https://painpoint.tw/tool">painpoint.tw/tool</a>。</p>
+  <p>還想看更多?同一把尺,我在站上一篇一篇公開拆過三百多本經典商業書,這 15 篇只是其中最精的一小撮 → <a href="https://painpoint.tw/lens">painpoint.tw/lens</a>。</p>
   <p style="margin-top:2.2em;color:#5c574e">謝謝你買《痛點》。願這把尺,替你擋下那個本來會讓你賠掉幾年、幾百萬的點子。</p>
   <p style="color:#171511"><strong>——&nbsp;山姆(謝冠生)</strong></p>
 </section>

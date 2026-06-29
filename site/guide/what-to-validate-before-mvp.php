@@ -21,7 +21,7 @@ $reading = [
     'ghost'   => ['url' => '/guide/validate-startup-idea', 'label' => '回看:如何驗證創業點子'],
   ],
   'prev'      => ['url' => '/guide/customer-interview-questions', 'label' => '用戶訪談怎麼做?該問的問題清單'],
-  'next'      => null,
+  'next'      => ['url' => '/guide/business-model-design', 'label' => '商業模式怎麼設計'],
 ];
 $page['schema'] = [
   pain_ask_article($cfg, $page, $reading),

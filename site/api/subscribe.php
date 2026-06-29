@@ -33,7 +33,12 @@ if ($source === 'claim') {
   // 書中通關密語閘門:後台設了 claim_passphrase 才驗。答錯不存、不貼標籤,直接擋下(保護「已購買-痛點」純度)。
   if (!empty($cfg['claim_passphrase'])) {
     $pass = mb_substr(preg_replace('/[\x00-\x1F\x7F]/u', '', (string) ($in['pass'] ?? '')), 0, 80);
-    $norm = function ($s) { return mb_strtolower(preg_replace('/\s+/u', '', trim((string) $s))); };
+    // 容錯比對:去空白、拿掉書名號/引號、忽略大小寫(買家從書裡複製含《》「」也能過)。
+    $norm = function ($s) {
+      $s = preg_replace('/\s+/u', '', trim((string) $s));
+      $s = str_replace(['《', '》', '「', '」', '〈', '〉', '、', '，', ',', '。', '．', '.', '・', '·'], '', $s);
+      return mb_strtolower($s);
+    };
     if ($norm($pass) !== $norm($cfg['claim_passphrase'])) {
       json_out(['ok' => false, 'error' => 'passphrase'], 422);
     }

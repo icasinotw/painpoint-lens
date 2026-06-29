@@ -55,7 +55,7 @@
 **輸出:**
 1. 兩個檔到 `site/lens/`:`{slug}.php`(頁面,slug = 英文書名 kebab-case)+ `_content/{slug}.html`(正文)。
 2. 文末頁尾由 `partials/reading.php` 自動合成,別自己組;`.php` 的 funnel 只寫 title + 一句不提買書的 body、不設 ghost、prev/next 設 null。
-3. **新建一個碎片檔 `site/lens/_articles.d/{slug}.php`**(只 `return` 該篇一筆:slug/kicker/title/blurb/category/date,kicker 固定「拆解《書名》」;最新自動排在前)——列表頁與 sitemap 由 `_articles.php`(已是 loader)讀 base + 所有碎片自動長。**絕不要編輯 `_articles.php`(loader)或 `_articles-base.php`(凍結的歷史 208 筆)——那會讓兩個帳號平行寫書撞同一檔、掉書。** `category` 寫「主／次」,主分類一律從受控清單挑(策略/創新/行銷/管理/領導/行為/創業/理財/生產力/敘事/其他),別亂開新詞。
+3. **新建一個碎片檔 `site/lens/_articles.d/{slug}.php`**(只 `return` 該篇一筆:slug/kicker/title/blurb/category/date/**seq**,kicker 固定「拆解《書名》」;**`seq` 必填=寫稿當下 unix 秒(`date +%s`),越大越新越置頂**——只靠 date 會因「同日多本打平」退化成 slug 字母序、新書沉到中間,2026-06-30 修正並回填了全部碎片)——列表頁與 sitemap 由 `_articles.php`(已是 loader,依 seq 降→date 降→slug 升排)讀 base + 所有碎片自動長。**絕不要編輯 `_articles.php`(loader)或 `_articles-base.php`(凍結的歷史 208 筆)——那會讓兩個帳號平行寫書撞同一檔、掉書。** `category` 寫「主／次」,主分類一律從受控清單挑(策略/創新/行銷/管理/領導/行為/創業/理財/生產力/敘事/其他),別亂開新詞。
 4. **內鏈硬上限**:整篇最多 1 個 `/tool`(能 0 就 0、結尾段不放、行為/理財/生產力/領導/敘事/管理那類「改變你自己」的書預設 0)、最多 1 個 `/book`(多數篇 0);絕不把整句做成連結、同段不並排 /tool 與 /book。
 5. 書況一律「電子書已上市」,絕不寫即將上市/實體書/留 email 通知。
 

@@ -119,7 +119,7 @@ jobs:
         id: claude          # 給隊列接力步驟判斷:失敗是「引擎自己掛(usage/API)」還是下游品質/收尾
         uses: anthropics/claude-code-action@v1
         env:
-          CLAUDE_CODE_EFFORT_LEVEL: xhigh   # 推理力度 Extra(xhigh,山姆選定:長文寫作甜蜜點);沒生效會退回預設 high、不會弄壞流程
+          CLAUDE_CODE_EFFORT_LEVEL: high   # 推理力度 high(Opus 4.8 官方建議的智力敏感任務起點;長文寫作品質/省 token 甜蜜點,品質由機械閘門守而非靠拉高 effort);沒生效會退回預設 high、不會弄壞流程
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # token 依 lane 選:lane b 用第二個 Claude 帳號;沒設 CLAUDE_CODE_OAUTH_TOKEN_B 時退回 A(過渡期安全)。

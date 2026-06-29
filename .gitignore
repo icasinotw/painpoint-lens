@@ -20,3 +20,6 @@ __pycache__/
 
 # build 產物(若有)
 /build/
+
+# 拆書合輯 PDF 的中間產物(由 tools/build-anthology.php 生成)
+tools/_anthology.html

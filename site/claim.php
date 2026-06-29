@@ -1,5 +1,12 @@
 <?php
 require __DIR__ . '/_init.php';
+// 「書中通關密語」閘門:後台設了 claim_passphrase + claim_question 才啟用(答案不在此頁、存主機端設定)。
+// 直接讀 api 設定(不載入 api/lib.php,避免它的 ini 副作用影響本頁 render)。
+$claimDefaults = require __DIR__ . '/api/config.sample.php';
+$claimCfgFile  = __DIR__ . '/api/config.php';
+$claimAc = is_file($claimCfgFile) ? array_merge($claimDefaults, (array) require $claimCfgFile) : $claimDefaults;
+$gateOn  = !empty($claimAc['claim_passphrase']) && !empty($claimAc['claim_question']);
+$gateQ   = $gateOn ? (string) $claimAc['claim_question'] : '';
 $page = [
   'title'      => '《痛點》讀者專屬好禮 — 領取你的購書加碼',
   'desc'       => '已經買了《痛點 P.A.I.N.》?留個 email、填一下在哪買的,我把讀者專屬好禮寄給你。',
@@ -42,6 +49,10 @@ require __DIR__ . '/partials/header.php';
         </select>
         <label class="sr-only" for="fkOrder">訂單編號(選填)</label>
         <input type="text" id="fkOrder" placeholder="訂單編號(選填,幫我對得上)" autocomplete="off" maxlength="60">
+<?php if ($gateOn): ?>
+        <label class="fk-q" for="fkPass"><?= e($gateQ) ?></label>
+        <input type="text" id="fkPass" placeholder="輸入書裡找到的答案" autocomplete="off" maxlength="80" required>
+<?php endif; ?>
         <input type="text" id="fkHp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
         <button type="submit" class="btn btn-primary">領取讀者好禮 →</button>
       </form>
@@ -65,8 +76,9 @@ require __DIR__ . '/partials/header.php';
 
 <style>
 .fk-opt-form .fk-select{width:100%;font:inherit;color:inherit;padding:13px 14px;border:1px solid var(--line,#d8d2c6);border-radius:9px;background:var(--card,#fff);margin-top:9px;-webkit-appearance:none;appearance:none}
-.fk-opt-form #fkOrder{width:100%;font:inherit;color:inherit;padding:13px 14px;border:1px solid var(--line,#d8d2c6);border-radius:9px;background:var(--card,#fff);margin-top:9px}
+.fk-opt-form #fkOrder,.fk-opt-form #fkPass{width:100%;font:inherit;color:inherit;padding:13px 14px;border:1px solid var(--line,#d8d2c6);border-radius:9px;background:var(--card,#fff);margin-top:9px}
 .fk-opt-form #fkPlat:invalid{color:var(--muted,#8a8275)}
+.fk-opt-form .fk-q{display:block;margin-top:14px;font-size:.92rem;font-weight:600;color:var(--ink,#3a3733);line-height:1.5}
 </style>
 
 <script>
@@ -117,20 +129,26 @@ require __DIR__ . '/partials/header.php';
     var email = (document.getElementById('fkEmail').value || '').trim();
     var plat  = (document.getElementById('fkPlat').value || '').trim();
     var order = (document.getElementById('fkOrder').value || '').trim();
+    var passEl = document.getElementById('fkPass');
+    var pass = passEl ? (passEl.value || '').trim() : '';
     var hp = (document.getElementById('fkHp') || {}).value || '';
     var msg = document.getElementById('fkMsg');
     var btn = form.querySelector('button');
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'email 看起來怪怪的,再確認一下?'; return; }
     if (!plat) { msg.textContent = '選一下你是在哪買的,我才對得上 😊'; return; }
+    if (passEl && !pass) { msg.textContent = '填一下書裡的那個答案,證明你手上有書 😊'; return; }
     btn.disabled = true; btn.textContent = '領取中…';
     fetch('/api/subscribe', { method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ email: email, website: hp, source: SRC, platform: plat, order: order }) })
+      body: JSON.stringify({ email: email, website: hp, source: SRC, platform: plat, order: order, pass: pass }) })
       .then(function(r){ return r.json().catch(function(){ return { ok: r.ok }; }); })
       .then(function(d){
         if (d && d.ok) {
           try { localStorage.setItem(UNLOCK, email); } catch(e){}
           markSent();
           showDone();
+        } else if (d && d.error === 'passphrase') {
+          msg.textContent = '答案不太對,再翻翻書找找看?(認得出就好,不分大小寫)';
+          btn.disabled = false; btn.textContent = '領取讀者好禮 →';
         } else {
           msg.textContent = (d && d.error === 'rate') ? '太快了,稍等一下再試。' : '送出沒成功,請再試一次。';
           btn.disabled = false; btn.textContent = '領取讀者好禮 →';

@@ -212,6 +212,15 @@ jobs:
           if [ "$(git rev-parse HEAD)" = "$BEFORE_SHA" ]; then
             echo "::error::Claude 沒有產生新 commit(HEAD 沒前進)→ 沒東西可推,當品質失敗處理"; exit 1
           fi
+          # 防呆:Claude commit 後若工作目錄還留著「tracked 檔的未暫存改動」,git rebase 會直接報
+          #   "You have unstaged changes" 而失敗(2026-06-30:.ci/ 被誤入版控,每次寫書都踩這顆雷,整批 push 全掛)。
+          #   交付物已 commit、是正本,閘門也跑在工作目錄(== 已 commit 的 slug 檔);新書照碎片架構只新增檔、
+          #   不該動到任何共享 tracked 檔。所以這裡把殘留的未暫存 tracked 改動丟掉,讓 rebase 乾淨。
+          #   (.ci/ 等 scratch 已加進 .gitignore → untracked,不受影響、後續步驟照樣讀得到。)
+          if ! git diff --quiet; then
+            echo "::warning::commit 後仍有未暫存的 tracked 改動,丟棄以免卡住 rebase:"; git status --short
+            git checkout -- .
+          fi
           ok=0
           for attempt in 1 2 3 4 5; do
             git fetch origin main || { echo "::warning::fetch 第 $attempt 次失敗,重試…"; sleep 3; continue; }

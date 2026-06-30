@@ -21,5 +21,11 @@ __pycache__/
 # build 產物(若有)
 /build/
 
+# CI 暫存區:雲端寫書鏈用 .ci/slug.txt、.ci/review.txt 在「步驟之間」傳遞,
+# 是 runner 本機 scratch、絕不該進版控。一旦被誤 commit 成 tracked,
+# 之後每次寫書 Claude 寫這兩檔 → 變「tracked 未暫存」→ push 前 git rebase
+# 報 "You have unstaged changes" → 整批書全部 push 失敗(2026-06-30 踩過)。
+.ci/
+
 # 拆書合輯 PDF 的中間產物(由 tools/build-anthology.php 生成)
 tools/_anthology.html

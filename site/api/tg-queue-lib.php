@@ -376,18 +376,24 @@ function q_report($status, $kind = '', $book = '', $lane = '') {
             }
         }
 
-        // ── 不分種類的連續失敗斷路器(兜底)──────────────────────────────────
-        // 任何失敗(品質/push/render/引擎)都 +1;中間只要有一本成功就會在上面歸零。連續達門檻 → 暫停整列、發醒目警示。
-        // 為什麼:per-lane 引擎斷路器只擋「額度滿」;但「每本都卡同一個系統性 bug」會被歸 quality → 永不暫停、整夜空燒。
-        // 用手動式暫停(pause_manual=true)→ cron 不會自動解,非要主人 /resume,確保主人沒看到前不會繼續燒。
-        $d['fail_streak'] = (int)($d['fail_streak'] ?? 0) + 1;
-        if ($d['fail_streak'] >= TG_STREAK_THRESHOLD && !$d['paused']) {
-            $d['paused'] = true;
-            $d['pause_manual'] = true;
-            if (!$d['paused_at']) $d['paused_at'] = time();
-            $sb = "🛑 連續 {$d['fail_streak']} 本書全部失敗、中間沒有一本成功 —— 疑似『系統性故障』(不是個別書的品質問題,例如卡在 push / 部署 / 某個閘門),已自動暫停整列以免持續空燒額度。\n\n請看 GitHub Actions 最近幾個 run 是掛在哪一步;修好後打 /resume 繼續(或 /status 看隊列)。";
-            $notify = $notify ? ($notify . "\n\n" . $sb) : $sb;
-            $d['fail_streak'] = 0;   // 觸發後歸零,/resume 後重新從 0 計
+        // ── 連續「非引擎」失敗斷路器(兜底)──────────────────────────────────
+        // 只數『非引擎』失敗(品質/push/render/部署);中間只要有一本成功就會在上面歸零。連續達門檻 → 暫停整列、發醒目警示。
+        // 為什麼只數非引擎:
+        //   - 引擎失敗(額度滿)本來就有另一套在管 —— per-lane 停用 + back-off 自動探路、額度回來『自動』恢復(滿足「自動補上」)。
+        //     若把引擎也算進這道,且這道是『手動式暫停(pause_manual=true)』,在「A、B 兩線都額度滿」時會把 pause_manual 設成 true
+        //     → 卡死 cron 的自動恢復 → 額度回來也不會自動補上(破壞需求3)。所以引擎失敗絕不進這個計數。
+        //   - 非引擎失敗才是真正的缺口:它『永不暫停』,會像 2026-06-30 的 .ci/ 卡 rebase 那樣整夜空燒、書全掉(需求2)。
+        //     這種多半是要人去修的系統性 bug,所以用手動式暫停、非要主人 /resume,確保沒看到前不再燒。
+        if (!$isEngine) {
+            $d['fail_streak'] = (int)($d['fail_streak'] ?? 0) + 1;
+            if ($d['fail_streak'] >= TG_STREAK_THRESHOLD && !$d['paused']) {
+                $d['paused'] = true;
+                $d['pause_manual'] = true;
+                if (!$d['paused_at']) $d['paused_at'] = time();
+                $sb = "🛑 連續 {$d['fail_streak']} 本書『非額度』失敗、中間沒有一本成功 —— 疑似系統性故障(例如卡在 push / 部署 / 某個閘門,不是個別書的品質問題,也不是額度滿),已自動暫停整列以免持續空燒額度。\n\n請看 GitHub Actions 最近幾個 run 掛在哪一步;修好後打 /resume 繼續(或 /status 看隊列)。";
+                $notify = $notify ? ($notify . "\n\n" . $sb) : $sb;
+                $d['fail_streak'] = 0;   // 觸發後歸零,/resume 後重新從 0 計
+            }
         }
     }
 

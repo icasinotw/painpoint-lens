@@ -54,6 +54,20 @@ jobs:
       - name: 記錄動工前 commit(之後用來找新拆書)
         run: echo "BEFORE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
+      - name: 防呆 — CI 暫存路徑不可進版控(在燒 Opus 之前先擋)
+        run: |
+          # 2026-06-30 慘痛教訓:.ci/slug.txt、.ci/review.txt 是步驟間傳遞用的 runner scratch,本該 untracked。
+          #   一旦被誤 commit 成 tracked,之後每次寫書都會在 push 前的 git rebase 報 "unstaged changes" → 整批白燒。
+          # 這步在「決定書名、跑 Claude」之前就擋下,確認暫存路徑沒有任何一個變成 tracked;有 → 直接 fail、不浪費 Opus。
+          echo "STAGE=暫存路徑防呆" >> "$GITHUB_ENV"
+          bad="$(git ls-files | grep -E '^\.ci/' || true)"
+          if [ -n "$bad" ]; then
+            echo "::error::暫存路徑被誤 commit 進版控(應為 untracked):"; echo "$bad"
+            echo "::error::修法:git rm --cached -r .ci/ 並確認 .gitignore 內有 .ci/,然後 commit + push。"
+            exit 1
+          fi
+          echo "暫存路徑乾淨(.ci/ 未被追蹤)。"
+
       - name: 決定書名 + 作者(手動觸發 或 Telegram 觸發)
         env:
           IN_BOOK_INPUT: ${{ inputs.book_name }}
@@ -147,6 +161,7 @@ jobs:
       - name: 找出本次 slug
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=找slug" >> "$GITHUB_ENV"
           SLUG="$(head -n1 .ci/slug.txt 2>/dev/null | tr -d '[:space:]')"
           if [ -z "$SLUG" ]; then
             SLUG="$(git diff --name-only "$BEFORE_SHA"..HEAD -- 'site/lens/_content/*.html' | head -n1 | xargs -r basename | sed 's/\.html$//')"
@@ -158,6 +173,7 @@ jobs:
       - name: 閘門 1 — php -l 全 site 語法檢查
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=php語法檢查(閘門1)" >> "$GITHUB_ENV"
           fail=0
           while IFS= read -r -d '' f; do
             php -l "$f" >/dev/null 2>&1 || { echo "::error::php -l 失敗:$f"; fail=1; }
@@ -167,6 +183,7 @@ jobs:
       - name: 閘門 2 — 反差句/結尾/撞句(count-contrast,沒過就不部署)
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=反差句/撞句(閘門2)" >> "$GITHUB_ENV"
           out="$(python3 tools/count-contrast.py "site/lens/_content/$SLUG.html")"
           echo "$out"
           if echo "$out" | grep -q "未過"; then
@@ -177,18 +194,21 @@ jobs:
       - name: 閘門 2.5 — CTA 數量(/tool、/book 各 ≤1、結尾不導工具;過量不部署)
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=CTA數量(閘門2.5)" >> "$GITHUB_ENV"
           python3 tools/count-cta.py "site/lens/_content/$SLUG.html" || {
             echo "::error::CTA 閘門未過 → 擋下部署(內文導購過量,違反 CTA 北極星:拆書是內容價值、不是導購;見 painpoint-lens skill〈內部連結與導流〉)"; exit 1; }
 
       - name: 閘門 2.7 — 標題長度(count-title,超長或塞兩段就不部署)
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=標題長度(閘門2.7)" >> "$GITHUB_ENV"
           python3 tools/count-title.py "$SLUG" || {
             echo "::error::標題閘門未過 → 擋下部署(卡片 title／heading／<h1> 任一 >32 字或含全形分號「；」;防 2026-06-28 長標漂移重演,見 painpoint-lens skill〈標題〉)"; exit 1; }
 
       - name: 閘門 3 — 本機 render 測 /lens/{slug}
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=本機render(閘門3)" >> "$GITHUB_ENV"
           php -S 127.0.0.1:8080 site/router.php >/tmp/php.log 2>&1 &
           PHP_PID=$!
           ok=0
@@ -205,6 +225,7 @@ jobs:
       - name: 推送到 main(rebase-retry;三道閘門都過才推)
         if: env.ALREADY_LIVE != '1'
         run: |
+          echo "STAGE=推送push(git rebase/push)" >> "$GITHUB_ENV"
           # Claude 已在本機 commit(沒 push)。閘門全過,才在這裡 deterministic 地 rebase + push:
           #   - 壞稿(任一閘門沒過)→ 上面早就 exit,根本不會到這步 → 壞 commit 永不進 main。
           #   - 平行 lane / recommend-books 同時推 → 碎片化後各篇檔 disjoint,rebase 乾淨;被搶先就重抓重試。
@@ -242,6 +263,7 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.CLOUDWAYS_SSH_KEY }}
         run: |
+          echo "STAGE=部署Cloudways" >> "$GITHUB_ENV"
           install -m 700 -d ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
@@ -310,7 +332,14 @@ jobs:
             # 避免額度滿期間每次探路重試都洗一則失敗訊息。
             exit 0
           else
-            TEXT="⚠️《${BOOK_NAME}》這次沒成功(品質閘門沒過或出錯),沒有上線。可到 GitHub Actions 看紀錄。"
+            # 帶上「掛在哪一關」(STAGE 由各步驟在開頭寫進 $GITHUB_ENV;job 失敗時 = 最後啟動的那步)。
+            # 一看就分得出是「個別書的內容問題」(反差句/標題/CTA)還是「系統性故障」(推送push/部署/php語法/找slug)。
+            WHERE="${STAGE:-未知步驟}"
+            case "$WHERE" in
+              推送push*|部署*|找slug*|php語法*) HINT="(看起來是系統性故障,不是這本書的內容問題——若連續好幾本都卡同一關,隊列會自動暫停並通知)";;
+              *) HINT="(這關通常是個別書的內容沒過,其他書照跑)";;
+            esac
+            TEXT="⚠️《${BOOK_NAME}》這次沒成功,卡在【${WHERE}】這一關,沒有上線。${HINT} 詳情看 GitHub Actions。"
           fi
           curl -sS "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${TG_CHAT_ID}" \

@@ -4,6 +4,7 @@
    ⚠️ 讀墨 Readmoo、Google 仍送審中,維持 disabled。
    ✅ 上架完成、拿到商品頁網址後,每個鈕只要一步:
       把 <button …> 換成 <a href="商品頁網址" target="_blank" rel="noopener">…</a> 並移除 disabled / aria-disabled。
+      ★ 同時更新下方「陸續上架中」那句(.store-soon):把已上架的平台名拿掉;全上架了就整句刪除。
    icon 圖:store-kobo.png(Rakuten R)、store-readmoo.png(rm)、store-pubu.png(橘P)、store-google.png(Play三角) */
 ?>
 <div class="store-buttons" style="margin-top:26px">
@@ -26,4 +27,5 @@
       <span>Google 電子書</span>
     </button>
   </div>
+  <p class="store-soon" style="margin:12px 0 0;font-size:.85rem;color:var(--muted,#8a8275)">讀墨 Readmoo、Google 電子書 陸續上架中</p>
 </div>

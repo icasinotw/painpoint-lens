@@ -158,6 +158,45 @@ jobs:
             --model claude-opus-4-8
             --allowedTools "Bash,Edit,Write,Read,Glob,Grep,MultiEdit"
 
+      - name: 判定 Claude 引擎/額度失敗(額度滿時 action 仍 exit 0,要另外抓 is_error)
+        if: always() && env.ALREADY_LIVE != '1'
+        env:
+          CLAUDE_EXEC_FILE: ${{ runner.temp }}/claude-execution-output.json
+        run: |
+          # 為什麼要這步(2026-07-01 慘痛教訓):帳號撞到週/日額度上限時,claude-code-action 這步
+          #   「照樣 exit 0」(outcome=success),只把 is_error:true + "You've hit your weekly limit"
+          #   寫進結果 JSON(claude-execution-output.json)。於是後面「找 slug」因 Claude 根本沒動而失敗,
+          #   被隊列接力誤判成 quality/系統性故障 → 連 4 本觸發『非額度』斷路器、手動暫停整列(還要人 /resume),
+          #   而不是走 per-lane 額度斷路器(自動停用該帳號、back-off、額度回來自動接上)。
+          # 這步把「引擎級錯誤(額度/API/中斷)」抓出來標記 ENGINE_FAIL(額度字樣再標 USAGE_LIMIT),
+          #   讓隊列接力正確歸成 engine。找不到檔/解析失敗 → 保守留白(退回舊行為,無害)。
+          out=$(python3 - <<'PY'
+          import json, os, re
+          p = os.environ.get('CLAUDE_EXEC_FILE', '')
+          engine = usage = 0
+          raw = ''
+          try:
+              with open(p, encoding='utf-8') as f:
+                  raw = f.read()
+              try:
+                  d = json.loads(raw)
+                  msgs = d if isinstance(d, list) else [d]
+              except Exception:
+                  msgs = []
+              for m in msgs:
+                  if isinstance(m, dict) and m.get('type') == 'result' and m.get('is_error'):
+                      engine = 1
+          except Exception:
+              pass
+          if re.search(r"hit your .{0,20}limit|usage limit|rate[- ]?limit|weekly limit|daily limit|resets (at|on|[A-Z][a-z]{2}\b)|credit balance|insufficient|quota", raw, re.I):
+              engine = 1; usage = 1
+          print(f"ENGINE_FAIL={engine}")
+          print(f"USAGE_LIMIT={usage}")
+          PY
+          )
+          echo "引擎失敗偵測 → ${out//$'\n'/ }"
+          printf '%s\n' "$out" >> "$GITHUB_ENV"
+
       - name: 找出本次 slug
         if: env.ALREADY_LIVE != '1'
         run: |
@@ -327,9 +366,11 @@ jobs:
             TEXT="ℹ️《${BOOK_NAME}》本來就已經在線上了:https://painpoint.tw/lens/${SLUG} —— 看門狗排回來、系統自動跳過重寫,直接接下一本。"
           elif [ "$JOB_STATUS" = "success" ] && [ -n "$SLUG" ]; then
             TEXT="✅《${BOOK_NAME}》拆書上線了:https://painpoint.tw/lens/${SLUG}"
-          elif [ "$CLAUDE_OUTCOME" = "failure" ]; then
+          elif [ "$CLAUDE_OUTCOME" = "failure" ] || [ "$ENGINE_FAIL" = "1" ]; then
             # 引擎失敗(疑似該帳號額度滿 / token 壞)→ 這裡「不發」,交給隊列那則「帳號暫停/恢復」的去重通知處理,
             # 避免額度滿期間每次探路重試都洗一則失敗訊息。
+            # ENGINE_FAIL=1:額度滿時 action 仍 exit 0,但已從結果 JSON 抓到 is_error/額度字樣 → 同樣不發、
+            #   別再洗「卡在找 slug 系統性故障」的誤導訊息(2026-07-01 修)。
             exit 0
           else
             # 帶上「掛在哪一關」(STAGE 由各步驟在開頭寫進 $GITHUB_ENV;job 失敗時 = 最後啟動的那步)。
@@ -360,6 +401,9 @@ jobs:
             # 其餘(寫一半沒 slug、品質閘沒過、部署瞬斷)→ quality(跳過這本、繼續下一本,絕不暫停)。
             STATUS=failure; KIND=quality
             [ "$CLAUDE_OUTCOME" = "failure" ] && KIND=engine
+            # 額度滿時 action 仍 exit 0(outcome=success),靠上一步從結果 JSON 抓出的 ENGINE_FAIL 補判,
+            # 否則會被誤當 quality → 連 4 本觸發手動暫停整列(2026-07-01 修)。
+            [ "$ENGINE_FAIL" = "1" ] && KIND=engine
           fi
 
           # ── 主要通道:SSH 進主機用 PHP CLI 回報 ──────────────────────────────

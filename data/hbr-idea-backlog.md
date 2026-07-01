@@ -37,7 +37,7 @@
 - [ ] `globalization-of-markets` — 《市場全球化》「The Globalization of Markets」— 希奧多・李維特(Theodore Levitt) · 1983 · 科技把全世界的需求拉向一致,標準化才是全球競爭的關鍵 · 行銷
 
 ## 創新
-- [ ] `disruptive-innovation` — 《破壞性技術:掌握浪潮》「Disruptive Technologies: Catching the Wave」— 鮑爾與克里斯汀生(Joseph Bower & Clayton Christensen) · 1995 · 破壞式創新從被大廠看不上的低階市場切入 · 創新
+- [x] 已寫 → `disruptive-innovation` — 《破壞性技術:掌握浪潮》「Disruptive Technologies: Catching the Wave」— 鮑爾與克里斯汀生(Joseph Bower & Clayton Christensen) · 1995 · 破壞式創新從被大廠看不上的低階市場切入 · 創新
 - [ ] `break-free-product-life-cycle` — 《跳脫產品生命週期》「Break Free from the Product Life Cycle」— 文英・穆恩(Youngme Moon) · 2005 · 與其在同一條軸上比輸贏,不如重新定義你是什麼 · 創新
 - [ ] `reinventing-business-model` — 《商業模式再創新》「Reinventing Your Business Model」— 強森、克里斯汀生與卡格曼(Mark Johnson, Clayton Christensen & Henning Kagermann) · 2008 · 真正的創新不是新產品,是重組「你怎麼賺錢」的四塊拼圖 · 創新
 - [ ] `discipline-of-innovation` — 《創新的紀律》「The Discipline of Innovation」— 彼得・杜拉克(Peter Drucker) · 1985 · 創新不靠靈光乍現,是有系統地在七個地方找機會 · 創新
@@ -88,10 +88,10 @@
 
 ## 生產力
 - [ ] `manage-your-energy` — 《管理精力,別管理時間》「Manage Your Energy, Not Your Time」— 史瓦茲與麥卡錫(Tony Schwartz & Catherine McCarthy) · 2007 · 時間是固定的,精力可以補充——把精力當可再生的資源來管 · 生產力
-- [ ] `power-of-small-wins` — 《小勝利的力量》「The Power of Small Wins」— 艾默伯與克瑞默(Teresa Amabile & Steven Kramer) · 2011 · 提升工作動力最強的槓桿,是讓人每天感覺「有進展」(進展定律) · 生產力
+- [x] 已寫 → `power-of-small-wins` — 《小勝利的力量》「The Power of Small Wins」— 艾默伯與克瑞默(Teresa Amabile & Steven Kramer) · 2011 · 提升工作動力最強的槓桿,是讓人每天感覺「有進展」(進展定律) · 生產力
 
 ## 敘事
-- [ ] `storytelling-that-moves-people` — 《打動人心的說故事》「Storytelling That Moves People」— 羅伯特・麥基(Robert McKee) · 2003 · 用數字說服只到腦,用故事才打得進心——連結衝突與轉折 · 敘事
+- [x] 已寫 → `storytelling-that-moves-people` — 《打動人心的說故事》「Storytelling That Moves People」— 羅伯特・麥基(Robert McKee) · 2003 · 用數字說服只到腦,用故事才打得進心——連結衝突與轉折 · 敘事
 
 ---
 
@@ -101,5 +101,8 @@
 - `managing-oneself`(2026-07-01)
 - `what-makes-a-leader`(2026-07-01)
 - `hidden-traps-decision`(2026-07-01)
+- `disruptive-innovation`(2026-07-01)
+- `power-of-small-wins`(2026-07-01)
+- `storytelling-that-moves-people`(2026-07-01)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。

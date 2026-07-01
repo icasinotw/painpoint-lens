@@ -15,6 +15,7 @@
       <a href="/read">免費試讀</a>
       <a href="/lens">拆書</a>
       <a href="/ask">拆問題</a>
+      <a href="/guide">創業指南</a>
       <a href="/claim">讀者好禮</a>
       <a class="btn btn-primary btn-sm" href="/book">購買電子書</a>
     </nav>

@@ -58,7 +58,7 @@
 - [x] 已寫 → `work-of-leadership` — 《領導的本業》「The Work of Leadership」— 海菲茲與勞瑞(Ronald Heifetz & Donald Laurie) · 1997 · 領導不是給答案,是逼團隊面對難題(調適型領導) · 領導
 - [x] 已寫 → `level-5-leadership` — 《第五級領導》「Level 5 Leadership」— 吉姆・柯林斯(Jim Collins) · 2001 · 最強的領導人不是明星,是謙遜加上鋼鐵意志的混合體 · 領導
 - [x] 已寫 → `primal-leadership` — 《原始領導力》「Primal Leadership」— 高曼、鮑雅齊斯與麥基(Daniel Goleman, Richard Boyatzis & Annie McKee) · 2001 · 領導人的情緒會傳染,定了整個團隊的氣氛與表現 · 領導
-- [ ] `crucibles-of-leadership` — 《淬鍊領導力》「Crucibles of Leadership」— 班尼斯與湯瑪斯(Warren Bennis & Robert Thomas) · 2002 · 偉大領導人都被一次「熔爐級」的磨難重新鑄造過 · 領導
+- [x] 已寫 → `crucibles-of-leadership` — 《淬鍊領導力》「Crucibles of Leadership」— 班尼斯與湯瑪斯(Warren Bennis & Robert Thomas) · 2002 · 偉大領導人都被一次「熔爐級」的磨難重新鑄造過 · 領導
 - [x] 已寫 → `leadership-that-gets-results` — 《領導,要看結果》「Leadership That Gets Results」— 丹尼爾・高曼(Daniel Goleman) · 2000 · 六種領導風格各有時機,好主管會按情境切換 · 領導
 - [x] 已寫 → `authentic-leadership` — 《找到你真實的領導風格》「Discovering Your Authentic Leadership」— 比爾・喬治等(Bill George et al.) · 2007 · 最好的領導是做真實的自己,不是模仿別人的樣板 · 領導
 - [x] 已寫 → `good-fight` — 《高效團隊會吵好架》「How Management Teams Can Have a Good Fight」— 艾森哈特等(Kathleen Eisenhardt et al.) · 1997 · 沒衝突的團隊很危險,關鍵是吵對事、不吵人 · 領導
@@ -159,5 +159,6 @@
 - `teaching-smart-people-to-learn`(2026-07-02)
 - `managers-job-folklore`(2026-07-02)
 - `building-company-vision`(2026-07-02)
+- `crucibles-of-leadership`(2026-07-02)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。

@@ -19,6 +19,7 @@ $urls = [
   ['/lens',                '2026-06-25'],
   ['/ask',                 '2026-06-28'],
   ['/guide',               '2026-06-30'],
+  ['/idea',                '2026-07-01'],
   ['/about',               '2026-06-23'],
   ['/contact',             null],
   ['/privacy',             null],
@@ -50,6 +51,11 @@ foreach ($askArticles as $a) {
 $guideArticles = require __DIR__ . '/guide/_articles.php';
 foreach ($guideArticles as $a) {
   $urls[] = ['/guide/' . $a['slug'], $a['updated'] ?? $a['date']];
+}
+// 經典觀念(把 HBR 等經典好文講成人話):同樣從單一清單自動納入。
+$ideaArticles = require __DIR__ . '/idea/_articles.php';
+foreach ($ideaArticles as $a) {
+  $urls[] = ['/idea/' . $a['slug'], $a['updated'] ?? $a['date']];
 }
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";

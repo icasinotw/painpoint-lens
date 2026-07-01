@@ -14,6 +14,7 @@
       <a href="/lens">痛點之尺·拆書</a>
       <a href="/ask">痛點之尺·拆問題</a>
       <a href="/guide">創業指南</a>
+      <a href="/idea">經典觀念</a>
       <a href="/book">電子書</a>
       <a href="/about">關於</a>
       <a href="/contact">聯絡我們</a>

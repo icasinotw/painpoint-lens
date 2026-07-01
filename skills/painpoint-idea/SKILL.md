@@ -103,10 +103,7 @@ HBR 的文章是有著作權的。這區能做、能長久做的唯一前提,是
 3. **標題三處人工比對:** 卡片 `title`／`heading`／`<h1>` 同一句、各 ≤32 字、無「；」。
 4. **`php -l`** 對新/改的 `.php`(或全 site)無誤。
 5. **本機渲染:** `php -S localhost:8080 site/router.php` 後 curl `/idea` 與 `/idea/{slug}`,確認 200、標題/結構化資料/內鏈都對。
-6. **整則回覆最後一行給部署指令**(獨立 code block、之後不接客套):
-   ```
-   bash ~/Documents/painpoint-lens/deploy.sh
-   ```
+6. **機械閘門全過 → 直接自動上線,不必問山姆(2026-07-01 山姆明講:寫完一篇 HBR 文章就直接部署、不用問)。** 照 CLAUDE.md〈進版／部署〉那套:只 `git add` 相關檔(絕不 `git add -A`;新篇的 `site/idea/{slug}.php`＋`_content/{slug}.html`、`site/idea/_articles.php`、`data/hbr-idea-backlog.md`)、繁中 commit + `Co-Authored-By: Claude` trailer → rebase-retry push(`git pull --rebase origin main` → `git push`,被拒就重抓重推、最多約 5 次)→ **push 成功後立刻 `bash deploy.sh` 即時部署** → 回報 commit hash 與「已即時上線」(必要時 curl `https://painpoint.tw/idea/{slug}` 驗一眼)。**任一閘門沒過就停下、不准 push**(凌駕本授權)。
 
 ## 一句話
 

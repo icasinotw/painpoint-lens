@@ -28,6 +28,7 @@
 - [ ] `blue-ocean-strategy` — 《藍海策略》「Blue Ocean Strategy」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2004 · 別在血流成河的紅海廝殺,去開一片沒人競爭的新市場(注:與相近 /lens 拆書主題重疊,優先順位往後放) · 策略
 - [ ] `competing-on-analytics` — 《用數據分析決勝》「Competing on Analytics」— 湯瑪斯・戴文波特(Thomas H. Davenport) · 2006 · 把數據分析變成核心競爭武器,靠證據而非直覺決策 · 策略
 - [ ] `red-ocean-traps` — 《紅海陷阱》「Red Ocean Traps」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2015 · 六個把你困在血流成河紅海裡的思維假設 · 策略
+- [ ] `value-disciplines` — 《顧客親密與其他價值準則》「Customer Intimacy and Other Value Disciplines」— 崔西與威瑟瑪(Michael Treacy & Fred Wiersema) · 1993 · 想當市場領導者就專精一種價值準則(營運卓越／產品領先／顧客親密),別三樣都想贏 · 策略
 
 ## 行銷
 - [x] 已寫 → `marketing-myopia` — 《行銷短視症》「Marketing Myopia」— 希奧多・李維特(Theodore Levitt) · 1960 · 別問「我賣什麼」,問「顧客真正要完成什麼」(鐵路公司敗在自認賣鐵路不是賣運輸) · 行銷
@@ -35,6 +36,7 @@
 - [x] 已寫 → `science-of-persuasion` — 《駕馭說服的科學》「Harnessing the Science of Persuasion」— 羅伯特・席爾迪尼(Robert Cialdini) · 2001 · 說服有六條可學的原理,不是天生口才 · 行銷
 - [x] 已寫 → `one-number-you-need` — 《你只需要一個數字》「The One Number You Need to Grow」— 弗雷德・賴克赫爾德(Fred Reichheld) · 2003 · 「你會不會推薦給朋友」這一題,比一堆滿意度調查更準(NPS 淨推薦值) · 行銷
 - [x] 已寫 → `globalization-of-markets` — 《市場全球化》「The Globalization of Markets」— 希奧多・李維特(Theodore Levitt) · 1983 · 科技把全世界的需求拉向一致,標準化才是全球競爭的關鍵 · 行銷
+- [ ] `zero-defections` — 《零流失》「Zero Defections: Quality Comes to Services」— 賴克赫爾德與薩瑟(Frederick Reichheld & W. Earl Sasser) · 1990 · 顧客流失率降一點點,利潤就大幅上升——留住舊客比拉新客值錢 · 行銷
 
 ## 創新
 - [x] 已寫 → `disruptive-innovation` — 《破壞性技術:掌握浪潮》「Disruptive Technologies: Catching the Wave」— 鮑爾與克里斯汀生(Joseph Bower & Clayton Christensen) · 1995 · 破壞式創新從被大廠看不上的低階市場切入 · 創新
@@ -45,6 +47,9 @@
 - [ ] `innovation-classic-traps` — 《創新的經典陷阱》「Innovation: The Classic Traps」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 2006 · 創新一再失敗,常敗在幾個可預測的老陷阱 · 創新
 - [x] 已寫 → `innovators-dna` — 《創新者的 DNA》「The Innovator's DNA」— 戴爾、葛瑞格森與克里斯汀生(Jeff Dyer, Hal Gregersen & Clayton Christensen) · 2009 · 創新者靠五種可練的技能:聯想、提問、觀察、社交、實驗 · 創新
 - [x] 已寫 → `design-thinking` — 《設計思考》「Design Thinking」— 提姆・布朗(Tim Brown) · 2008 · 用設計師的思維解商業問題:以人為本、快速試做原型 · 創新
+- [ ] `creativity-is-not-enough` — 《光有創意還不夠》「Creativity Is Not Enough」— 希奧多・李維特(Theodore Levitt) · 1963 · 點子多不等於創新;不能落地執行的創意反而拖垮公司 · 創新
+- [ ] `innovation-value-chain` — 《創新價值鏈》「The Innovation Value Chain」— 韓森與博金蕭(Morten Hansen & Julian Birkinshaw) · 2007 · 把創新看成一條鏈(生點子→篩選→擴散),補你最弱的那一環才有用 · 創新
+- [ ] `bringing-silicon-valley-inside` — 《把矽谷搬進公司》「Bringing Silicon Valley Inside」— 蓋瑞・哈默爾(Gary Hamel) · 1999 · 大公司想持續創新,得在內部複製矽谷那種創意、資本、人才自由流動的市場機制 · 創新
 
 ## 領導
 - [x] 已寫 → `what-makes-a-leader` — 《領導,靠的是什麼?》「What Makes a Leader?」— 丹尼爾・高曼(Daniel Goleman) · 1998 · EQ(情緒智商)比 IQ 更決定誰能領導 · 領導
@@ -57,6 +62,9 @@
 - [x] 已寫 → `leadership-that-gets-results` — 《領導,要看結果》「Leadership That Gets Results」— 丹尼爾・高曼(Daniel Goleman) · 2000 · 六種領導風格各有時機,好主管會按情境切換 · 領導
 - [ ] `authentic-leadership` — 《找到你真實的領導風格》「Discovering Your Authentic Leadership」— 比爾・喬治等(Bill George et al.) · 2007 · 最好的領導是做真實的自己,不是模仿別人的樣板 · 領導
 - [x] 已寫 → `good-fight` — 《高效團隊會吵好架》「How Management Teams Can Have a Good Fight」— 艾森哈特等(Kathleen Eisenhardt et al.) · 1997 · 沒衝突的團隊很危險,關鍵是吵對事、不吵人 · 領導
+- [ ] `begin-with-trust` — 《從信任開始》「Begin with Trust」— 佛雷與莫里斯(Frances X. Frei & Anne Morriss) · 2020 · 信任由真誠、邏輯、同理三根柱子撐起,先找出你晃的是哪一根 · 領導
+- [ ] `power-failure-management` — 《權力從哪裡來》「Power Failure in Management Circuits」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 1979 · 組織裡最無力的常是第一線主管與幕僚;權力來自位置、資源與資訊管道,不是頭銜 · 領導
+- [ ] `how-leaders-create-networks` — 《領導者如何經營人脈》「How Leaders Create and Use Networks」— 埃米妮亞・伊巴拉(Herminia Ibarra) · 2007 · 只顧埋頭做事的人升不上去;領導要刻意經營營運、個人、策略三種人脈網 · 領導
 
 ## 管理
 - [x] 已寫 → `managing-oneself` — 《管理你自己》「Managing Oneself」— 彼得・杜拉克(Peter Drucker) · 1999 · 先搞懂自己的長處與工作方式,才談得上經營人生 · 管理
@@ -73,6 +81,10 @@
 - [x] 已寫 → `whos-got-the-monkey` — 《猴子在誰身上?》「Management Time: Who's Got the Monkey?」— 昂肯與瓦斯(William Oncken & Donald Wass) · 1974 · 主管忙到死,常是把部屬的「猴子」都接到自己背上 · 管理
 - [ ] `set-up-to-fail-syndrome` — 《注定失敗症候群》「The Set-Up-to-Fail Syndrome」— 曼佐尼與巴索(Jean-François Manzoni & Jean-Louis Barsoux) · 1998 · 主管越不看好的部屬,越被無形逼成真的做不好(自我實現) · 管理
 - [ ] `coming-new-organization` — 《新型組織的來臨》「The Coming of the New Organization」— 彼得・杜拉克(Peter Drucker) · 1988 · 未來公司像交響樂團,靠知識專才與資訊而非層層管理 · 管理
+- [ ] `becoming-the-boss` — 《當上主管的第一年》「Becoming the Boss」— 琳達・希爾(Linda A. Hill) · 2007 · 新任主管最大的錯覺是以為自己有權威;真正的權力來自贏得部屬信任、經營關係 · 管理
+- [ ] `competitive-imperative-of-learning` — 《學習,才是真正的競爭力》「The Competitive Imperative of Learning」— 艾美・艾德蒙森(Amy C. Edmondson) · 2008 · 別只把流程執行好,要把執行當成學習;心理安全感讓團隊敢承認錯、敢改 · 管理
+- [ ] `turning-goals-into-results` — 《把目標變成結果》「Turning Goals into Results: The Power of Catalytic Mechanisms」— 吉姆・柯林斯(Jim Collins) · 1999 · 遠大目標與實際成果之間缺的是「催化機制」——一個逼願望自動變現實的裝置 · 管理
+- [ ] `effective-decision` — 《有效的決策》「The Effective Decision」— 彼得・杜拉克(Peter Drucker) · 1967 · 好主管不多做決定,只在最高層次做少數幾個對的決定,並先界定問題本質 · 管理
 
 ## 行為(決策)
 - [x] 已寫 → `before-big-decision` — 《在你做那個大決定之前》「Before You Make That Big Decision...」— 康納曼、洛瓦洛與希伯尼(Daniel Kahneman, Dan Lovallo & Olivier Sibony) · 2011 · 一張檢查清單,幫你抓出提案裡的偏誤 · 行為

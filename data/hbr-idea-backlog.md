@@ -23,12 +23,12 @@
 - [x] 已寫 → `crafting-strategy` — 《策略是手工藝》「Crafting Strategy」— 亨利・明茲伯格(Henry Mintzberg) · 1987 · 策略不是規劃出來的,是一邊做一邊長出來的 · 策略
 - [x] 已寫 → `big-lie-strategic-planning` — 《策略規劃的大謊言》「The Big Lie of Strategic Planning」— 羅傑・馬丁(Roger Martin) · 2014 · 把「規劃」當策略是自我安慰,策略是下注、會讓你不安 · 策略
 - [ ] `creating-shared-value` — 《創造共享價值》「Creating Shared Value」— 波特與克瑞默(Michael Porter & Mark Kramer) · 2011 · 解決社會問題和賺錢不必二選一 · 策略
-- [ ] `strategic-intent` — 《策略雄心》「Strategic Intent」— 哈默爾與普哈拉(Gary Hamel & C.K. Prahalad) · 1989 · 小蝦米靠一個看似不可能的長期目標,一步步扳倒巨人 · 策略
+- [x] 已寫 → `strategic-intent` — 《策略雄心》「Strategic Intent」— 哈默爾與普哈拉(Gary Hamel & C.K. Prahalad) · 1989 · 小蝦米靠一個看似不可能的長期目標,一步步扳倒巨人 · 策略
 - [ ] `it-doesnt-matter` — 《IT 不再是關鍵》「IT Doesn't Matter」— 尼可拉斯・卡爾(Nicholas Carr) · 2003 · 一項技術人人都有,它就不再是你贏的理由 · 策略
 - [ ] `blue-ocean-strategy` — 《藍海策略》「Blue Ocean Strategy」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2004 · 別在血流成河的紅海廝殺,去開一片沒人競爭的新市場(注:與相近 /lens 拆書主題重疊,優先順位往後放) · 策略
 - [ ] `competing-on-analytics` — 《用數據分析決勝》「Competing on Analytics」— 湯瑪斯・戴文波特(Thomas H. Davenport) · 2006 · 把數據分析變成核心競爭武器,靠證據而非直覺決策 · 策略
 - [ ] `red-ocean-traps` — 《紅海陷阱》「Red Ocean Traps」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2015 · 六個把你困在血流成河紅海裡的思維假設 · 策略
-- [ ] `value-disciplines` — 《顧客親密與其他價值準則》「Customer Intimacy and Other Value Disciplines」— 崔西與威瑟瑪(Michael Treacy & Fred Wiersema) · 1993 · 想當市場領導者就專精一種價值準則(營運卓越／產品領先／顧客親密),別三樣都想贏 · 策略
+- [x] 已寫 → `value-disciplines` — 《顧客親密與其他價值準則》「Customer Intimacy and Other Value Disciplines」— 崔西與威瑟瑪(Michael Treacy & Fred Wiersema) · 1993 · 想當市場領導者就專精一種價值準則(營運卓越／產品領先／顧客親密),別三樣都想贏 · 策略
 
 ## 行銷
 - [x] 已寫 → `marketing-myopia` — 《行銷短視症》「Marketing Myopia」— 希奧多・李維特(Theodore Levitt) · 1960 · 別問「我賣什麼」,問「顧客真正要完成什麼」(鐵路公司敗在自認賣鐵路不是賣運輸) · 行銷
@@ -36,18 +36,18 @@
 - [x] 已寫 → `science-of-persuasion` — 《駕馭說服的科學》「Harnessing the Science of Persuasion」— 羅伯特・席爾迪尼(Robert Cialdini) · 2001 · 說服有六條可學的原理,不是天生口才 · 行銷
 - [x] 已寫 → `one-number-you-need` — 《你只需要一個數字》「The One Number You Need to Grow」— 弗雷德・賴克赫爾德(Fred Reichheld) · 2003 · 「你會不會推薦給朋友」這一題,比一堆滿意度調查更準(NPS 淨推薦值) · 行銷
 - [x] 已寫 → `globalization-of-markets` — 《市場全球化》「The Globalization of Markets」— 希奧多・李維特(Theodore Levitt) · 1983 · 科技把全世界的需求拉向一致,標準化才是全球競爭的關鍵 · 行銷
-- [ ] `zero-defections` — 《零流失》「Zero Defections: Quality Comes to Services」— 賴克赫爾德與薩瑟(Frederick Reichheld & W. Earl Sasser) · 1990 · 顧客流失率降一點點,利潤就大幅上升——留住舊客比拉新客值錢 · 行銷
+- [x] 已寫 → `zero-defections` — 《零流失》「Zero Defections: Quality Comes to Services」— 賴克赫爾德與薩瑟(Frederick Reichheld & W. Earl Sasser) · 1990 · 顧客流失率降一點點,利潤就大幅上升——留住舊客比拉新客值錢 · 行銷
 
 ## 創新
 - [x] 已寫 → `disruptive-innovation` — 《破壞性技術:掌握浪潮》「Disruptive Technologies: Catching the Wave」— 鮑爾與克里斯汀生(Joseph Bower & Clayton Christensen) · 1995 · 破壞式創新從被大廠看不上的低階市場切入 · 創新
 - [ ] `break-free-product-life-cycle` — 《跳脫產品生命週期》「Break Free from the Product Life Cycle」— 文英・穆恩(Youngme Moon) · 2005 · 與其在同一條軸上比輸贏,不如重新定義你是什麼 · 創新
 - [x] 已寫 → `reinventing-business-model` — 《商業模式再創新》「Reinventing Your Business Model」— 強森、克里斯汀生與卡格曼(Mark Johnson, Clayton Christensen & Henning Kagermann) · 2008 · 真正的創新不是新產品,是重組「你怎麼賺錢」的四塊拼圖 · 創新
 - [x] 已寫 → `discipline-of-innovation` — 《創新的紀律》「The Discipline of Innovation」— 彼得・杜拉克(Peter Drucker) · 1985 · 創新不靠靈光乍現,是有系統地在七個地方找機會 · 創新
-- [ ] `meeting-disruptive-change` — 《面對破壞式變革》「Meeting the Challenge of Disruptive Change」— 克里斯汀生與歐佛多夫(Clayton Christensen & Michael Overdorf) · 2000 · 組織的既有能力也會變包袱,顛覆式創新要另設獨立單位去做 · 創新
+- [x] 已寫 → `meeting-disruptive-change` — 《面對破壞式變革》「Meeting the Challenge of Disruptive Change」— 克里斯汀生與歐佛多夫(Clayton Christensen & Michael Overdorf) · 2000 · 組織的既有能力也會變包袱,顛覆式創新要另設獨立單位去做 · 創新
 - [ ] `innovation-classic-traps` — 《創新的經典陷阱》「Innovation: The Classic Traps」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 2006 · 創新一再失敗,常敗在幾個可預測的老陷阱 · 創新
 - [x] 已寫 → `innovators-dna` — 《創新者的 DNA》「The Innovator's DNA」— 戴爾、葛瑞格森與克里斯汀生(Jeff Dyer, Hal Gregersen & Clayton Christensen) · 2009 · 創新者靠五種可練的技能:聯想、提問、觀察、社交、實驗 · 創新
 - [x] 已寫 → `design-thinking` — 《設計思考》「Design Thinking」— 提姆・布朗(Tim Brown) · 2008 · 用設計師的思維解商業問題:以人為本、快速試做原型 · 創新
-- [ ] `creativity-is-not-enough` — 《光有創意還不夠》「Creativity Is Not Enough」— 希奧多・李維特(Theodore Levitt) · 1963 · 點子多不等於創新;不能落地執行的創意反而拖垮公司 · 創新
+- [x] 已寫 → `creativity-is-not-enough` — 《光有創意還不夠》「Creativity Is Not Enough」— 希奧多・李維特(Theodore Levitt) · 1963 · 點子多不等於創新;不能落地執行的創意反而拖垮公司 · 創新
 - [ ] `innovation-value-chain` — 《創新價值鏈》「The Innovation Value Chain」— 韓森與博金蕭(Morten Hansen & Julian Birkinshaw) · 2007 · 把創新看成一條鏈(生點子→篩選→擴散),補你最弱的那一環才有用 · 創新
 - [ ] `bringing-silicon-valley-inside` — 《把矽谷搬進公司》「Bringing Silicon Valley Inside」— 蓋瑞・哈默爾(Gary Hamel) · 1999 · 大公司想持續創新,得在內部複製矽谷那種創意、資本、人才自由流動的市場機制 · 創新
 
@@ -60,9 +60,9 @@
 - [x] 已寫 → `primal-leadership` — 《原始領導力》「Primal Leadership」— 高曼、鮑雅齊斯與麥基(Daniel Goleman, Richard Boyatzis & Annie McKee) · 2001 · 領導人的情緒會傳染,定了整個團隊的氣氛與表現 · 領導
 - [ ] `crucibles-of-leadership` — 《淬鍊領導力》「Crucibles of Leadership」— 班尼斯與湯瑪斯(Warren Bennis & Robert Thomas) · 2002 · 偉大領導人都被一次「熔爐級」的磨難重新鑄造過 · 領導
 - [x] 已寫 → `leadership-that-gets-results` — 《領導,要看結果》「Leadership That Gets Results」— 丹尼爾・高曼(Daniel Goleman) · 2000 · 六種領導風格各有時機,好主管會按情境切換 · 領導
-- [ ] `authentic-leadership` — 《找到你真實的領導風格》「Discovering Your Authentic Leadership」— 比爾・喬治等(Bill George et al.) · 2007 · 最好的領導是做真實的自己,不是模仿別人的樣板 · 領導
+- [x] 已寫 → `authentic-leadership` — 《找到你真實的領導風格》「Discovering Your Authentic Leadership」— 比爾・喬治等(Bill George et al.) · 2007 · 最好的領導是做真實的自己,不是模仿別人的樣板 · 領導
 - [x] 已寫 → `good-fight` — 《高效團隊會吵好架》「How Management Teams Can Have a Good Fight」— 艾森哈特等(Kathleen Eisenhardt et al.) · 1997 · 沒衝突的團隊很危險,關鍵是吵對事、不吵人 · 領導
-- [ ] `begin-with-trust` — 《從信任開始》「Begin with Trust」— 佛雷與莫里斯(Frances X. Frei & Anne Morriss) · 2020 · 信任由真誠、邏輯、同理三根柱子撐起,先找出你晃的是哪一根 · 領導
+- [x] 已寫 → `begin-with-trust` — 《從信任開始》「Begin with Trust」— 佛雷與莫里斯(Frances X. Frei & Anne Morriss) · 2020 · 信任由真誠、邏輯、同理三根柱子撐起,先找出你晃的是哪一根 · 領導
 - [ ] `power-failure-management` — 《權力從哪裡來》「Power Failure in Management Circuits」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 1979 · 組織裡最無力的常是第一線主管與幕僚;權力來自位置、資源與資訊管道,不是頭銜 · 領導
 - [ ] `how-leaders-create-networks` — 《領導者如何經營人脈》「How Leaders Create and Use Networks」— 埃米妮亞・伊巴拉(Herminia Ibarra) · 2007 · 只顧埋頭做事的人升不上去;領導要刻意經營營運、個人、策略三種人脈網 · 領導
 
@@ -73,8 +73,8 @@
 - [x] 已寫 → `motivate-employees` — 《再說一次:你到底怎麼激勵員工?》「One More Time: How Do You Motivate Employees?」— 弗雷德里克・赫茨伯格(Frederick Herzberg) · 1968 · 加薪只能讓人不抱怨,真正的動力來自工作本身(雙因子理論) · 管理
 - [x] 已寫 → `balanced-scorecard` — 《平衡計分卡》「The Balanced Scorecard—Measures That Drive Performance」— 卡普蘭與諾頓(Robert Kaplan & David Norton) · 1992 · 只看財務數字像只看後照鏡開車,要四個面向一起量 · 管理
 - [x] 已寫 → `what-great-managers-do` — 《頂尖主管做的一件事》「What Great Managers Do」— 馬克斯・巴金漢(Marcus Buckingham) · 2005 · 好主管不磨平差異,是把每個人的獨特長處對準位置 · 管理
-- [ ] `teaching-smart-people-to-learn` — 《教聰明人學習》「Teaching Smart People How to Learn」— 克里斯・阿吉里斯(Chris Argyris) · 1991 · 越聰明的人越不會「學」,因為他們很少嘗到失敗、一被質疑就防衛 · 管理
-- [ ] `managers-job-folklore` — 《經理人的工作:傳說與真相》「The Manager's Job: Folklore and Fact」— 亨利・明茲伯格(Henry Mintzberg) · 1975 · 經理人不是坐著深思的規劃者,是被打斷、碎片化的行動者 · 管理
+- [x] 已寫 → `teaching-smart-people-to-learn` — 《教聰明人學習》「Teaching Smart People How to Learn」— 克里斯・阿吉里斯(Chris Argyris) · 1991 · 越聰明的人越不會「學」,因為他們很少嘗到失敗、一被質疑就防衛 · 管理
+- [x] 已寫 → `managers-job-folklore` — 《經理人的工作:傳說與真相》「The Manager's Job: Folklore and Fact」— 亨利・明茲伯格(Henry Mintzberg) · 1975 · 經理人不是坐著深思的規劃者,是被打斷、碎片化的行動者 · 管理
 - [ ] `reengineering-work` — 《別自動化,砍掉重練》「Reengineering Work: Don't Automate, Obliterate」— 麥可・韓默(Michael Hammer) · 1990 · 別把爛流程電腦化,要問「若今天重來會怎麼做」再重建 · 管理
 - [ ] `discipline-of-teams` — 《團隊的紀律》「The Discipline of Teams」— 卡然巴赫與史密斯(Jon Katzenbach & Douglas Smith) · 1993 · 一群人不等於團隊;真團隊有共同目標與彼此當責 · 管理
 - [x] 已寫 → `managing-your-boss` — 《向上管理你的主管》「Managing Your Boss」— 加巴洛與科特(John Gabarro & John Kotter) · 1980 · 管好和老闆的關係是你的責任,不是拍馬屁而是搞懂彼此 · 管理
@@ -93,7 +93,7 @@
 - [x] 已寫 → `how-unethical-are-you` — 《你有多不道德?》「How (Un)ethical Are You?」— 巴納吉、貝澤曼與查夫(Mahzarin Banaji, Max Bazerman & Dolly Chugh) · 2003 · 你以為自己很正直,真正害人的偏誤藏在無意識盲點裡 · 行為
 
 ## 創業／願景
-- [ ] `building-company-vision` — 《打造企業願景》「Building Your Company's Vision」— 柯林斯與薄樂斯(Jim Collins & Jerry Porras) · 1996 · 分清「不變的核心理念」與「該變的一切」,以及膽大包天的目標(BHAG) · 領導
+- [x] 已寫 → `building-company-vision` — 《打造企業願景》「Building Your Company's Vision」— 柯林斯與薄樂斯(Jim Collins & Jerry Porras) · 1996 · 分清「不變的核心理念」與「該變的一切」,以及膽大包天的目標(BHAG) · 領導
 - [x] 已寫 → `why-startups-fail` — 《新創為什麼失敗》「Why Start-ups Fail」— 湯姆・艾森曼(Tom Eisenmann) · 2021 · 失敗常不是執行不力,是幾種可預測的模式(如錯的隊友、太早擴張) · 創業
 - [x] 已寫 → `founders-dilemma` — 《創辦人的兩難》「The Founder's Dilemma」— 諾姆・華瑟曼(Noam Wasserman) · 2008 · 想當「有錢」還是想當「國王」?創辦人早晚要在兩者間選一個 · 創業
 - [x] 已寫 → `great-business-plan` — 《怎麼寫出好的創業計畫書》「How to Write a Great Business Plan」— 威廉・薩爾曼(William Sahlman) · 1997 · 好計畫書的重點不是財務預測,是人、機會、大環境、風險與報酬 · 創業
@@ -149,5 +149,15 @@
 - `great-business-plan`(2026-07-01)
 - `how-unethical-are-you`(2026-07-01)
 - `globalization-of-markets`(2026-07-01)
+- `strategic-intent`(2026-07-02)
+- `value-disciplines`(2026-07-02)
+- `zero-defections`(2026-07-02)
+- `creativity-is-not-enough`(2026-07-02)
+- `meeting-disruptive-change`(2026-07-02)
+- `begin-with-trust`(2026-07-02)
+- `authentic-leadership`(2026-07-02)
+- `teaching-smart-people-to-learn`(2026-07-02)
+- `managers-job-folklore`(2026-07-02)
+- `building-company-vision`(2026-07-02)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。

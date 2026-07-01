@@ -48,7 +48,7 @@
 
 ## 領導
 - [x] 已寫 → `what-makes-a-leader` — 《領導,靠的是什麼?》「What Makes a Leader?」— 丹尼爾・高曼(Daniel Goleman) · 1998 · EQ(情緒智商)比 IQ 更決定誰能領導 · 領導
-- [ ] `leading-change` — 《領導變革:為什麼轉型會失敗》「Leading Change: Why Transformation Efforts Fail」— 約翰・科特(John Kotter) · 1995 · 變革失敗的八個常見死法 · 領導
+- [x] 已寫 → `leading-change` — 《領導變革:為什麼轉型會失敗》「Leading Change: Why Transformation Efforts Fail」— 約翰・科特(John Kotter) · 1995 · 變革失敗的八個常見死法 · 領導
 - [ ] `what-leaders-really-do` — 《領導者到底在做什麼》「What Leaders Really Do」— 約翰・科特(John Kotter) · 1990 · 管理處理複雜、領導處理變化,兩者不同 · 領導
 - [ ] `work-of-leadership` — 《領導的本業》「The Work of Leadership」— 海菲茲與勞瑞(Ronald Heifetz & Donald Laurie) · 1997 · 領導不是給答案,是逼團隊面對難題(調適型領導) · 領導
 - [ ] `level-5-leadership` — 《第五級領導》「Level 5 Leadership」— 吉姆・柯林斯(Jim Collins) · 2001 · 最強的領導人不是明星,是謙遜加上鋼鐵意志的混合體 · 領導
@@ -62,7 +62,7 @@
 - [x] 已寫 → `managing-oneself` — 《管理你自己》「Managing Oneself」— 彼得・杜拉克(Peter Drucker) · 1999 · 先搞懂自己的長處與工作方式,才談得上經營人生 · 管理
 - [ ] `theory-of-the-business` — 《企業的經營理論》「The Theory of the Business」— 彼得・杜拉克(Peter Drucker) · 1994 · 企業出事,常是對「我們是誰、市場是什麼」的假設過期了 · 管理
 - [ ] `effective-executive` — 《怎樣才算有效的主管》「What Makes an Effective Executive」— 彼得・杜拉克(Peter Drucker) · 2004 · 有效不是天賦,是八個可練的習慣 · 管理
-- [ ] `motivate-employees` — 《再說一次:你到底怎麼激勵員工?》「One More Time: How Do You Motivate Employees?」— 弗雷德里克・赫茨伯格(Frederick Herzberg) · 1968 · 加薪只能讓人不抱怨,真正的動力來自工作本身(雙因子理論) · 管理
+- [x] 已寫 → `motivate-employees` — 《再說一次:你到底怎麼激勵員工?》「One More Time: How Do You Motivate Employees?」— 弗雷德里克・赫茨伯格(Frederick Herzberg) · 1968 · 加薪只能讓人不抱怨,真正的動力來自工作本身(雙因子理論) · 管理
 - [ ] `balanced-scorecard` — 《平衡計分卡》「The Balanced Scorecard—Measures That Drive Performance」— 卡普蘭與諾頓(Robert Kaplan & David Norton) · 1992 · 只看財務數字像只看後照鏡開車,要四個面向一起量 · 管理
 - [ ] `what-great-managers-do` — 《頂尖主管做的一件事》「What Great Managers Do」— 馬克斯・巴金漢(Marcus Buckingham) · 2005 · 好主管不磨平差異,是把每個人的獨特長處對準位置 · 管理
 - [ ] `teaching-smart-people-to-learn` — 《教聰明人學習》「Teaching Smart People How to Learn」— 克里斯・阿吉里斯(Chris Argyris) · 1991 · 越聰明的人越不會「學」,因為他們很少嘗到失敗、一被質疑就防衛 · 管理
@@ -87,7 +87,7 @@
 - [ ] `great-business-plan` — 《怎麼寫出好的創業計畫書》「How to Write a Great Business Plan」— 威廉・薩爾曼(William Sahlman) · 1997 · 好計畫書的重點不是財務預測,是人、機會、大環境、風險與報酬 · 創業
 
 ## 生產力
-- [ ] `manage-your-energy` — 《管理精力,別管理時間》「Manage Your Energy, Not Your Time」— 史瓦茲與麥卡錫(Tony Schwartz & Catherine McCarthy) · 2007 · 時間是固定的,精力可以補充——把精力當可再生的資源來管 · 生產力
+- [x] 已寫 → `manage-your-energy` — 《管理精力,別管理時間》「Manage Your Energy, Not Your Time」— 史瓦茲與麥卡錫(Tony Schwartz & Catherine McCarthy) · 2007 · 時間是固定的,精力可以補充——把精力當可再生的資源來管 · 生產力
 - [x] 已寫 → `power-of-small-wins` — 《小勝利的力量》「The Power of Small Wins」— 艾默伯與克瑞默(Teresa Amabile & Steven Kramer) · 2011 · 提升工作動力最強的槓桿,是讓人每天感覺「有進展」(進展定律) · 生產力
 
 ## 敘事
@@ -104,5 +104,8 @@
 - `disruptive-innovation`(2026-07-01)
 - `power-of-small-wins`(2026-07-01)
 - `storytelling-that-moves-people`(2026-07-01)
+- `leading-change`(2026-07-01)
+- `manage-your-energy`(2026-07-01)
+- `motivate-employees`(2026-07-01)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。

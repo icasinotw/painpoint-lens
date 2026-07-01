@@ -39,6 +39,7 @@ require __DIR__ . '/partials/header.php';
 
     <h2>你可以查證我是真的存在的人</h2>
     <p>我的個人頁在這裡:<a href="https://meowbooks.tw/user/@sambooks" target="_blank" rel="noopener">meowbooks.tw/user/@sambooks</a>。有任何問題,寫信給我:<a href="mailto:<?= e($cfg['contact_email']) ?>"><?= e($cfg['contact_email']) ?></a>。</p>
+    <p>也可以在這些地方找到我:<a href="https://www.instagram.com/meowbookstw" target="_blank" rel="me noopener">Instagram</a>、<a href="https://www.facebook.com/meowbooks.tw" target="_blank" rel="me noopener">Facebook</a>、<a href="https://www.linkedin.com/in/sam-seo/" target="_blank" rel="me noopener">LinkedIn</a>。</p>
 
     <h2>我給你什麼、不給你什麼</h2>
     <p>我給你的是<strong>一套可以反覆使用的方法 + 新的眼光</strong>,讓你開始認真審視「我手上的東西,哪一個值得拿來創業」。</p>

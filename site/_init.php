@@ -27,7 +27,12 @@ if (!function_exists('pain_base')) {
       'description'   => '還在賠錢的創業者,把四年近五百萬的教訓寫成 P.A.I.N. 四問。',
       'url'           => $base . '/about',
       'image'         => $base . '/assets/img/author.jpg?v=1', // 作者頭像:撐 Person 實體與 E-E-A-T 作者權威(全站署名同一張)
-      'sameAs'        => ['https://meowbooks.tw/user/@sambooks'],
+      'sameAs'        => [
+        'https://meowbooks.tw/user/@sambooks',
+        'https://www.instagram.com/meowbookstw',
+        'https://www.facebook.com/meowbooks.tw',
+        'https://www.linkedin.com/in/sam-seo/',
+      ],
     ];
   }
 

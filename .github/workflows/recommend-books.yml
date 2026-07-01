@@ -39,7 +39,7 @@ concurrency:                  # 一次只跑一輪推薦,避免兩次同時 push
 jobs:
   recommend:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 55        # 逐本 WebSearch 查證繁中版很吃 wall-clock,10~15 本 30 分鐘會被 GitHub 砍成 cancelled;放寬到 55(遠低於 hosted runner 6 小時上限)
     permissions:
       contents: write         # 讓 Claude 能 git push 更新後的帳本
       id-token: write         # claude-code-action 內部要
@@ -60,7 +60,7 @@ jobs:
           COUNT="${IN_COUNT_INPUT:-$IN_COUNT_DISPATCH}"
           TOPIC="${IN_TOPIC_INPUT:-$IN_TOPIC_DISPATCH}"
           # 數量正規化:只留數字、預設 10、夾在 1～15
-          # (上限 15:逐本 WebSearch 查證繁中版,再多就吃不下 timeout-minutes: 30,會被 GitHub 砍成 cancelled)
+          # (上限 15:逐本 WebSearch 查證繁中版很吃時間;timeout 已放寬到 55 分,但仍留 15 上限當保險)
           COUNT="$(printf '%s' "$COUNT" | tr -cd '0-9')"
           [ -z "$COUNT" ] && COUNT=10
           [ "$COUNT" -lt 1 ] 2>/dev/null && COUNT=10
@@ -83,7 +83,7 @@ jobs:
       - name: 挑書 + 更新帳本 + commit/push(Claude,跑你的訂閱)
         uses: anthropics/claude-code-action@v1
         env:
-          CLAUDE_CODE_EFFORT_LEVEL: high
+          CLAUDE_CODE_EFFORT_LEVEL: medium   # high 每步思考太重、拖慢逐本查證的 wall-clock;挑書+WebSearch 查證屬機械工作,medium 足夠又快很多
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_B }}   # 改吃 B 帳號(Max 20x、額度大):與 /lens lane b 同帳號,讓額度大的 B 多扛;A 專心拆書 lane a。退回 A:改回 CLAUDE_CODE_OAUTH_TOKEN。

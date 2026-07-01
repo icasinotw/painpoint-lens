@@ -3,7 +3,7 @@ require __DIR__ . '/_init.php';
 $faqs = [
   [
     'q' => '《痛點》電子書在哪裡買?有哪些平台?',
-    'a' => '在 Kobo 和讀墨 Readmoo 買得到——這兩個是台灣讀電子書最常用的平台。挑你習慣的那一家就好,買一次,之後在那家的書櫃裡都看得到。',
+    'a' => '在 Kobo、讀墨 Readmoo、Pubu 買得到——都是台灣讀電子書常用的平台。挑你習慣的那一家就好,買一次,之後在那家的書櫃裡都看得到。',
   ],
   [
     'q' => '多少錢?',
@@ -28,11 +28,14 @@ $faqs = [
 ];
 $page = [
   'title' => '《痛點 P.A.I.N.》電子書上市 — 在各大電子書平台買得到',
-  'desc'  => '《痛點 P.A.I.N.》電子書上市了。一個還在賠錢的創業者,把四年近五百萬的教訓誠實寫成 P.A.I.N. 四問:判斷一個點子值不值得做、看出誰真的在痛、動手做到第一筆錢。在 Kobo、讀墨 Readmoo 買得到。',
+  'desc'  => '《痛點 P.A.I.N.》電子書上市了。一個還在賠錢的創業者,把四年近五百萬的教訓誠實寫成 P.A.I.N. 四問:判斷一個點子值不值得做、看出誰真的在痛、動手做到第一筆錢。在 Kobo、讀墨 Readmoo、Pubu 買得到。',
   'path'  => '/book',
   'schema' => [
     [
-      // 註:不放 offers/price——本站不販售,電子書於各大電子書平台販售
+      // 註:本站不收款,offers 指向各電子書通路(Offer.seller/url 即為此用)——宣告「這本書在哪買得到、售價多少」,
+      //     供 Google 產生書籍 rich result、並以具名權威賣家背書可信度(E-E-A-T)。
+      //     Kobo/讀墨/Pubu 為台灣區在售;Apple 僅美國區(areaServed=US),故只進 schema、不上台灣購買按鈕。
+      //     Google 電子書送審中,過審上架後再補一筆 offer。
       '@type'       => 'Book',
       '@id'         => pain_base($cfg) . '/book#book',
       'name'        => '痛點 P.A.I.N.',
@@ -42,6 +45,43 @@ $page = [
       'bookFormat'  => 'https://schema.org/EBook',
       'description' => '不保證你成功,只用近五百萬換來的一把尺:判斷一個點子值不值得做、看出誰真的在痛、動手做到第一筆錢。全書三部、共二十八章。',
       'image'       => pain_base($cfg) . '/assets/img/cover-ebook.jpg?v=1',
+      'offers'      => [
+        [
+          '@type'         => 'Offer',
+          'url'           => 'https://www.kobo.com/tw/zh/ebook/p-a-i-n-4',
+          'price'         => '199',
+          'priceCurrency' => 'TWD',
+          'availability'  => 'https://schema.org/InStock',
+          'areaServed'    => 'TW',
+          'seller'        => ['@type' => 'Organization', 'name' => 'Kobo'],
+        ],
+        [
+          '@type'         => 'Offer',
+          'url'           => 'https://readmoo.com/book/210484076000101',
+          'price'         => '199',
+          'priceCurrency' => 'TWD',
+          'availability'  => 'https://schema.org/InStock',
+          'areaServed'    => 'TW',
+          'seller'        => ['@type' => 'Organization', 'name' => '讀墨 Readmoo'],
+        ],
+        [
+          '@type'         => 'Offer',
+          'url'           => 'https://www.pubu.com.tw/ebook/677526',
+          'price'         => '199',
+          'priceCurrency' => 'TWD',
+          'availability'  => 'https://schema.org/InStock',
+          'areaServed'    => 'TW',
+          'seller'        => ['@type' => 'Organization', 'name' => 'Pubu'],
+        ],
+        [
+          // Apple Books 僅美國市場;僅供「這本書全球通路確實存在」之可信度佐證,台灣購買按鈕不放。
+          '@type'        => 'Offer',
+          'url'          => 'https://books.apple.com/us/book/id6784925701',
+          'availability' => 'https://schema.org/InStock',
+          'areaServed'   => 'US',
+          'seller'       => ['@type' => 'Organization', 'name' => 'Apple Books'],
+        ],
+      ],
     ],
     [
       '@type'      => 'FAQPage',

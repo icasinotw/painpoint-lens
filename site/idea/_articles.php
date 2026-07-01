@@ -18,6 +18,14 @@
  */
 return [
   [
+    'slug'     => 'leading-change',
+    'kicker'   => '經典觀念 · 約翰・科特',
+    'title'    => '轟轟烈烈宣布轉型，半年後為什麼不了了之',
+    'blurb'    => '公司盛大宣布數位轉型,喊得震天價響,半年後卻不了了之。哈佛商學院教授約翰・科特1995年在《哈佛商業評論》的經典〈Leading Change: Why Transformation Efforts Fail〉,歸納出變革失敗最常見的八個錯誤。用台灣在地例子帶你抓住其中最有感的五個,附今天就能自問的一句檢查句。',
+    'category' => '領導',
+    'date'     => '2026-07-01',
+  ],
+  [
     'slug'     => 'disruptive-innovation',
     'kicker'   => '經典觀念 · 鮑爾與克里斯汀生',
     'title'    => '破壞式創新，為什麼好公司會被爛東西幹掉',

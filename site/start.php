@@ -60,6 +60,11 @@ require __DIR__ . '/partials/header.php';
     <h2 class="h-display" style="font-size:1.18rem;margin:0">看這把尺怎麼用,或讀整套方法</h2>
   </div>
   <div class="read-list">
+    <a class="read-item" href="/guide">
+      <span class="ri-kicker">照著走</span>
+      <h3>創業指南</h3>
+      <p>「該驗證什麼」「怎麼找第一批客戶」這類最常被搜、卻最容易做錯的問題,一篇一篇講成可照著走的判斷流程。</p>
+    </a>
     <a class="read-item" href="/lens">
       <span class="ri-kicker">看範例</span>
       <h3>痛點之尺・拆書</h3>
@@ -69,6 +74,11 @@ require __DIR__ . '/partials/header.php';
       <span class="ri-kicker">拆處境</span>
       <h3>痛點之尺・拆問題</h3>
       <p>同一把尺,這次不拆書,拆你正卡著的處境——「該不該做」「該不該停」,一篇帶你做一次動手前的判斷。</p>
+    </a>
+    <a class="read-item" href="/idea">
+      <span class="ri-kicker">讀好文</span>
+      <h3>經典觀念</h3>
+      <p>《哈佛商業評論》那些常被引用、卻艱深難啃的好文,用最白話幫你抓住核心——只教觀念、標明出處、指路原文。</p>
     </a>
     <a class="read-item" href="/read">
       <span class="ri-kicker">讀整套</span>

@@ -157,6 +157,7 @@ jobs:
             --max-turns 60
             --model claude-opus-4-8
             --allowedTools "Bash,Edit,Write,Read,Glob,Grep,MultiEdit"
+            --disallowedTools "Task,Agent"   # 擋背景/async 子代理:Opus 4.8 會把工作丟給背景子代理再「我等它們跑完」提早收工(2026-07-02 recommend 就這樣掛),寫書是單代理同步任務,絕不該開子代理
 
       - name: 判定 Claude 引擎/額度失敗(額度滿時 action 仍 exit 0,要另外抓 is_error)
         if: always() && env.ALREADY_LIVE != '1'

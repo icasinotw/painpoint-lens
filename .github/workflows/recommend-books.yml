@@ -90,6 +90,10 @@ jobs:
           prompt: |
             你在 GitHub Actions 雲端,要照「痛點」專案 CLAUDE.md〈規則:推薦書籍〉幫山姆挑商業書,並把結果回傳給他。
 
+            ## 最高鐵則:自己同步做完,絕不開背景子代理(2026-07-02 慘痛教訓)
+            **不准**使用任何「背景 / async 子代理」工具(Task / Agent / 平行子代理)。所有 WebSearch 查證都要你自己在這一輪(同一個 turn)一步一步同步做完;**絕不可以**把查證丟給背景子代理、再回一句「我等它們跑完」就結束——那會讓這個 run 提早收工、`.ci/recommend.txt` 空白沒寫,山姆就收到「挑書沒成功」(2026-07-02 就是這樣掛的)。
+            你這一輪(turn)結束之前,務必已經:① 寫出「非空」的 `.ci/recommend.txt`、② 把帳本 `git commit`(未 push)。這兩件沒做完就不准結束。
+
             ## 第一步:讀帳本(避免重複的唯一依據)
             讀 `data/recommended-books.md`。這是「已推薦/已寫過書評」的完整帳本。你挑的每一本都【不可】出現在這份帳本的任何一個地方(已推薦各批、各批備選、已寫過書評、絕版別推清單、同梯沒選入清單,全部都算推過/查過,一律避開)。
 
@@ -118,6 +122,7 @@ jobs:
             --max-turns 40
             --model claude-opus-4-8
             --allowedTools "Bash,Edit,Write,Read,Glob,Grep,WebSearch,WebFetch"
+            --disallowedTools "Task,Agent"
 
       - name: 推送帳本到 main(rebase-retry;與寫書工作流同時推也不互撞)
         run: |

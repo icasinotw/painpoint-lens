@@ -26,6 +26,8 @@
 - [ ] `strategic-intent` — 《策略雄心》「Strategic Intent」— 哈默爾與普哈拉(Gary Hamel & C.K. Prahalad) · 1989 · 小蝦米靠一個看似不可能的長期目標,一步步扳倒巨人 · 策略
 - [ ] `it-doesnt-matter` — 《IT 不再是關鍵》「IT Doesn't Matter」— 尼可拉斯・卡爾(Nicholas Carr) · 2003 · 一項技術人人都有,它就不再是你贏的理由 · 策略
 - [ ] `blue-ocean-strategy` — 《藍海策略》「Blue Ocean Strategy」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2004 · 別在血流成河的紅海廝殺,去開一片沒人競爭的新市場(注:與相近 /lens 拆書主題重疊,優先順位往後放) · 策略
+- [ ] `competing-on-analytics` — 《用數據分析決勝》「Competing on Analytics」— 湯瑪斯・戴文波特(Thomas H. Davenport) · 2006 · 把數據分析變成核心競爭武器,靠證據而非直覺決策 · 策略
+- [ ] `red-ocean-traps` — 《紅海陷阱》「Red Ocean Traps」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2015 · 六個把你困在血流成河紅海裡的思維假設 · 策略
 
 ## 行銷
 - [x] 已寫 → `marketing-myopia` — 《行銷短視症》「Marketing Myopia」— 希奧多・李維特(Theodore Levitt) · 1960 · 別問「我賣什麼」,問「顧客真正要完成什麼」(鐵路公司敗在自認賣鐵路不是賣運輸) · 行銷
@@ -39,6 +41,10 @@
 - [ ] `break-free-product-life-cycle` — 《跳脫產品生命週期》「Break Free from the Product Life Cycle」— 文英・穆恩(Youngme Moon) · 2005 · 與其在同一條軸上比輸贏,不如重新定義你是什麼 · 創新
 - [ ] `reinventing-business-model` — 《商業模式再創新》「Reinventing Your Business Model」— 強森、克里斯汀生與卡格曼(Mark Johnson, Clayton Christensen & Henning Kagermann) · 2008 · 真正的創新不是新產品,是重組「你怎麼賺錢」的四塊拼圖 · 創新
 - [ ] `discipline-of-innovation` — 《創新的紀律》「The Discipline of Innovation」— 彼得・杜拉克(Peter Drucker) · 1985 · 創新不靠靈光乍現,是有系統地在七個地方找機會 · 創新
+- [ ] `meeting-disruptive-change` — 《面對破壞式變革》「Meeting the Challenge of Disruptive Change」— 克里斯汀生與歐佛多夫(Clayton Christensen & Michael Overdorf) · 2000 · 組織的既有能力也會變包袱,顛覆式創新要另設獨立單位去做 · 創新
+- [ ] `innovation-classic-traps` — 《創新的經典陷阱》「Innovation: The Classic Traps」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 2006 · 創新一再失敗,常敗在幾個可預測的老陷阱 · 創新
+- [ ] `innovators-dna` — 《創新者的 DNA》「The Innovator's DNA」— 戴爾、葛瑞格森與克里斯汀生(Jeff Dyer, Hal Gregersen & Clayton Christensen) · 2009 · 創新者靠五種可練的技能:聯想、提問、觀察、社交、實驗 · 創新
+- [ ] `design-thinking` — 《設計思考》「Design Thinking」— 提姆・布朗(Tim Brown) · 2008 · 用設計師的思維解商業問題:以人為本、快速試做原型 · 創新
 
 ## 領導
 - [x] 已寫 → `what-makes-a-leader` — 《領導,靠的是什麼?》「What Makes a Leader?」— 丹尼爾・高曼(Daniel Goleman) · 1998 · EQ(情緒智商)比 IQ 更決定誰能領導 · 領導
@@ -48,6 +54,9 @@
 - [ ] `level-5-leadership` — 《第五級領導》「Level 5 Leadership」— 吉姆・柯林斯(Jim Collins) · 2001 · 最強的領導人不是明星,是謙遜加上鋼鐵意志的混合體 · 領導
 - [ ] `primal-leadership` — 《原始領導力》「Primal Leadership」— 高曼、鮑雅齊斯與麥基(Daniel Goleman, Richard Boyatzis & Annie McKee) · 2001 · 領導人的情緒會傳染,定了整個團隊的氣氛與表現 · 領導
 - [ ] `crucibles-of-leadership` — 《淬鍊領導力》「Crucibles of Leadership」— 班尼斯與湯瑪斯(Warren Bennis & Robert Thomas) · 2002 · 偉大領導人都被一次「熔爐級」的磨難重新鑄造過 · 領導
+- [ ] `leadership-that-gets-results` — 《領導,要看結果》「Leadership That Gets Results」— 丹尼爾・高曼(Daniel Goleman) · 2000 · 六種領導風格各有時機,好主管會按情境切換 · 領導
+- [ ] `authentic-leadership` — 《找到你真實的領導風格》「Discovering Your Authentic Leadership」— 比爾・喬治等(Bill George et al.) · 2007 · 最好的領導是做真實的自己,不是模仿別人的樣板 · 領導
+- [ ] `good-fight` — 《高效團隊會吵好架》「How Management Teams Can Have a Good Fight」— 艾森哈特等(Kathleen Eisenhardt et al.) · 1997 · 沒衝突的團隊很危險,關鍵是吵對事、不吵人 · 領導
 
 ## 管理
 - [x] 已寫 → `managing-oneself` — 《管理你自己》「Managing Oneself」— 彼得・杜拉克(Peter Drucker) · 1999 · 先搞懂自己的長處與工作方式,才談得上經營人生 · 管理
@@ -63,16 +72,19 @@
 - [ ] `managing-your-boss` — 《向上管理你的主管》「Managing Your Boss」— 加巴洛與科特(John Gabarro & John Kotter) · 1980 · 管好和老闆的關係是你的責任,不是拍馬屁而是搞懂彼此 · 管理
 - [ ] `whos-got-the-monkey` — 《猴子在誰身上?》「Management Time: Who's Got the Monkey?」— 昂肯與瓦斯(William Oncken & Donald Wass) · 1974 · 主管忙到死,常是把部屬的「猴子」都接到自己背上 · 管理
 - [ ] `set-up-to-fail-syndrome` — 《注定失敗症候群》「The Set-Up-to-Fail Syndrome」— 曼佐尼與巴索(Jean-François Manzoni & Jean-Louis Barsoux) · 1998 · 主管越不看好的部屬,越被無形逼成真的做不好(自我實現) · 管理
+- [ ] `coming-new-organization` — 《新型組織的來臨》「The Coming of the New Organization」— 彼得・杜拉克(Peter Drucker) · 1988 · 未來公司像交響樂團,靠知識專才與資訊而非層層管理 · 管理
 
 ## 行為(決策)
 - [ ] `before-big-decision` — 《在你做那個大決定之前》「Before You Make That Big Decision...」— 康納曼、洛瓦洛與希伯尼(Daniel Kahneman, Dan Lovallo & Olivier Sibony) · 2011 · 一張檢查清單,幫你抓出提案裡的偏誤 · 行為
 - [x] 已寫 → `hidden-traps-decision` — 《決策裡的隱形陷阱》「The Hidden Traps in Decision Making」— 哈蒙德、基尼與拉伊法(Hammond, Keeney & Raiffa) · 1998 · 定錨、維持現狀、沉沒成本…幾個會系統性害你決策的心理陷阱 · 行為
 - [ ] `how-will-you-measure-your-life` — 《你要拿什麼衡量人生》「How Will You Measure Your Life?」— 克雷頓・克里斯汀生(Clayton Christensen) · 2010 · 把管理理論拿來經營自己的人生,別在錯的地方投資 · 行為
+- [ ] `how-unethical-are-you` — 《你有多不道德?》「How (Un)ethical Are You?」— 巴納吉、貝澤曼與查夫(Mahzarin Banaji, Max Bazerman & Dolly Chugh) · 2003 · 你以為自己很正直,真正害人的偏誤藏在無意識盲點裡 · 行為
 
 ## 創業／願景
 - [ ] `building-company-vision` — 《打造企業願景》「Building Your Company's Vision」— 柯林斯與薄樂斯(Jim Collins & Jerry Porras) · 1996 · 分清「不變的核心理念」與「該變的一切」,以及膽大包天的目標(BHAG) · 領導
 - [ ] `why-startups-fail` — 《新創為什麼失敗》「Why Start-ups Fail」— 湯姆・艾森曼(Tom Eisenmann) · 2021 · 失敗常不是執行不力,是幾種可預測的模式(如錯的隊友、太早擴張) · 創業
 - [ ] `founders-dilemma` — 《創辦人的兩難》「The Founder's Dilemma」— 諾姆・華瑟曼(Noam Wasserman) · 2008 · 想當「有錢」還是想當「國王」?創辦人早晚要在兩者間選一個 · 創業
+- [ ] `great-business-plan` — 《怎麼寫出好的創業計畫書》「How to Write a Great Business Plan」— 威廉・薩爾曼(William Sahlman) · 1997 · 好計畫書的重點不是財務預測,是人、機會、大環境、風險與報酬 · 創業
 
 ## 生產力
 - [ ] `manage-your-energy` — 《管理精力,別管理時間》「Manage Your Energy, Not Your Time」— 史瓦茲與麥卡錫(Tony Schwartz & Catherine McCarthy) · 2007 · 時間是固定的,精力可以補充——把精力當可再生的資源來管 · 生產力

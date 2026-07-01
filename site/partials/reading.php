@@ -169,14 +169,14 @@ if ($isLens) {
       <?php else: /* 多數頁:訂閱拆書電子報(內容對齊、輕量的 email 捕捉) */ ?>
       <section class="lens-news" aria-label="訂閱拆書電子報">
         <h2 class="ln-h">喜歡這篇拆書嗎?</h2>
-        <p class="ln-sub">每週幫你拆一本好書,把判斷力、好書金句、好問題,直送你的信箱。</p>
+        <p class="ln-sub">每週幫你拆二本好書,把判斷力、好書金句、好問題,直送你的信箱。</p>
         <form id="lensNews" class="ln-form" novalidate>
           <label class="sr-only" for="lensNewsEmail">你的 email</label>
           <input type="text" name="website" class="ln-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <input type="email" id="lensNewsEmail" required placeholder="輸入你的 Email …" autocomplete="email" inputmode="email">
           <button type="submit" class="btn btn-primary">免費訂閱</button>
         </form>
-        <p class="ln-fine" id="lensNewsMsg">不適合你可隨時退訂 · 每週一封,陪你把書讀進生活。</p>
+        <p class="ln-fine" id="lensNewsMsg">不適合你可隨時退訂 · 每週兩封,陪你把書讀進生活。</p>
       </section>
       <?php endif; ?>
 

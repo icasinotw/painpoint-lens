@@ -59,11 +59,12 @@ jobs:
         run: |
           COUNT="${IN_COUNT_INPUT:-$IN_COUNT_DISPATCH}"
           TOPIC="${IN_TOPIC_INPUT:-$IN_TOPIC_DISPATCH}"
-          # 數量正規化:只留數字、預設 10、夾在 1～30
+          # 數量正規化:只留數字、預設 10、夾在 1～15
+          # (上限 15:逐本 WebSearch 查證繁中版,再多就吃不下 timeout-minutes: 30,會被 GitHub 砍成 cancelled)
           COUNT="$(printf '%s' "$COUNT" | tr -cd '0-9')"
           [ -z "$COUNT" ] && COUNT=10
           [ "$COUNT" -lt 1 ] 2>/dev/null && COUNT=10
-          [ "$COUNT" -gt 30 ] 2>/dev/null && COUNT=30
+          [ "$COUNT" -gt 15 ] 2>/dev/null && COUNT=15
           {
             echo "REC_COUNT=$COUNT"
             if [ -n "$TOPIC" ]; then

@@ -10,7 +10,13 @@ name: 隊列救援(手動備援:resume + watchdog)
 #   萬一哪天主機 cron 掛了要手動救:Actions 分頁 → 這支 → Run workflow(跑一次 resume+watchdog)。
 
 on:
-  workflow_dispatch: {}    # 只手動觸發(備援);日常 resume/watchdog 交給主機 cron queue-cron.php
+  workflow_dispatch:        # 只手動觸發(備援);日常 resume/watchdog 交給主機 cron queue-cron.php
+    inputs:
+      manual:
+        description: '手動續跑?(true=連主人手動 /pause 也解除,等同 Telegram /resume;false=只解引擎連敗暫停)'
+        required: false
+        default: 'true'
+        type: string
 
 jobs:
   resume:
@@ -19,11 +25,14 @@ jobs:
       - name: 若隊列暫停中就續跑(resume)
         env:
           TG_QUEUE_SECRET: ${{ secrets.TG_QUEUE_SECRET }}
+          MANUAL: ${{ inputs.manual }}
         run: |
           [ -z "$TG_QUEUE_SECRET" ] && { echo "沒設 TG_QUEUE_SECRET,略過"; exit 0; }
-          echo "--- resume ---"
+          # 這支只有主人手動觸發 → 預設 manual=1:等同 Telegram /resume,連「主人手動 /pause」也一起解除。
+          MANUAL="${MANUAL:-true}"
+          echo "--- resume (manual=$MANUAL) ---"
           # 用 GET(端點讀 $_GET):POST 會間歇被 Cloudways WAF 回 415,連救援這通都可能掉 → 卡更久。GET 無 body 不被 415。
-          curl -sS "https://painpoint.tw/api/tg-queue?action=resume" \
+          curl -sS "https://painpoint.tw/api/tg-queue?action=resume&manual=${MANUAL}" \
             -H "X-Queue-Token: ${TG_QUEUE_SECRET}" --retry 3 --retry-all-errors --max-time 30
           echo
 

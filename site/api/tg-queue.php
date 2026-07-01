@@ -35,7 +35,10 @@ if ($action === 'report') {
     $r = q_pause();
     echo json_encode(['ok' => true] + $r, JSON_UNESCAPED_UNICODE);
 } elseif ($action === 'resume') {
-    $r = q_resume();
+    // ?manual=1 → 主人手動續跑(等同 Telegram /resume,連「手動暫停」也一起解);
+    // 不帶則沿用非手動:cron/自動備援遇到主人手動暫停會原封不動、只解引擎連敗的暫停。
+    $manual = in_array(($_GET['manual'] ?? ''), ['1', 'true', 'yes'], true);
+    $r = q_resume($manual);
     echo json_encode(['ok' => true] + $r, JSON_UNESCAPED_UNICODE);
 } elseif ($action === 'watchdog') {
     $r = q_watchdog();

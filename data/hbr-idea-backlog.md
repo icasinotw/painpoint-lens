@@ -23,7 +23,7 @@
 - [ ] `creating-shared-value` — 《創造共享價值》「Creating Shared Value」— 波特與克瑞默(Michael Porter & Mark Kramer) · 2011 · 解決社會問題和賺錢不必二選一 · 策略
 
 ## 行銷
-- [ ] `marketing-myopia` — 《行銷短視症》「Marketing Myopia」— 希奧多・李維特(Theodore Levitt) · 1960 · 別問「我賣什麼」,問「顧客真正要完成什麼」(鐵路公司敗在自認賣鐵路不是賣運輸) · 行銷
+- [x] 已寫 → `marketing-myopia` — 《行銷短視症》「Marketing Myopia」— 希奧多・李維特(Theodore Levitt) · 1960 · 別問「我賣什麼」,問「顧客真正要完成什麼」(鐵路公司敗在自認賣鐵路不是賣運輸) · 行銷
 - [ ] `jobs-to-be-done` — 《行銷的失誤》「Marketing Malpractice: The Cause and the Cure」— 克里斯汀生等(Clayton Christensen et al.) · 2005 · 用途理論:顧客是「雇用」產品去完成一件任務(奶昔的故事) · 行銷
 - [ ] `science-of-persuasion` — 《駕馭說服的科學》「Harnessing the Science of Persuasion」— 羅伯特・席爾迪尼(Robert Cialdini) · 2001 · 說服有六條可學的原理,不是天生口才 · 行銷
 
@@ -59,5 +59,6 @@
 
 ## 已寫清單(對照 site/idea/_articles.php,雙保險)
 - `what-is-strategy`(2026-07-01)
+- `marketing-myopia`(2026-07-01)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。

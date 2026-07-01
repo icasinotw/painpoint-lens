@@ -523,7 +523,7 @@ h3{font-size:1.2rem;margin:0 0 .4em}
 .lens-tab-n{font-size:.78em;margin-left:5px;opacity:.55;font-weight:600;font-variant-numeric:tabular-nums}
 .lens-tab.is-active .lens-tab-n{opacity:.75}
 .lens-count{text-align:center;color:var(--grey);font-size:.84rem;margin:0 auto;font-variant-numeric:tabular-nums}
-.lens-cats{display:flex;flex-wrap:wrap;gap:10px;min-width:0}
+.lens-cats{display:flex;flex-wrap:nowrap;gap:10px;min-width:0}
 .lens-tab{flex-shrink:0;font:inherit;font-size:.9rem;color:var(--ink-soft);background:var(--white);
   border:1px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer;transition:.12s;line-height:1}
 .lens-tab:hover{border-color:var(--gold);color:var(--ink)}

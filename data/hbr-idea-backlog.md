@@ -41,7 +41,7 @@
 - [ ] `discipline-of-innovation` — 《創新的紀律》「The Discipline of Innovation」— 彼得・杜拉克(Peter Drucker) · 1985 · 創新不靠靈光乍現,是有系統地在七個地方找機會 · 創新
 
 ## 領導
-- [ ] `what-makes-a-leader` — 《領導,靠的是什麼?》「What Makes a Leader?」— 丹尼爾・高曼(Daniel Goleman) · 1998 · EQ(情緒智商)比 IQ 更決定誰能領導 · 領導
+- [x] 已寫 → `what-makes-a-leader` — 《領導,靠的是什麼?》「What Makes a Leader?」— 丹尼爾・高曼(Daniel Goleman) · 1998 · EQ(情緒智商)比 IQ 更決定誰能領導 · 領導
 - [ ] `leading-change` — 《領導變革:為什麼轉型會失敗》「Leading Change: Why Transformation Efforts Fail」— 約翰・科特(John Kotter) · 1995 · 變革失敗的八個常見死法 · 領導
 - [ ] `what-leaders-really-do` — 《領導者到底在做什麼》「What Leaders Really Do」— 約翰・科特(John Kotter) · 1990 · 管理處理複雜、領導處理變化,兩者不同 · 領導
 - [ ] `work-of-leadership` — 《領導的本業》「The Work of Leadership」— 海菲茲與勞瑞(Ronald Heifetz & Donald Laurie) · 1997 · 領導不是給答案,是逼團隊面對難題(調適型領導) · 領導
@@ -50,7 +50,7 @@
 - [ ] `crucibles-of-leadership` — 《淬鍊領導力》「Crucibles of Leadership」— 班尼斯與湯瑪斯(Warren Bennis & Robert Thomas) · 2002 · 偉大領導人都被一次「熔爐級」的磨難重新鑄造過 · 領導
 
 ## 管理
-- [ ] `managing-oneself` — 《管理你自己》「Managing Oneself」— 彼得・杜拉克(Peter Drucker) · 1999 · 先搞懂自己的長處與工作方式,才談得上經營人生 · 管理
+- [x] 已寫 → `managing-oneself` — 《管理你自己》「Managing Oneself」— 彼得・杜拉克(Peter Drucker) · 1999 · 先搞懂自己的長處與工作方式,才談得上經營人生 · 管理
 - [ ] `theory-of-the-business` — 《企業的經營理論》「The Theory of the Business」— 彼得・杜拉克(Peter Drucker) · 1994 · 企業出事,常是對「我們是誰、市場是什麼」的假設過期了 · 管理
 - [ ] `effective-executive` — 《怎樣才算有效的主管》「What Makes an Effective Executive」— 彼得・杜拉克(Peter Drucker) · 2004 · 有效不是天賦,是八個可練的習慣 · 管理
 - [ ] `motivate-employees` — 《再說一次:你到底怎麼激勵員工?》「One More Time: How Do You Motivate Employees?」— 弗雷德里克・赫茨伯格(Frederick Herzberg) · 1968 · 加薪只能讓人不抱怨,真正的動力來自工作本身(雙因子理論) · 管理
@@ -66,7 +66,7 @@
 
 ## 行為(決策)
 - [ ] `before-big-decision` — 《在你做那個大決定之前》「Before You Make That Big Decision...」— 康納曼、洛瓦洛與希伯尼(Daniel Kahneman, Dan Lovallo & Olivier Sibony) · 2011 · 一張檢查清單,幫你抓出提案裡的偏誤 · 行為
-- [ ] `hidden-traps-decision` — 《決策裡的隱形陷阱》「The Hidden Traps in Decision Making」— 哈蒙德、基尼與拉伊法(Hammond, Keeney & Raiffa) · 1998 · 定錨、維持現狀、沉沒成本…幾個會系統性害你決策的心理陷阱 · 行為
+- [x] 已寫 → `hidden-traps-decision` — 《決策裡的隱形陷阱》「The Hidden Traps in Decision Making」— 哈蒙德、基尼與拉伊法(Hammond, Keeney & Raiffa) · 1998 · 定錨、維持現狀、沉沒成本…幾個會系統性害你決策的心理陷阱 · 行為
 - [ ] `how-will-you-measure-your-life` — 《你要拿什麼衡量人生》「How Will You Measure Your Life?」— 克雷頓・克里斯汀生(Clayton Christensen) · 2010 · 把管理理論拿來經營自己的人生,別在錯的地方投資 · 行為
 
 ## 創業／願景
@@ -86,5 +86,8 @@
 ## 已寫清單(對照 site/idea/_articles.php,雙保險)
 - `what-is-strategy`(2026-07-01)
 - `marketing-myopia`(2026-07-01)
+- `managing-oneself`(2026-07-01)
+- `what-makes-a-leader`(2026-07-01)
+- `hidden-traps-decision`(2026-07-01)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。

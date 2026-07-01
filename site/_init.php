@@ -140,6 +140,24 @@ if (!function_exists('pain_base')) {
     ];
   }
 
+  // 經典觀念長文(Article):把一篇 HBR/管理經典改寫成人話。
+  // 與拆問題共用同一套欄位形狀,但分開命名以便未來各自加專屬欄位(如原文 citation)而不互相牽動。
+  function pain_idea_article($cfg, $page, $idea) {
+    $base = pain_base($cfg);
+    return [
+      '@type'            => 'Article',
+      'headline'         => $idea['heading'] ?? $page['title'],
+      'description'      => $page['desc'],
+      'inLanguage'       => 'zh-Hant-TW',
+      'author'           => ['@id' => $base . '/#person'],
+      'publisher'        => pain_publisher($cfg),
+      'datePublished'    => $idea['published'] ?? '2026-06-28',
+      'dateModified'     => $idea['updated'] ?? ($idea['published'] ?? '2026-06-28'),
+      'mainEntityOfPage' => $base . $page['path'],
+      'image'            => $base . ($page['og_image'] ?? '/assets/img/og-brand.jpg?v=1'),
+    ];
+  }
+
   // 拆問題列表頁的 ItemList(SEO:讓搜尋引擎看見整個拆問題系列、抓到每篇)。
   function pain_ask_itemlist($cfg, $articles) {
     $base = pain_base($cfg);

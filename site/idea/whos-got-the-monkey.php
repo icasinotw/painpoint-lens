@@ -24,7 +24,7 @@ $reading = [
   'next'      => null,
 ];
 $page['schema'] = [
-  pain_ask_article($cfg, $page, $reading),
+  pain_idea_article($cfg, $page, $reading),
   pain_person($cfg),
   pain_breadcrumb($cfg, [
     ['name' => '首頁',      'path' => '/'],

@@ -26,6 +26,20 @@
     });
   });
 
+  /* 對外連結一律另開視窗(站內連結不動) */
+  var host = window.location.hostname;
+  [].forEach.call(document.querySelectorAll('a[href]'), function (a) {
+    var href = a.getAttribute('href') || '';
+    // 只處理帶協定的絕對網址(http/https/協定相對 //),且主機不是本站
+    if (!/^(https?:)?\/\//i.test(href)) return;
+    if (a.hostname === host) return;
+    a.setAttribute('target', '_blank');
+    var rel = (a.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+    if (rel.indexOf('noopener') === -1) rel.push('noopener');
+    if (rel.indexOf('noreferrer') === -1) rel.push('noreferrer');
+    a.setAttribute('rel', rel.join(' '));
+  });
+
   /* 區塊捲入動畫 */
   var ups = document.querySelectorAll('.reveal-up');
   if (ups.length && 'IntersectionObserver' in window) {

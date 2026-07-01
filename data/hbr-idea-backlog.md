@@ -22,9 +22,9 @@
 - [x] 已寫 → `core-competence` — 《企業的核心競爭力》「The Core Competence of the Corporation」— 普哈拉與哈默爾(C.K. Prahalad & Gary Hamel) · 1990 · 別只看產品,看你真正獨有、難被複製的底層能力 · 策略
 - [x] 已寫 → `crafting-strategy` — 《策略是手工藝》「Crafting Strategy」— 亨利・明茲伯格(Henry Mintzberg) · 1987 · 策略不是規劃出來的,是一邊做一邊長出來的 · 策略
 - [x] 已寫 → `big-lie-strategic-planning` — 《策略規劃的大謊言》「The Big Lie of Strategic Planning」— 羅傑・馬丁(Roger Martin) · 2014 · 把「規劃」當策略是自我安慰,策略是下注、會讓你不安 · 策略
-- [ ] `creating-shared-value` — 《創造共享價值》「Creating Shared Value」— 波特與克瑞默(Michael Porter & Mark Kramer) · 2011 · 解決社會問題和賺錢不必二選一 · 策略
+- [x] 已寫 → `creating-shared-value` — 《創造共享價值》「Creating Shared Value」— 波特與克瑞默(Michael Porter & Mark Kramer) · 2011 · 解決社會問題和賺錢不必二選一 · 策略
 - [x] 已寫 → `strategic-intent` — 《策略雄心》「Strategic Intent」— 哈默爾與普哈拉(Gary Hamel & C.K. Prahalad) · 1989 · 小蝦米靠一個看似不可能的長期目標,一步步扳倒巨人 · 策略
-- [ ] `it-doesnt-matter` — 《IT 不再是關鍵》「IT Doesn't Matter」— 尼可拉斯・卡爾(Nicholas Carr) · 2003 · 一項技術人人都有,它就不再是你贏的理由 · 策略
+- [x] 已寫 → `it-doesnt-matter` — 《IT 不再是關鍵》「IT Doesn't Matter」— 尼可拉斯・卡爾(Nicholas Carr) · 2003 · 一項技術人人都有,它就不再是你贏的理由 · 策略
 - [ ] `blue-ocean-strategy` — 《藍海策略》「Blue Ocean Strategy」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2004 · 別在血流成河的紅海廝殺,去開一片沒人競爭的新市場(注:與相近 /lens 拆書主題重疊,優先順位往後放) · 策略
 - [ ] `competing-on-analytics` — 《用數據分析決勝》「Competing on Analytics」— 湯瑪斯・戴文波特(Thomas H. Davenport) · 2006 · 把數據分析變成核心競爭武器,靠證據而非直覺決策 · 策略
 - [ ] `red-ocean-traps` — 《紅海陷阱》「Red Ocean Traps」— 金偉燦與莫伯尼(W. Chan Kim & Renée Mauborgne) · 2015 · 六個把你困在血流成河紅海裡的思維假設 · 策略
@@ -40,15 +40,15 @@
 
 ## 創新
 - [x] 已寫 → `disruptive-innovation` — 《破壞性技術:掌握浪潮》「Disruptive Technologies: Catching the Wave」— 鮑爾與克里斯汀生(Joseph Bower & Clayton Christensen) · 1995 · 破壞式創新從被大廠看不上的低階市場切入 · 創新
-- [ ] `break-free-product-life-cycle` — 《跳脫產品生命週期》「Break Free from the Product Life Cycle」— 文英・穆恩(Youngme Moon) · 2005 · 與其在同一條軸上比輸贏,不如重新定義你是什麼 · 創新
+- [x] 已寫 → `break-free-product-life-cycle` — 《跳脫產品生命週期》「Break Free from the Product Life Cycle」— 文英・穆恩(Youngme Moon) · 2005 · 與其在同一條軸上比輸贏,不如重新定義你是什麼 · 創新
 - [x] 已寫 → `reinventing-business-model` — 《商業模式再創新》「Reinventing Your Business Model」— 強森、克里斯汀生與卡格曼(Mark Johnson, Clayton Christensen & Henning Kagermann) · 2008 · 真正的創新不是新產品,是重組「你怎麼賺錢」的四塊拼圖 · 創新
 - [x] 已寫 → `discipline-of-innovation` — 《創新的紀律》「The Discipline of Innovation」— 彼得・杜拉克(Peter Drucker) · 1985 · 創新不靠靈光乍現,是有系統地在七個地方找機會 · 創新
 - [x] 已寫 → `meeting-disruptive-change` — 《面對破壞式變革》「Meeting the Challenge of Disruptive Change」— 克里斯汀生與歐佛多夫(Clayton Christensen & Michael Overdorf) · 2000 · 組織的既有能力也會變包袱,顛覆式創新要另設獨立單位去做 · 創新
-- [ ] `innovation-classic-traps` — 《創新的經典陷阱》「Innovation: The Classic Traps」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 2006 · 創新一再失敗,常敗在幾個可預測的老陷阱 · 創新
+- [x] 已寫 → `innovation-classic-traps` — 《創新的經典陷阱》「Innovation: The Classic Traps」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 2006 · 創新一再失敗,常敗在幾個可預測的老陷阱 · 創新
 - [x] 已寫 → `innovators-dna` — 《創新者的 DNA》「The Innovator's DNA」— 戴爾、葛瑞格森與克里斯汀生(Jeff Dyer, Hal Gregersen & Clayton Christensen) · 2009 · 創新者靠五種可練的技能:聯想、提問、觀察、社交、實驗 · 創新
 - [x] 已寫 → `design-thinking` — 《設計思考》「Design Thinking」— 提姆・布朗(Tim Brown) · 2008 · 用設計師的思維解商業問題:以人為本、快速試做原型 · 創新
 - [x] 已寫 → `creativity-is-not-enough` — 《光有創意還不夠》「Creativity Is Not Enough」— 希奧多・李維特(Theodore Levitt) · 1963 · 點子多不等於創新;不能落地執行的創意反而拖垮公司 · 創新
-- [ ] `innovation-value-chain` — 《創新價值鏈》「The Innovation Value Chain」— 韓森與博金蕭(Morten Hansen & Julian Birkinshaw) · 2007 · 把創新看成一條鏈(生點子→篩選→擴散),補你最弱的那一環才有用 · 創新
+- [x] 已寫 → `innovation-value-chain` — 《創新價值鏈》「The Innovation Value Chain」— 韓森與博金蕭(Morten Hansen & Julian Birkinshaw) · 2007 · 把創新看成一條鏈(生點子→篩選→擴散),補你最弱的那一環才有用 · 創新
 - [ ] `bringing-silicon-valley-inside` — 《把矽谷搬進公司》「Bringing Silicon Valley Inside」— 蓋瑞・哈默爾(Gary Hamel) · 1999 · 大公司想持續創新,得在內部複製矽谷那種創意、資本、人才自由流動的市場機制 · 創新
 
 ## 領導
@@ -64,7 +64,7 @@
 - [x] 已寫 → `good-fight` — 《高效團隊會吵好架》「How Management Teams Can Have a Good Fight」— 艾森哈特等(Kathleen Eisenhardt et al.) · 1997 · 沒衝突的團隊很危險,關鍵是吵對事、不吵人 · 領導
 - [x] 已寫 → `begin-with-trust` — 《從信任開始》「Begin with Trust」— 佛雷與莫里斯(Frances X. Frei & Anne Morriss) · 2020 · 信任由真誠、邏輯、同理三根柱子撐起,先找出你晃的是哪一根 · 領導
 - [ ] `power-failure-management` — 《權力從哪裡來》「Power Failure in Management Circuits」— 羅莎貝絲・肯特(Rosabeth Moss Kanter) · 1979 · 組織裡最無力的常是第一線主管與幕僚;權力來自位置、資源與資訊管道,不是頭銜 · 領導
-- [ ] `how-leaders-create-networks` — 《領導者如何經營人脈》「How Leaders Create and Use Networks」— 埃米妮亞・伊巴拉(Herminia Ibarra) · 2007 · 只顧埋頭做事的人升不上去;領導要刻意經營營運、個人、策略三種人脈網 · 領導
+- [x] 已寫 → `how-leaders-create-networks` — 《領導者如何經營人脈》「How Leaders Create and Use Networks」— 埃米妮亞・伊巴拉(Herminia Ibarra) · 2007 · 只顧埋頭做事的人升不上去;領導要刻意經營營運、個人、策略三種人脈網 · 領導
 
 ## 管理
 - [x] 已寫 → `managing-oneself` — 《管理你自己》「Managing Oneself」— 彼得・杜拉克(Peter Drucker) · 1999 · 先搞懂自己的長處與工作方式,才談得上經營人生 · 管理
@@ -75,11 +75,11 @@
 - [x] 已寫 → `what-great-managers-do` — 《頂尖主管做的一件事》「What Great Managers Do」— 馬克斯・巴金漢(Marcus Buckingham) · 2005 · 好主管不磨平差異,是把每個人的獨特長處對準位置 · 管理
 - [x] 已寫 → `teaching-smart-people-to-learn` — 《教聰明人學習》「Teaching Smart People How to Learn」— 克里斯・阿吉里斯(Chris Argyris) · 1991 · 越聰明的人越不會「學」,因為他們很少嘗到失敗、一被質疑就防衛 · 管理
 - [x] 已寫 → `managers-job-folklore` — 《經理人的工作:傳說與真相》「The Manager's Job: Folklore and Fact」— 亨利・明茲伯格(Henry Mintzberg) · 1975 · 經理人不是坐著深思的規劃者,是被打斷、碎片化的行動者 · 管理
-- [ ] `reengineering-work` — 《別自動化,砍掉重練》「Reengineering Work: Don't Automate, Obliterate」— 麥可・韓默(Michael Hammer) · 1990 · 別把爛流程電腦化,要問「若今天重來會怎麼做」再重建 · 管理
-- [ ] `discipline-of-teams` — 《團隊的紀律》「The Discipline of Teams」— 卡然巴赫與史密斯(Jon Katzenbach & Douglas Smith) · 1993 · 一群人不等於團隊;真團隊有共同目標與彼此當責 · 管理
+- [x] 已寫 → `reengineering-work` — 《別自動化,砍掉重練》「Reengineering Work: Don't Automate, Obliterate」— 麥可・韓默(Michael Hammer) · 1990 · 別把爛流程電腦化,要問「若今天重來會怎麼做」再重建 · 管理
+- [x] 已寫 → `discipline-of-teams` — 《團隊的紀律》「The Discipline of Teams」— 卡然巴赫與史密斯(Jon Katzenbach & Douglas Smith) · 1993 · 一群人不等於團隊;真團隊有共同目標與彼此當責 · 管理
 - [x] 已寫 → `managing-your-boss` — 《向上管理你的主管》「Managing Your Boss」— 加巴洛與科特(John Gabarro & John Kotter) · 1980 · 管好和老闆的關係是你的責任,不是拍馬屁而是搞懂彼此 · 管理
 - [x] 已寫 → `whos-got-the-monkey` — 《猴子在誰身上?》「Management Time: Who's Got the Monkey?」— 昂肯與瓦斯(William Oncken & Donald Wass) · 1974 · 主管忙到死,常是把部屬的「猴子」都接到自己背上 · 管理
-- [ ] `set-up-to-fail-syndrome` — 《注定失敗症候群》「The Set-Up-to-Fail Syndrome」— 曼佐尼與巴索(Jean-François Manzoni & Jean-Louis Barsoux) · 1998 · 主管越不看好的部屬,越被無形逼成真的做不好(自我實現) · 管理
+- [x] 已寫 → `set-up-to-fail-syndrome` — 《注定失敗症候群》「The Set-Up-to-Fail Syndrome」— 曼佐尼與巴索(Jean-François Manzoni & Jean-Louis Barsoux) · 1998 · 主管越不看好的部屬,越被無形逼成真的做不好(自我實現) · 管理
 - [ ] `coming-new-organization` — 《新型組織的來臨》「The Coming of the New Organization」— 彼得・杜拉克(Peter Drucker) · 1988 · 未來公司像交響樂團,靠知識專才與資訊而非層層管理 · 管理
 - [ ] `becoming-the-boss` — 《當上主管的第一年》「Becoming the Boss」— 琳達・希爾(Linda A. Hill) · 2007 · 新任主管最大的錯覺是以為自己有權威;真正的權力來自贏得部屬信任、經營關係 · 管理
 - [ ] `competitive-imperative-of-learning` — 《學習,才是真正的競爭力》「The Competitive Imperative of Learning」— 艾美・艾德蒙森(Amy C. Edmondson) · 2008 · 別只把流程執行好,要把執行當成學習;心理安全感讓團隊敢承認錯、敢改 · 管理
@@ -160,5 +160,14 @@
 - `managers-job-folklore`(2026-07-02)
 - `building-company-vision`(2026-07-02)
 - `crucibles-of-leadership`(2026-07-02)
+- `it-doesnt-matter`(2026-07-02)
+- `creating-shared-value`(2026-07-02)
+- `break-free-product-life-cycle`(2026-07-02)
+- `innovation-classic-traps`(2026-07-02)
+- `innovation-value-chain`(2026-07-02)
+- `how-leaders-create-networks`(2026-07-02)
+- `reengineering-work`(2026-07-02)
+- `discipline-of-teams`(2026-07-02)
+- `set-up-to-fail-syndrome`(2026-07-02)
 
 > 寫完一篇務必做三件事:① 這裡對應那行改 `[x] 已寫 → {slug}` 並 append 到上面「已寫清單」;② 加一筆進 `site/idea/_articles.php`(最新在前);③ 建 `site/idea/{slug}.php` + `_content/{slug}.html`。缺一就是去重機制破口。
